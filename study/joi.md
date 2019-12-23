@@ -31,34 +31,46 @@ console.log(value); // {username: "username1"}
 \
 []()
 ### .unkown() API<br>
-schema 에 정의되지 않은 key는 validation error가 난다.<br> 
-이를 피하기위해 `.unknown() API`를 사용해야 된다.
 ```javascript
 const schema2 = Joi.object().keys({
   username: Joi.string().min(3).max(30).required(),
 }).unknown();
 ```
+>schema 에 정의되지 않은 key는 validation error가 난다.<br> 
+ 이를 피하기위해 `.unknown() API`를 사용해야 된다.
+
 \
 []()
 ### abortEalry option<br>
-정의된 key 중 에러가 나면 더 이상 진행하지 않는 것이 기본동작이다.<br>
-한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate 의 세 번째 파라미터로 <i>abortEarly: false</i> 를 설정하면 된다.<br>
 ```javascript
 const { error, value } = Joi.validate(user, schema, options)
 ````
+>정의된 key 중 에러가 나면 더 이상 진행하지 않는 것이 기본동작이다.<br>
+ 한 번에 모든 에러를 확인하고 싶으면 validate 시점에 동작을 제어할 수 있는 validate 의 세 번째 파라미터로 
+ <i>abortEarly: false</i> 를 설정하면 된다.<br>
 \
 []()
 ### 관계 API<br>
-.and, .or, .nand, .xor 는 bit 연산과 동일하게 생각하면 된다.<br>
-.with, .without 기준 key에 대해서 있어야 되거나 없어야 되는 관계를 설정한다.
 ```javascript
 const schema = Joi.object().keys({
   address1: Joi.string(),
   address2: Joi.string(),
 }).with('address1', 'address2');
 ```
+>.and, .or, .nand, .xor 는 bit 연산과 동일하게 생각하면 된다.<br>
+ .with, .without 기준 key에 대해서 있어야 되거나 없어야 되는 관계를 설정한다.
 
-이 외에도 string.creditCard(), string.alpahnum(), string.dataUri() 등 아주 많은 함수들이 있다. 링크 참조.
+### string.alphanum() <br>
+```javascript
+const schema = Joi.string().alphanum();
+```
+>a-z, A-Z, 0-9 만 가능하다.
+
+### object.length(limit) <br>
+```javascript
+const schema = Joi.object().length(5);
+```
+>`limit`에 키의 최대길이를 명시해준다.
 
 \
 \

@@ -12,8 +12,7 @@
 // }
 
 
-
-/* sql Transcation*/
+/* sql Transcation */
 exports.signUp = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     const Query1 = `INSERT INTO USER(user_id, user_pw, user_nickname) VALUES("${req.body.id}", "${req.body.pw}", "${req.body.nickname}")`
@@ -40,4 +39,3 @@ exports.signUp = (Transaction, req, next) => {
 //     })
 //     return result[0]
 // }
-

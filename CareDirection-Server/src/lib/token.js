@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
+const secretKey = require('../../config/jwt.secretKey')
 
-
-exports.encode = (payload, subject, secret) => {
+exports.encode = (payload, subject) => {
   return new Promise((resolve, reject) => {
-    jwt.sign(payload, secret, {
-      issuer: 'service',
+    jwt.sign(payload, secretKey.development, {
+      issuer: 'care-direction',
       algorithm: 'HS256',
       expiresIn: 60000 * 60 * 24 * 10 * 10 * 10, // 1000일
       subject,

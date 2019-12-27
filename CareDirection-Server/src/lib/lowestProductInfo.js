@@ -1,19 +1,21 @@
 const request = require('request')
 const qs = require('querystring')
 
+const naverConfig = require('../../config/configAll')
+
 /* 네이버 최저가 api*/
 
 const lowestProductInfo = async (str) => {
   let data
   const encodedStr = qs.escape(str)
-  const url = 'https://openapi.naver.com/v1/search/shop.json'
-  const queryParams = `?query=${encodedStr}&display=3&sort=asc`
+  const url = naverConfig.NaverURI1
+  const queryParams = ${encodedStr}+naverConfig.NaverURI2
   const option = {
     uri: url + queryParams,
     method: 'GET',
     headers: {
-      'X-Naver-Client-Id': '',
-      'X-Naver-Client-Secret': '',
+      'X-Naver-Client-Id': naverConfig.XNaverClientId,
+      'X-Naver-Client-Secret': naverConfig.XNaverClientSecret
     },
   }
   await new Promise(async (resolve, reject) => {

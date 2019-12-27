@@ -1,7 +1,9 @@
 const request = require('request')
 const qs = require('querystring')
 
-const air = async (str) => {
+/* 네이버 최저가 api*/
+
+const lowestProductInfo = async (str) => {
   let data
   const encodedStr = qs.escape(str)
   const url = 'https://openapi.naver.com/v1/search/shop.json'
@@ -27,4 +29,4 @@ const air = async (str) => {
   return data
 }
 
-// air('뉴트리디데이 프리미엄 오메가 3 골드 1100')
+// lowestProductInfo('뉴트리디데이 프리미엄 오메가 3 골드 1100')

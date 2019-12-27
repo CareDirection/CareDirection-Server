@@ -23,4 +23,5 @@ const push = (clientToken, notiTitle, notiBody) => {
 }
 
 push('caredirection-2fddf', '약 알림', '6시에 오메가3')
+
 module.exports = push

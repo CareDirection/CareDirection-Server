@@ -12,8 +12,8 @@ const lowestProductInfo = async (str) => {
     uri: url + queryParams,
     method: 'GET',
     headers: {
-      'X-Naver-Client-Id': 'BVsw9CzALMdx2sHJUH6q',
-      'X-Naver-Client-Secret': 'IGn57uLCYi',
+      'X-Naver-Client-Id': '',
+      'X-Naver-Client-Secret': '',
     },
   }
   await new Promise(async (resolve, reject) => {

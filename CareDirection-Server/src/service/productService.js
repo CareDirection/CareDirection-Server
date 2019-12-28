@@ -1,11 +1,11 @@
 const { Transaction, getConnection } = require('../lib/dbConnection')
-const userDao = require('../dao/userDao')
+const productDao = require('../dao/productDao')
 
-exports.signUp = async (next) => {
-  //const connection = await getConnection()
+exports.dose = async (next) => {
+  const connection = await getConnection()
 
   try {
-    const result = await userDao.singUp(Transaction, next)
+    const result = await productDao.dose(next)
     return result
   } catch (e) {
     console.log(e.message)

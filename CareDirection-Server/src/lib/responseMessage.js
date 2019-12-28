@@ -8,4 +8,5 @@ module.exports = {
   REFRESH_TOKEN: '토큰 재발급 완료.',
   NO_SELECT_AUTHORITY: '조회 권한 없음.',
   USER_SELECTED: '회원 조회 성공.',
+  PRODUCT_INSERT_SUCCESS: '제품 등록 성공'
 }

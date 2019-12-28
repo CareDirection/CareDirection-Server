@@ -5,8 +5,7 @@ const dbpool = require('../../config/dbPool')
 const pool = Mysql.createPool(dbpool)
 
 module.exports = {
-
-  getConnection: async () => {
+  getConnection() {
     return new Promise((resolve, reject) => {
       pool.getConnection((err, connection) => {
         if (err) {

@@ -8,7 +8,7 @@ module.exports = {
         'indent': ['error', 2],
         'quotes': ['error', 'single'],
         'semi': ['error', 'never'],
-        "camelcase": [2, {"properties": "always"}],
+        "camelcase": 'off',
         'class-methods-use-this': 'off',
         'import/no-extraneous-dependencies': 'off',
         'import/no-unresolved': 'off',

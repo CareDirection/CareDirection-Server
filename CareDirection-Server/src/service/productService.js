@@ -14,3 +14,13 @@ exports.dose = async (next) => {
     connection.release()
   }
 }
+
+// 제품 등록 service
+exports.insertProduct = async (next, data) => {
+  try {
+    await productDao.insertProduct(Transaction, data, next)
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}

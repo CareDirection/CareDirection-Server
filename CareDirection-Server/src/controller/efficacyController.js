@@ -1,14 +1,25 @@
-// const joi = require('@hapi/joi')
+const Joi = require('@hapi/joi')
 const efficacyService = require('../service/efficacyService')
-const { respondJsonWithoutData, respondOnError } = require('../lib/response')
+const response = require('../lib/response')
+const message = require('../lib/responseMessage')
+const statusCode = require('../lib/statusCode')
 
 const insertEfficacy = async (req, res) => {
+  const validationChecker = Joi.object({
+    efficacy_name: Joi.string().required(),
+  })
+
   try {
+    const validationResult = await validationChecker.validateAsync(req.body)
+    if (validationResult.error) {
+      throw new Error(400)
+    }
+
     await efficacyService.insertEfficacy(req)
-    respondJsonWithoutData('효능 인서트 성공', res, 201)
+    response.respondJsonWithoutData(message.EFFICACY_INSERT_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     console.log(e.message)
-    respondOnError('인서트실패', res, 400)
+    response.respondOnError(message.INSERT_FAILED, res, statusCode.BAD_REQUEST)
   }
 }
 

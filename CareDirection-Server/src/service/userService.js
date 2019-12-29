@@ -5,7 +5,7 @@ exports.signUp = async (next) => {
   //const connection = await getConnection()
 
   try {
-    const result = await userDao.singUp(Transaction, next)
+    const result = await userDao.signUp(Transaction, next)
     return result
   } catch (e) {
     console.log(e.message)

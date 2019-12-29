@@ -1,17 +1,28 @@
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
 
-exports.dose = async (req, next) => {
-  //const connection = await getConnection()
+exports.importDose = async (req) => {
+  const connection = await getConnection()
   try {
-    const result = await productDao.dose(Transaction, req, next)
+    const result = await productDao.importDose(connection, req)
+    // result[0].image_key = getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    console.log("결과다 이거~~")
+    console.log(result)
     return result
   } catch (e) {
     console.log(e.message)
     return e.message
   } finally {
-    //connection.release()
-
+    connection.release()
+  }
+}
+exports.enrollDose = async (req, next) => {
+  try {
+    const result = await productDao.enrollDose(Transaction, req, next)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
   }
 }
 

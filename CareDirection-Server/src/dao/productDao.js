@@ -1,5 +1,21 @@
-/* sql Transcation */
-exports.dose = (Transaction, req, next) => {
+
+// 복용제품 등록위한 정보 얻어오는 dao
+exports.importDose = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    // join 해서 가져오기~!!
+    const Query = `SELECT product_name, product_daily_dose FROM product WHERE product_idx = "${req.body.product_idx}"`
+    // const result = await connection.query(Query1)
+    // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
+    // const imageUrl = signedurl.getSignedResizedUrl(image_key)
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
+// 복용제품 등록 dao
+exports.enrollDose = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     // 복용제품 등록 user_idx product_idx 받고,
     // product_idx로 product -> product_quantity 테이블로가서 product_quantity 가져와서 dose_initial_count에 저장

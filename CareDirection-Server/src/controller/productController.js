@@ -192,5 +192,21 @@ exports.unCheckProductDose = async (req, res, next) => {
 }
 
 exports.getProductStandard = async (req, res) => {
+  const { product_idx } = req.params
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().integer().required(),
+  })
 
+  try {
+    const { error } = await schema.validateAsync(validationData)
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    const productStandard = await productService.getProductStandard(req)
+    response.respondJson(message.SELECT_SUCCESS, productStandard, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(e.message, res, statusCode.DB_ERROR)
+  }
 }

@@ -148,16 +148,16 @@ exports.uncheckChildUserProductDose = (Transaction, req, currentTime, next) => {
   })
 }
 
-exports.getProductStandard = (connection, productId) => {
+exports.getProductStandard = (connection, productIdx) => {
   return new Promise((resolve, reject) => {
     const query = `
     SELECT product_standard1, product_standard2, product_standard3, product_standard1_value, product_standard2_value, product_standard3_value, product_standard1_description, product_standard2_description, product_standard3_description
     FROM product
-    WHERE product_idx = ${productId}
+    WHERE product_idx = ${productIdx}
     `
     connection.query(query, (err, result) => {
       err && reject(err)
-      resolve(result)
+      resolve(result[0])
     })
   })
 }

@@ -4,12 +4,9 @@ const message = require('../lib/responseMessage')
 // eslint-disable-next-line no-unused-vars
 exports.importDose = (connection, req) => {
   return new Promise((resolve, reject) => {
-    // join 해서 가져오기~!!
-    const Query = `SELECT product_name, product_daily_dose FROM product WHERE product_idx = "${req.params.product_idx}"`
-    console.log(Query)
-    // const result = await connection.query(Query1)
-    // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
-    // const imageUrl = signedurl.getSignedResizedUrl(image_key)
+    const Query = `SELECT product_name, product_daily_dose, image_key FROM product as p1 INNER JOIN image as p2 USING(product_idx) WHERE p1.product_idx = "${req.params.product_idx}"`
+    //     console.log(Query)
+    //     // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
     connection.query(Query, (err, result) => {
       err && reject(err)
       resolve(result)
@@ -90,6 +87,7 @@ exports.insertProduct = (Transaction, data, next) => {
     return next(error)
   })
 }
+
 
 exports.checkParentUserProductDose = (Transaction, req, currentTime, next) => {
   return Transaction(async (connection) => {

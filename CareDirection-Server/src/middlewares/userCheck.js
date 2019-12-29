@@ -4,11 +4,12 @@ const secretKey = require('../../config/jwt.secretKey')
 const statusCode = require('../lib/statusCode')
 const message = require('../lib/responseMessage')
 
+// eslint-disable-next-line no-unused-vars
 const { respondJson, respondOnError } = require('../lib/response')
+
 
 module.exports = async (req, res, next) => {
   const { token } = req.headers
-
   try {
     req.user = await jwt.decode(token, secretKey.development)
     if (_.isEmpty(req.user)) {

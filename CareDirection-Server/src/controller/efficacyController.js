@@ -33,7 +33,27 @@ const getEfficacyList = async (req, res) => {
   }
 }
 
+const getNutrientsListPerEfficacy = async (req, res) => {
+  const validationChecker = Joi.object({
+    efficacy_idx: Joi.number().integer().required(),
+  })
+
+  try {
+    const validationResult = await validationChecker.validateAsync(req.params)
+    if (validationResult.error) {
+      throw new Error(403)
+    }
+
+    const nutrientList = await efficacyService.getNutrientsListPerEfficacy(req)
+    response.respondJson(message.SELECT_SUCCESS, nutrientList, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(e.message, res, statusCode.DB_ERROR)
+  }
+}
+
 module.exports = {
   insertEfficacy,
   getEfficacyList,
+  getNutrientsListPerEfficacy,
 }

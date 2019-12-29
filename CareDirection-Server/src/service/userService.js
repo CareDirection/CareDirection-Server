@@ -53,7 +53,7 @@ exports.userList = async (req, next) => {
       result = {
         parent: {
           user_name: userList.parent[0].user_name,
-        }
+        },
       }
     } else {
       result = {
@@ -77,7 +77,7 @@ exports.userList = async (req, next) => {
     return e.message
   }
 }
-// eslint-disable-next-line consistent-return
+
 exports.duplicateId = async (data) => {
   const connection = await getConnection()
 
@@ -94,5 +94,16 @@ exports.duplicateId = async (data) => {
     return e.message
   } finally {
     connection.release()
+  }
+}
+
+exports.removeMyChild = async (req) => {
+  const connection = await getConnection()
+  try {
+    const result = await userDao.removeMyChild(connection, req)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
   }
 }

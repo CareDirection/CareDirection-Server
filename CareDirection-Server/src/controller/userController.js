@@ -8,10 +8,10 @@ exports.signUp = async (req, res) => {
   const { user_id, user_pw } = req.body
 
   const schema = Joi.object({
-    user_id: Joi.string().required(), 
+    user_id: Joi.string().required(),
     user_pw: Joi.string().required(),
   })
-  
+
   const validationData = { user_id, user_pw }
 
   try {
@@ -66,7 +66,6 @@ exports.userList = async (req, res, next) => {
   }
 }
 
-
 exports.duplicateId = async (req, res) => {
   const { user_id } = req.body
 
@@ -93,5 +92,14 @@ exports.duplicateId = async (req, res) => {
     response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+exports.removeMyChild = async (req, res) => {
+  try {
+    await userService.removeMyChild(req)
+    response.respondJsonWithoutData(message.REMOVE_CHILD_USER_SUCCESS, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(e.message, res, 500)
   }
 }

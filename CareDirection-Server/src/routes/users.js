@@ -10,6 +10,8 @@ users.get('/list', needAuth, usersCtrl.userList)
 users.post('/signup', usersCtrl.signUp)
 users.post('/signin', usersCtrl.signIn)
 users.post('/id', usersCtrl.duplicateId)
+users.delete('/child', needAuth, usersCtrl.removeMyChild)
+
 
 
 module.exports = users

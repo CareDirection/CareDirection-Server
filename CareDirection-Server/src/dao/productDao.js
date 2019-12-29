@@ -1,7 +1,24 @@
 const message = require('../lib/responseMessage')
 
-/* sql Transcation */
-exports.dose = (Transaction, req, next) => {
+// 복용제품 등록위한 정보 얻어오는 dao
+// eslint-disable-next-line no-unused-vars
+exports.importDose = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    // join 해서 가져오기~!!
+    const Query = `SELECT product_name, product_daily_dose FROM product WHERE product_idx = "${req.params.product_idx}"`
+    console.log(Query)
+    // const result = await connection.query(Query1)
+    // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
+    // const imageUrl = signedurl.getSignedResizedUrl(image_key)
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
+// 복용제품 등록 dao
+exports.enrollDose = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     // 복용제품 등록 user_idx product_idx 받고,
     // product_idx로 product -> product_quantity 테이블로가서 product_quantity 가져와서 dose_initial_count에 저장
@@ -76,7 +93,6 @@ exports.checkProductDose = (Transaction, req, currentTime, next) => {
   return Transaction(async (connection) => {
     const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.user_idx =${req.user.user_idx} and dh.dose_history_time = "${currentTime}"`
     const isEmpty = await connection.query(Query1)
-    console.log(isEmpty[0])
     if (!isEmpty[0]) {
       const Query2 = `SELECT dose_idx FROM dose WHERE product_idx= ${req.params.product_idx} and user_idx = ${req.user.user_idx}`
       const dose_idx = await connection.query(Query2)

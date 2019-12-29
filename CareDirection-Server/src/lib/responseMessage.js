@@ -17,4 +17,6 @@ module.exports = {
   INTERNAL_SERVER_ERROR: '서버 내부 에러',
   SUCCESS: 'success',
   DUPLICATED: 'duplicated',
+  EFFICACY_SELECTED: '효능 리스트 조회 성공',
+  DB_ERROR: '데이터베이스 에러',
 }

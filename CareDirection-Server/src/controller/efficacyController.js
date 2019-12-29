@@ -23,6 +23,17 @@ const insertEfficacy = async (req, res) => {
   }
 }
 
+const getEfficacyList = async (req, res) => {
+  try {
+    const efficacyList = await efficacyService.getEfficacyList()
+    response.respondJson(message.EFFICACY_SELECTED, efficacyList, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(message.DB_ERROR, res, statusCode.DB_ERROR)
+  }
+}
+
 module.exports = {
   insertEfficacy,
+  getEfficacyList,
 }

@@ -12,6 +12,18 @@ const insertEfficacy = async (req) => {
   }
 }
 
+const getEfficacyList = async () => {
+  const connection = await getConnection()
+  try {
+    return await efficacyDao.getEfficacyList(connection)
+  } catch (e) {
+    console.log(e.message)
+  } finally {
+    connection.release()
+  }
+}
+
 module.exports = {
   insertEfficacy,
+  getEfficacyList,
 }

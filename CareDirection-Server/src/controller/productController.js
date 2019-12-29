@@ -4,10 +4,10 @@ const response = require('../lib/response')
 const message = require('../lib/responseMessage')
 const statusCode = require('../lib/statusCode')
 
-exports.importDose = async (req, res) => {
+exports.importDose = async (req, res, next) => {
   const { product_idx } = req.params
   try {
-    const result = await productService.importDose(req)
+    const result = await productService.importDose(req, next)
     response.respondJson('successfully ', result, res, 200)
   } catch (e) {
     response.respondOnError(e.message, res, 500)
@@ -121,8 +121,8 @@ exports.insertProduct = async (req, res, next) => {
     product_detail_value: Joi.string().required(),
     product_detail_child_name: Joi.string().required(),
     product_detail_child_value: Joi.string().required(),
-    product_quantity_count: Joi.number().required(),
-    product_quantity_price: Joi.number().required(),
+    product_quantity_count: Joi.string().required(),
+    product_quantity_price: Joi.string().required(),
     product_features_name: Joi.string().required(),
     product_has_nutrients: Joi.string().required(),
   })
@@ -140,27 +140,54 @@ exports.insertProduct = async (req, res, next) => {
   }
 }
 
-exports.checkProductDose = async (req, res) => {
-  const { dose_daily_quantity, dose_start_date } = req.body
+exports.checkProductDose = async (req, res, next) => {
   const { product_idx } = req.params
-  const validationData = { dose_daily_quantity, dose_start_date }
-  const scheme = Joi.object({
-    dose_daily_quantity: Joi.number().required(),
-    dose_start_date: Joi.string().required(),
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().required(),
   })
-
+  let result
   try {
-    // 입력 값의 유효성 확인 (not null, 유효한 형태)
-    const { error } = await scheme.validateAsync(validationData)
+    const { error } = await schema.validateAsync(validationData)
 
-    // 유효하지 않은 경우
     if (error) {
-      throw new Error(403)
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
     }
-    //
-    const result = await productService.dose(req, next)
-    response.respondJson('successfully ', result, res, 200)
+    if (req.user.type === 'parent') {
+      result = await productService.checkParentUserProductDose(req, next)
+    } else {
+      result = await productService.checkChildUserProductDose(req, next)
+    }
+    if (result === message.SUCCESS) {
+      response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
+    } else {
+      response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_DUPLICATED, res, statusCode.FORBIDDEN)
+    }
   } catch (e) {
-    response.respondOnError(e.message, res, 500)
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+
+exports.unCheckProductDose = async (req, res, next) => {
+  const { product_idx } = req.params
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().required(),
+  })
+  try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    if (req.user.type === 'parent') {
+      await productService.uncheckParentUserProductDose(req, next)
+    } else {
+      await productService.uncheckChildUserProductDose(req, next)
+    }
+    response.respondJsonWithoutData(message.PRODUCT_DOSE_DELETE_SUCCESS, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }

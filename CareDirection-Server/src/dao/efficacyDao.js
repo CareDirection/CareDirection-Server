@@ -12,6 +12,19 @@ const insertEfficacy = (connection, req) => {
   })
 }
 
+const getEfficacyList = (connection) => {
+  return new Promise((resolve, reject) => {
+    const query = `
+    SELECT * FROM efficacy
+    `
+    connection.query(query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
 module.exports = {
   insertEfficacy,
+  getEfficacyList,
 }

@@ -16,7 +16,9 @@ product.post('/:product_idx/dose', needAuth, productCtrl.enrollDose)
 // products.put('/:product_idx/dose', needAuth, productsCtrl.dose)
 // ADMIN 제품 등록하기
 product.post('/', upload.single('file'), productCtrl.insertProduct)
-// 복용 제품 (오늘 복용), post
-product.post('/product/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
+// 복용 제품 (오늘 복용 등록), post
+product.post('/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
+// 복용 제품 (오늘 복용 취소), delete
+product.delete('/:product_idx/dose/check', needAuth, productCtrl.unCheckProductDose)
 
 module.exports = product

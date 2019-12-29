@@ -1,4 +1,17 @@
 /* sql */
+exports.signIn = (connection, data) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+        SELECT * FROM user WHERE user_id = '${data.user_id}'
+        `
+    console.log('Service00', data.user_id)
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result[0])
+    })
+  })
+}
+
 exports.signUp = (connection, data) => {
   return new Promise((resolve, reject) => {
     const Query = `
@@ -7,7 +20,7 @@ exports.signUp = (connection, data) => {
         `
     connection.query(Query, (err, result) => {
       err && reject(err)
-      resolve(result)
+      resolve(result[0])
     })
   })
 }

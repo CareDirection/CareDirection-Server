@@ -39,3 +39,20 @@ exports.signUp = (Transaction, req, next) => {
 //     })
 //     return result[0]
 // }
+
+exports.userList = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT user_name FROM user WHERE user_idx = ${req.user.user_idx};`
+    const parent = await connection.query(Query1)
+    const Query2 = `SELECT childuser_idx, childuser_name FROM user u JOIN childuser c USING(user_idx) where u.user_idx = ${req.user.user_idx};`
+    const child = await connection.query(Query2)
+    console.log('success')
+    const result = {
+      parent,
+      child,
+    }
+    return result
+  }).catch(error => {
+    return next(error)
+  })
+}

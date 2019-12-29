@@ -1,6 +1,8 @@
 const Joi = require('@hapi/joi')
 const userService = require('../service/userService')
 const response = require('../lib/response')
+const message = require('../lib/responseMessage')
+const statusCode = require('../lib/statusCode')
 
 
 // 사용자가 최초로 채팅방에 들어올 때 키보드 영역에 표시될 자동 응답 명령어 목록 호출
@@ -26,6 +28,15 @@ exports.signUp = async (req, res, next) => {
     }
     const result = await userService.signUp(next)
     response.respondJson('successfully sign up', result, res, 200)
+  } catch (e) {
+    response.respondOnError(e.message, res, 500)
+  }
+}
+
+exports.userList = async (req, res, next) => {
+  try {
+    const result = await userService.userList(req, next)
+    response.respondJson(message.USER_LIST_GET_SUCCESS, result, res, statusCode.OK)
   } catch (e) {
     response.respondOnError(e.message, res, 500)
   }

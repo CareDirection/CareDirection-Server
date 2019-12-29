@@ -69,8 +69,10 @@ exports.insertProduct = (Transaction, data, next) => {
     await connection.query(Query1)
     const Query2 = `SELECT product_idx FROM product WHERE product_name = "${data.product_name}" and product_company_name = "${data.product_company_name}"`
     const product_idx = await connection.query(Query2)
-    const Query3 = `INSERT INTO product_quantity(product_idx, product_quantity_count, product_quantity_price) VALUES (${product_idx[0].product_idx}, ${data.product_quantity_count}, ${data.product_quantity_price})`
-    await connection.query(Query3)
+    for (const i in data.count) {
+      const Query3 = `INSERT INTO product_quantity(product_idx, product_quantity_count, product_quantity_price) VALUES (${product_idx[0].product_idx}, ${data.count[i]}, ${data.price[i]})`
+      await connection.query(Query3)
+    }
     const Query4 = `INSERT INTO product_detail(product_idx, product_detail_name, product_detail_value) VALUES (${product_idx[0].product_idx}, "${data.product_detail_name}", "${data.product_detail_value}")`
     await connection.query(Query4)
     const Query5 = `SELECT product_detail_idx FROM product_detail WHERE product_idx=${product_idx[0].product_idx}`
@@ -86,7 +88,8 @@ exports.insertProduct = (Transaction, data, next) => {
   })
 }
 
-exports.checkProductDose = (Transaction, req, currentTime, next) => {
+
+exports.checkParentUserProductDose = (Transaction, req, currentTime, next) => {
   return Transaction(async (connection) => {
     const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.user_idx =${req.user.user_idx} and dh.dose_history_time = "${currentTime}"`
     const isEmpty = await connection.query(Query1)
@@ -98,6 +101,48 @@ exports.checkProductDose = (Transaction, req, currentTime, next) => {
       return message.SUCCESS
     }
     return message.DUPLICATED
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.checkChildUserProductDose = (Transaction, req, currentTime, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.childuser_idx =${req.user.childuser_idx} and dh.dose_history_time = "${currentTime}"`
+    const isEmpty = await connection.query(Query1)
+    if (!isEmpty[0]) {
+      const Query2 = `SELECT dose_idx FROM dose WHERE product_idx= ${req.params.product_idx} and childuser_idx = ${req.user.childuser_idx};`
+      const dose_idx = await connection.query(Query2)
+      const Query3 = `INSERT INTO dose_history(dose_idx, dose_history_time) VALUES(${dose_idx[0].dose_idx}, "${currentTime}");`
+      await connection.query(Query3)
+      return message.SUCCESS
+    }
+    return message.DUPLICATED
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.uncheckParentUserProductDose = (Transaction, req, currentTime, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.user_idx =${req.user.user_idx} and dh.dose_history_time = "${currentTime}"`
+    const dose_history_idx = await connection.query(Query1)
+    const Query2 = `DELETE FROM dose_history WHERE dose_history_idx = ${dose_history_idx[0].dose_history_idx}`
+    await connection.query(Query2)
+    return message.SUCCESS
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.uncheckChildUserProductDose = (Transaction, req, currentTime, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.childuser_idx =${req.user.childuser_idx} and dh.dose_history_time = "${currentTime}"`
+    console.log(req.user.childuser_idx)
+    const dose_history_idx = await connection.query(Query1)
+    const Query2 = `DELETE FROM dose_history WHERE dose_history_idx = ${dose_history_idx[0].dose_history_idx}`
+    await connection.query(Query2)
+    return message.SUCCESS
   }).catch(error => {
     return next(error)
   })

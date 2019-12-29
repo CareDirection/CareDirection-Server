@@ -121,8 +121,8 @@ exports.insertProduct = async (req, res, next) => {
     product_detail_value: Joi.string().required(),
     product_detail_child_name: Joi.string().required(),
     product_detail_child_value: Joi.string().required(),
-    product_quantity_count: Joi.number().required(),
-    product_quantity_price: Joi.number().required(),
+    product_quantity_count: Joi.string().required(),
+    product_quantity_price: Joi.string().required(),
     product_features_name: Joi.string().required(),
     product_has_nutrients: Joi.string().required(),
   })
@@ -137,5 +137,57 @@ exports.insertProduct = async (req, res, next) => {
     response.respondJsonWithoutData(message.PRODUCT_INSERT_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+exports.checkProductDose = async (req, res, next) => {
+  const { product_idx } = req.params
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().required(),
+  })
+  let result
+  try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    if (req.user.type === 'parent') {
+      result = await productService.checkParentUserProductDose(req, next)
+    } else {
+      result = await productService.checkChildUserProductDose(req, next)
+    }
+    if (result === message.SUCCESS) {
+      response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
+    } else {
+      response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_DUPLICATED, res, statusCode.FORBIDDEN)
+    }
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+
+exports.unCheckProductDose = async (req, res, next) => {
+  const { product_idx } = req.params
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().required(),
+  })
+  try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    if (req.user.type === 'parent') {
+      await productService.uncheckParentUserProductDose(req, next)
+    } else {
+      await productService.uncheckChildUserProductDose(req, next)
+    }
+    response.respondJsonWithoutData(message.PRODUCT_DOSE_DELETE_SUCCESS, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }

@@ -1,3 +1,4 @@
+const moment = require('moment')
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
 const getSignedUrl = require('../lib/signedurl')
@@ -30,7 +31,57 @@ exports.enrollDose = async (req, next) => {
 // 제품 등록 service
 exports.insertProduct = async (next, data) => {
   try {
+    const price = data.product_quantity_price.split(',')
+    const count = data.product_quantity_count.split(',')
+    data.price = price
+    data.count = count
     await productDao.insertProduct(Transaction, data, next)
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}
+
+exports.checkParentUserProductDose = async (req, next) => {
+  try {
+    const currentTime = moment().format('YYYY[-]MM[-]DD')
+    console.log(currentTime)
+    const result = await productDao.checkParentUserProductDose(Transaction, req, currentTime, next)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}
+
+exports.checkChildUserProductDose = async (req, next) => {
+  try {
+    const currentTime = moment().format('YYYY[-]MM[-]DD')
+    console.log(currentTime)
+    const result = await productDao.checkChildUserProductDose(Transaction, req, currentTime, next)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}
+
+exports.uncheckParentUserProductDose = async (req, next) => {
+  try {
+    const currentTime = moment().format('YYYY[-]MM[-]DD')
+    const result = await productDao.uncheckParentUserProductDose(Transaction, req, currentTime, next)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}
+
+exports.uncheckChildUserProductDose = async (req, next) => {
+  try {
+    const currentTime = moment().format('YYYY[-]MM[-]DD')
+    const result = await productDao.uncheckChildUserProductDose(Transaction, req, currentTime, next)
+    return result
   } catch (e) {
     console.log(e.message)
     return e.message

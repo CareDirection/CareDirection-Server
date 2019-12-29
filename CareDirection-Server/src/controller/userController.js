@@ -8,10 +8,10 @@ exports.signUp = async (req, res) => {
   const { user_id, user_pw } = req.body
 
   const schema = Joi.object({
-    user_id: Joi.string().required(),
+    user_id: Joi.string().required(), 
     user_pw: Joi.string().required(),
   })
-
+  
   const validationData = { user_id, user_pw }
 
   try {
@@ -20,7 +20,6 @@ exports.signUp = async (req, res) => {
     if (error) {
       response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
     }
-
     await userService.signUp(validationData)
     response.respondJsonWithoutData(message.SIGN_UP_INSERT_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
@@ -64,5 +63,35 @@ exports.userList = async (req, res, next) => {
     response.respondJson(message.USER_LIST_GET_SUCCESS, result, res, statusCode.OK)
   } catch (e) {
     response.respondOnError(e.message, res, 500)
+  }
+}
+
+
+exports.duplicateId = async (req, res) => {
+  const { user_id } = req.body
+
+  const schema = Joi.object({
+    user_id: Joi.string().required(),
+  })
+
+  const validationData = { user_id }
+
+  try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+
+    const result = await userService.duplicateId(validationData)
+
+    if (result) {
+      // false : 중복 -> 이용 불가능, true : 이용가능
+      console.log('test1', result)
+      response.respondJsonWithoutData(message.VALID_ID, res, statusCode.CREATED)
+    }
+    response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }

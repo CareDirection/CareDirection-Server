@@ -7,7 +7,6 @@ exports.importDose = async (req, next) => {
   try {
     const result = await productDao.importDose(connection, req, next)
     // result[0].image_key = getSignedUrl.getSignedResizedUrl(result[0].image_key)
-    console.log('결과다 이거~~')
     console.log(result)
     return result
   } catch (e) {

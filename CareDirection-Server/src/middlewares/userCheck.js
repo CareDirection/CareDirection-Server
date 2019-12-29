@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
 
   try {
     req.user = await token.decode(usertoken, secretKey.development)
-
+    const user_idx = req.user.user_idx  //token 해독해서 user_idx 받아오기
     if (_.isEmpty(req.user)) {
       throw new Error('user Authentication Error')
     }

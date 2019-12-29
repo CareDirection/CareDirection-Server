@@ -6,11 +6,11 @@ const productsCtrl = require('../controller/productController')
 const needAuth = require('../middlewares/userCheck')
 
 // 복용제품 등록 위한 정보 가져오기
-products.get('/:product_idx/dose', needAuth, productsCtrl.dose)
+//products.get('/:product_idx/dose', needAuth, productsCtrl.dose)
 // 현재 복용제품 추가
 products.post('/:product_idx/dose', needAuth, productsCtrl.dose)
 // 현재 복용 제품 정보수정
-products.put('/:product_idx/dose', needAuth, productsCtrl.dose)
+//products.put('/:product_idx/dose', needAuth, productsCtrl.dose)
 
 /*
 // 제품 디테일

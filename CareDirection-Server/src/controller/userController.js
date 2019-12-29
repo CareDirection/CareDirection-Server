@@ -4,7 +4,7 @@ const response = require('../lib/response')
 
 
 // 사용자가 최초로 채팅방에 들어올 때 키보드 영역에 표시될 자동 응답 명령어 목록 호출
-exports.singUp = async (req, res, next) => {
+exports.signUp = async (req, res, next) => {
   const { email } = req.body || 'cadi@gmail.com'
   const { password } = req.body || '1234'
 

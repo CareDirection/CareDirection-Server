@@ -8,7 +8,7 @@ exports.importDose = async (req, next) => {
   try {
     const result = await productDao.importDose(connection, req, next)
     result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
-    console.log("결과다 이거~~")
+    console.log('결과다 이거~~')
     console.log(result)
     return result
   } catch (e) {
@@ -85,5 +85,36 @@ exports.uncheckChildUserProductDose = async (req, next) => {
   } catch (e) {
     console.log(e.message)
     return e.message
+  }
+}
+
+exports.getProductStandard = async (req) => {
+  const connection = await getConnection()
+  const { product_idx } = req.params
+  try {
+    const data = await productDao.getProductStandard(connection, product_idx)
+    console.log(data)
+    return [
+      {
+        standard: data.product_standard1,
+        standard_value: data.product_standard1_value,
+        standard_description: data.product_standard1_description,
+      },
+      {
+        standard: data.product_standard2,
+        standard_value: data.product_standard2_value,
+        standard_description: data.product_standard2_description,
+      },
+      {
+        standard: data.product_standard3,
+        standard_value: data.product_standard3_value,
+        standard_description: data.product_standard3_description,
+      },
+    ]
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
   }
 }

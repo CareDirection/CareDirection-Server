@@ -168,7 +168,6 @@ exports.checkProductDose = async (req, res, next) => {
   }
 }
 
-
 exports.unCheckProductDose = async (req, res, next) => {
   const { product_idx } = req.params
   const validationData = { product_idx }
@@ -189,5 +188,25 @@ exports.unCheckProductDose = async (req, res, next) => {
     response.respondJsonWithoutData(message.PRODUCT_DOSE_DELETE_SUCCESS, res, statusCode.OK)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+exports.getProductStandard = async (req, res) => {
+  const { product_idx } = req.params
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().integer().required(),
+  })
+
+  try {
+    const { error } = await schema.validateAsync(validationData)
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    const productStandard = await productService.getProductStandard(req)
+    response.respondJson(message.SELECT_SUCCESS, productStandard, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(e.message, res, statusCode.DB_ERROR)
   }
 }

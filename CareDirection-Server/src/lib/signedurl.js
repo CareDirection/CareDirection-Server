@@ -1,7 +1,7 @@
 const aws = require('aws-sdk')
 const awsConfig = require('../../config/aws_config')
 
-const awsConfig2 = '../../config/aws_config.json'
+const awsConfig2 = './config/aws_config.json'
 aws.config.loadFromPath(awsConfig2)
 const s3 = new aws.S3({
   region: 'ap-northeast-2',

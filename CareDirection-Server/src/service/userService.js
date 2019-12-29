@@ -12,6 +12,7 @@ exports.signUp = async (data) => {
 
   try {
     await userDao.signUp(connection, data)
+
   } catch (e) {
     console.log(e.message)
     return e.message

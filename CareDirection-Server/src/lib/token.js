@@ -22,6 +22,11 @@ exports.decode = (token, secret) => {
         console.log(err)
         resolve({})
       }
+      if (!decoded.user_idx) {
+        decoded.type = 'child'
+      } else {
+        decoded.type = 'parent'
+      }
       resolve(decoded)
     })
   })

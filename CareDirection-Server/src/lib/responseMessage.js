@@ -10,6 +10,9 @@ module.exports = {
   USER_SELECTED: '회원 조회 성공.',
   PRODUCT_INSERT_SUCCESS: '제품 등록 성공',
 
+  SIGN_UP_INSERT_SUCCESS: '회원가입 성공',
 
-  SIGN_UP_INSERT_SUCCESS: '회원가입 성공'
+  EFFICACY_INSERT_SUCCESS: '효능 등록 성공',
+  NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
+  INSERT_FAILED: '등록 실패',
 }

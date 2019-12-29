@@ -132,3 +132,28 @@ exports.insertProduct = async (req, res, next) => {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.checkProductDose = async (req, res) => {
+  const { dose_daily_quantity, dose_start_date } = req.body
+  const { product_idx } = req.params
+  const validationData = { dose_daily_quantity, dose_start_date }
+  const scheme = Joi.object({
+    dose_daily_quantity: Joi.number().required(),
+    dose_start_date: Joi.string().required(),
+  })
+
+  try {
+    // 입력 값의 유효성 확인 (not null, 유효한 형태)
+    const { error } = await scheme.validateAsync(validationData)
+
+    // 유효하지 않은 경우
+    if (error) {
+      throw new Error(403)
+    }
+    //
+    const result = await productService.dose(req, next)
+    response.respondJson('successfully ', result, res, 200)
+  } catch (e) {
+    response.respondOnError(e.message, res, 500)
+  }
+}

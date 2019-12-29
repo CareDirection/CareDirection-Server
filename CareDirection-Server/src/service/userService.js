@@ -6,6 +6,7 @@ const userDao = require('../dao/userDao')
 exports.signUp = async (data) => {
   const connection = await getConnection()
 
+  // crypto
   data.user_salt = Math.round((new Date().valueOf() * Math.random()))
   data.user_pw = crypto.createHash("sha512").update(data.user_pw + data.user_salt).digest("hex")
 

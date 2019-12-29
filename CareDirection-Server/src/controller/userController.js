@@ -3,22 +3,18 @@ const userService = require('../service/userService')
 const response = require('../lib/response')
 const message = require('../lib/responseMessage')
 const statusCode = require('../lib/statusCode')
-//controller는 응답관련 처리!
 
 exports.signUp = async (req, res) => {
-  const { user_email, user_pw } = req.body
+  const { user_id, user_pw } = req.body
 
-  // email -> 이메일형식,string  password -> string
   const schema = Joi.object({
-    user_email: Joi.string().email().required(),
+    user_id: Joi.string().required(),
     user_pw: Joi.string().required(),
   })
 
-  const validationData = { user_email, user_pw }
+  const validationData = { user_id, user_pw }
 
   try {
-    // 입력 값의 유효성 확인 (not null, 유효한 형태)
-
     const { error } = await schema.validateAsync(validationData)
 
     if (error) {

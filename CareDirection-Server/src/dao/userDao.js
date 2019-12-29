@@ -2,8 +2,8 @@
 exports.signUp = (connection, data) => {
   return new Promise((resolve, reject) => {
     const Query = `
-        INSERT INTO user(user_email, user_salt, user_pw) 
-        VALUES("${data.user_email}", "${data.user_salt}", "${data.user_pw}")
+        INSERT INTO user(user_id, user_salt, user_pw) 
+        VALUES("${data.user_id}", "${data.user_salt}", "${data.user_pw}")
         `
     connection.query(Query, (err, result) => {
       err && reject(err)

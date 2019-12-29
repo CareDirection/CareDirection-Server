@@ -17,12 +17,12 @@ const getSignedUrl = async (key) => {
   }
   const result2 = await new Promise(async (resolve, reject) => {
     try {
-        s3.getSignedUrl(awsConfig.operation, options, (err, result) => {
-            if (err) reject(err)
-            resolve(result)
-        })
+      s3.getSignedUrl(awsConfig.operation, options, (err, result) => {
+        if (err) reject(err)
+        resolve(result)
+      })
     } catch (e) {
-        console.log(e.message)
+      console.log(e.message)
     }
   })
   return result2
@@ -30,30 +30,30 @@ const getSignedUrl = async (key) => {
 
 
 const getSignedResizedUrl = async (key) => {
-    if(key.substring(0, 14) === "product/origin") {
-      key = 'product/resize/' + "resized-" + key.substr(15, key.length);
-    } else if (key.substring(0, 19) === "article/main/origin") {
-      key = 'article/main/resize/' + "resized-" + key.substr(20, key.length);
+  if (key.substring(0, 14) === 'product/origin') {
+    key = `${'product/resize/' + 'resized-'}${key.substr(15, key.length)}`
+  } else if (key.substring(0, 19) === 'article/main/origin') {
+    key = `${'article/main/resize/' + 'resized-'}${key.substr(20, key.length)}`
+  }
+  console.log(key)
+  // awsConfig.Expires
+  const options = {
+    Bucket: awsConfig.bucket,
+    Expires: parseInt(awsConfig.Expires),
+    Key: key,
+    ResponseContentDisposition: null,
+  }
+  const result2 = await new Promise(async (resolve, reject) => {
+    try {
+      s3.getSignedUrl(awsConfig.operation, options, (err, result) => {
+        if (err) reject(err)
+        resolve(result)
+      })
+    } catch (e) {
+      console.log(e.message)
     }
-    console.log(key)
-    //awsConfig.Expires
-    const options = {
-        Bucket: awsConfig.bucket,
-        Expires: parseInt(awsConfig.Expires),
-        Key: key,
-        ResponseContentDisposition: null,
-    }
-    const result2 = await new Promise(async (resolve, reject) => {
-      try {
-          s3.getSignedUrl(awsConfig.operation, options, (err, result) => {
-              if (err) reject(err)
-              resolve(result)
-          })
-      } catch (e) {
-          console.log(e.message)
-      }
-    })
-    return await result2
+  })
+  return await result2
 }
 
 module.exports = {

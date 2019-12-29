@@ -12,14 +12,14 @@ const insertEfficacy = async (req, res) => {
   try {
     const validationResult = await validationChecker.validateAsync(req.body)
     if (validationResult.error) {
-      throw new Error(400)
+      throw new Error(403)
     }
 
     await efficacyService.insertEfficacy(req)
     response.respondJsonWithoutData(message.EFFICACY_INSERT_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     console.log(e.message)
-    response.respondOnError(message.INSERT_FAILED, res, statusCode.BAD_REQUEST)
+    response.respondOnError(message.INSERT_FAILED, res, statusCode.FORBIDDEN)
   }
 }
 

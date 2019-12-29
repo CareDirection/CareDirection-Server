@@ -18,7 +18,7 @@ products.post('/:product_idx/dose', needAuth, productCtrl.dose)
 // ADMIN 제품 등록하기
 products.post('/', upload.single('file'), productCtrl.insertProduct)
 // 복용 제품 (오늘 복용), post
-products.post('/product/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
+products.post('/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
 
 /*
 // 제품 디테일
@@ -27,7 +27,7 @@ products.get('/:productIdx/info', needAuth, productsCtrl)
 products.get('/:productIdx/graph', needAuth, productsCtrl)
 // 제품 디테일 효능
 products.get('/:productIdx/efficacy', needAuth, productsCtrl)
-// 최저가 정보
+// 최저가 정보ssss
 products.get('/:productIdx/lowprice', needAuth, productsCtrl)
 */
 module.exports = products

@@ -133,27 +133,27 @@ exports.insertProduct = async (req, res, next) => {
   }
 }
 
-exports.checkProductDose = async (req, res) => {
-  const { dose_daily_quantity, dose_start_date } = req.body
+exports.checkProductDose = async (req, res, next) => {
   const { product_idx } = req.params
-  const validationData = { dose_daily_quantity, dose_start_date }
-  const scheme = Joi.object({
-    dose_daily_quantity: Joi.number().required(),
-    dose_start_date: Joi.string().required(),
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().required(),
   })
 
   try {
-    // 입력 값의 유효성 확인 (not null, 유효한 형태)
-    const { error } = await scheme.validateAsync(validationData)
+    const { error } = await schema.validateAsync(validationData)
 
-    // 유효하지 않은 경우
     if (error) {
-      throw new Error(403)
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
     }
-    //
-    const result = await productService.dose(req, next)
-    response.respondJson('successfully ', result, res, 200)
+    const result = await productService.checkProductDose(req, next)
+    if (result === message.SUCCESS) {
+      response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
+    } else {
+      response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_DUPLICATED, res, statusCode.FORBIDDEN)
+    }
+
   } catch (e) {
-    response.respondOnError(e.message, res, 500)
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }

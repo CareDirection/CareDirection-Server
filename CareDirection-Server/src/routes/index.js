@@ -9,7 +9,7 @@ const efficacy = require('./efficacy')
 
 /* GET home page. */
 router.use('/users', users)
-router.use('/products', products)
+router.use('/product', products)
 router.use('/nutrient', nutrient)
 router.use('/efficacy', efficacy)
 

@@ -1,3 +1,5 @@
+const message = require('../lib/responseMessage')
+
 /* sql Transcation */
 exports.dose = (Transaction, req, next) => {
   return Transaction(async (connection) => {
@@ -65,6 +67,24 @@ exports.insertProduct = (Transaction, data, next) => {
     await connection.query(Query7)
     const Query8 = `INSERT INTO image(product_idx, image_key, image_original_name, image_size) VALUES(${product_idx[0].product_idx}, "${data.file.transforms[0].key}", "${data.file.originalname}", "${data.file.transforms[0].size}" )`
     await connection.query(Query8)
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.checkProductDose = (Transaction, req, currentTime, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.user_idx =${req.user.user_idx} and dh.dose_history_time = "${currentTime}"`
+    const isEmpty = await connection.query(Query1)
+    console.log(isEmpty[0])
+    if (!isEmpty[0]) {
+      const Query2 = `SELECT dose_idx FROM dose WHERE product_idx= ${req.params.product_idx} and user_idx = ${req.user.user_idx}`
+      const dose_idx = await connection.query(Query2)
+      const Query3 = `INSERT INTO dose_history(dose_idx, dose_history_time) VALUES(${dose_idx[0].dose_idx}, "${currentTime}");`
+      await connection.query(Query3)
+      return message.SUCCESS
+    }
+    return message.DUPLICATED
   }).catch(error => {
     return next(error)
   })

@@ -168,7 +168,6 @@ exports.checkProductDose = async (req, res, next) => {
   }
 }
 
-
 exports.unCheckProductDose = async (req, res, next) => {
   const { product_idx } = req.params
   const validationData = { product_idx }
@@ -190,4 +189,8 @@ exports.unCheckProductDose = async (req, res, next) => {
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
+}
+
+exports.getProductStandard = async (req, res) => {
+
 }

@@ -53,7 +53,7 @@ exports.userList = async (req, next) => {
       result = {
         parent: {
           user_name: userList.parent[0].user_name,
-        }
+        },
       }
     } else {
       result = {
@@ -69,6 +69,17 @@ exports.userList = async (req, next) => {
         token: await jwt.encode({ childuser_idx: userList.child[i].childuser_idx }),
       }
     }
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}
+
+exports.removeMyChild = async (req) => {
+  const connection = await getConnection()
+  try {
+    const result = await userDao.removeMyChild(connection, req)
     return result
   } catch (e) {
     console.log(e.message)

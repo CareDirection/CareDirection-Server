@@ -9,6 +9,7 @@ const needAuth = require('../middlewares/userCheck')
 users.get('/list', needAuth, usersCtrl.userList)
 users.post('/signup', usersCtrl.signUp)
 users.post('/signin', usersCtrl.signIn)
+users.delete('/child', needAuth, usersCtrl.removeMyChild)
 
 
 module.exports = users

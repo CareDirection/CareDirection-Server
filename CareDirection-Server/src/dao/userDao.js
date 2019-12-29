@@ -55,7 +55,7 @@ exports.signUp = (Transaction, req, next) => {
 //     })
 //     return result[0]
 // }
-
+4
 exports.userList = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     const Query1 = `SELECT user_name FROM user WHERE user_idx = ${req.user.user_idx};`
@@ -70,5 +70,17 @@ exports.userList = (Transaction, req, next) => {
     return result
   }).catch(error => {
     return next(error)
+  })
+}
+
+exports.removeMyChild = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+        DELETE FROM childuser WHERE childuser_idx = ${req.user.childuser_idx};
+        `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
   })
 }

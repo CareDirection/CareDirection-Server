@@ -66,3 +66,12 @@ exports.userList = async (req, res, next) => {
     response.respondOnError(e.message, res, 500)
   }
 }
+
+exports.removeMyChild = async (req, res) => {
+  try {
+    await userService.removeMyChild(req)
+    response.respondJsonWithoutData(message.REMOVE_CHILD_USER_SUCCESS, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(e.message, res, 500)
+  }
+}

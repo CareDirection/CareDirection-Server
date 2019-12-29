@@ -16,13 +16,10 @@ product.post('/:product_idx/dose', needAuth, productCtrl.enrollDose)
 // products.put('/:product_idx/dose', needAuth, productsCtrl.dose)
 
 // ADMIN 제품 등록하기
-<<<<<<< HEAD:CareDirection-Server/src/routes/product.js
 product.post('/', upload.single('file'), productCtrl.insertProduct)
 // 복용 제품 (오늘 복용), post
 product.post('/product/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
-=======
-product.post('/', upload.single('file'), productsCtrl.insertProduct)
->>>>>>> issue36:CareDirection-Server/src/routes/product.js
+
 
 /*
 // 제품 디테일

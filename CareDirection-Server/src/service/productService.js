@@ -1,10 +1,10 @@
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
 
-exports.importDose = async (req) => {
+exports.importDose = async (req, next, next) => {
   const connection = await getConnection()
   try {
-    const result = await productDao.importDose(connection, req)
+    const result = await productDao.importDose(connection, req, next)
     // result[0].image_key = getSignedUrl.getSignedResizedUrl(result[0].image_key)
     console.log("결과다 이거~~")
     console.log(result)

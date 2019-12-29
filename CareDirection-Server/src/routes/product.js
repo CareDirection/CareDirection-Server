@@ -16,18 +16,22 @@ product.post('/:product_idx/dose', needAuth, productCtrl.enrollDose)
 // products.put('/:product_idx/dose', needAuth, productsCtrl.dose)
 
 // ADMIN 제품 등록하기
+<<<<<<< HEAD:CareDirection-Server/src/routes/product.js
 product.post('/', upload.single('file'), productCtrl.insertProduct)
 // 복용 제품 (오늘 복용), post
 product.post('/product/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
+=======
+product.post('/', upload.single('file'), productsCtrl.insertProduct)
+>>>>>>> issue36:CareDirection-Server/src/routes/product.js
 
 /*
 // 제품 디테일
-products.get('/:productIdx/info', needAuth, productsCtrl)
+product.get('/:productIdx/info', needAuth, productsCtrl)
 // 제품 디테일 그래프
-products.get('/:productIdx/graph', needAuth, productsCtrl)
+product.get('/:productIdx/graph', needAuth, productsCtrl)
 // 제품 디테일 효능
-products.get('/:productIdx/efficacy', needAuth, productsCtrl)
+product.get('/:productIdx/efficacy', needAuth, productsCtrl)
 // 최저가 정보
-products.get('/:productIdx/lowprice', needAuth, productsCtrl)
+product.get('/:productIdx/lowprice', needAuth, productsCtrl)
 */
 module.exports = product

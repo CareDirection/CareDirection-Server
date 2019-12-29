@@ -4,10 +4,10 @@ const response = require('../lib/response')
 const message = require('../lib/responseMessage')
 const statusCode = require('../lib/statusCode')
 
-exports.importDose = async (req, res) => {
+exports.importDose = async (req, res, next) => {
   const { product_idx } = req.params
   try {
-    const result = await productService.importDose(req)
+    const result = await productService.importDose(req, next)
     response.respondJson('successfully ', result, res, 200)
   } catch (e) {
     response.respondOnError(e.message, res, 500)

@@ -1,9 +1,10 @@
 
 // 복용제품 등록위한 정보 얻어오는 dao
-exports.importDose = (connection, req) => {
+exports.importDose = (connection, req, next) => {
   return new Promise((resolve, reject) => {
     // join 해서 가져오기~!!
     const Query = `SELECT product_name, product_daily_dose FROM product WHERE product_idx = "${req.body.product_idx}"`
+    console.log(Query)
     // const result = await connection.query(Query1)
     // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
     // const imageUrl = signedurl.getSignedResizedUrl(image_key)

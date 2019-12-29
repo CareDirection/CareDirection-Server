@@ -1,7 +1,7 @@
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
 
-exports.importDose = async (req, next, next) => {
+exports.importDose = async (req, next) => {
   const connection = await getConnection()
   try {
     const result = await productDao.importDose(connection, req, next)

@@ -1,6 +1,7 @@
 
 // 복용제품 등록위한 정보 얻어오는 dao
-exports.importDose = (connection, req, next) => {
+// eslint-disable-next-line no-unused-vars
+exports.importDose = (connection, req) => {
   return new Promise((resolve, reject) => {
     // join 해서 가져오기~!!
     const Query = `SELECT product_name, product_daily_dose FROM product WHERE product_idx = "${req.body.product_idx}"`

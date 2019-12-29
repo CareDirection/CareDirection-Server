@@ -27,4 +27,5 @@ module.exports = {
   DUPLICATED: 'duplicated',
   EFFICACY_SELECTED: '효능 리스트 조회 성공',
   DB_ERROR: '데이터베이스 에러',
+  SELECT_SUCCESS: '조회 성공',
 }

@@ -4,7 +4,7 @@ const { respondJsonWithoutData, respondOnError } = require('../lib/response')
 
 const insertEfficacy = async (req, res) => {
   try {
-    await efficacyService.insertNutrient(req)
+    await efficacyService.insertEfficacy(req)
     respondJsonWithoutData('효능 인서트 성공', res, 201)
   } catch (e) {
     console.log(e.message)

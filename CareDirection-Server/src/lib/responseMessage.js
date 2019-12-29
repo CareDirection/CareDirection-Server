@@ -12,4 +12,6 @@ module.exports = {
   EFFICACY_INSERT_SUCCESS: '효능 등록 성공',
   NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
   INSERT_FAILED: '등록 실패',
+  EFFICACY_SELECTED: '효능 리스트 조회 성공',
+  DB_ERROR: '데이터베이스 에러',
 }

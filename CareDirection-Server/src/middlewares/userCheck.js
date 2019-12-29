@@ -6,9 +6,9 @@ const message = require('../lib/responseMessage')
 
 const { respondJson, respondOnError } = require('../lib/response')
 
+
 module.exports = async (req, res, next) => {
   const { token } = req.headers
-
   try {
     req.user = await jwt.decode(token, secretKey.development)
     if (_.isEmpty(req.user)) {

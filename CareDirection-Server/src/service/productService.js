@@ -1,12 +1,14 @@
 const moment = require('moment')
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
+const getSignedUrl = require('../lib/signedurl')
 
 exports.importDose = async (req, next) => {
   const connection = await getConnection()
   try {
     const result = await productDao.importDose(connection, req, next)
-    // result[0].image_key = getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    console.log("결과다 이거~~")
     console.log(result)
     return result
   } catch (e) {

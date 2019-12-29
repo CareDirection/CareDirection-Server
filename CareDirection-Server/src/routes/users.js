@@ -8,5 +8,6 @@ const needAuth = require('../middlewares/userCheck')
 /* GET home page. */
 users.post('/signup', usersCtrl.signUp)
 users.post('/signin', usersCtrl.signIn)
+users.post('/id', usersCtrl.duplicateId)
 
 module.exports = users

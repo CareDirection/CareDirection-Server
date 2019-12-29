@@ -50,3 +50,23 @@ exports.signIn = async (data) => {
     connection.release()
   }
 }
+
+// eslint-disable-next-line consistent-return
+exports.duplicateId = async (data) => {
+  const connection = await getConnection()
+
+  try {
+    const result = await userDao.duplicateId(connection, data)
+    console.log('d', result[0])
+
+    if (result[0] != null) {
+      return false
+    }
+    return true
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

@@ -25,6 +25,18 @@ exports.signUp = (connection, data) => {
   })
 }
 
+exports.duplicateId = (connection, data) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+        SELECT * FROM user WHERE user_id = '${data.user_id}'
+        `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
 
 /*
 /!* sql Transcation *!/

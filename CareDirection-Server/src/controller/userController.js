@@ -57,3 +57,32 @@ exports.signIn = async (req, res) => {
     return response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.duplicateId = async (req, res) => {
+  const { user_id } = req.body
+
+  const schema = Joi.object({
+    user_id: Joi.string().required(),
+  })
+
+  const validationData = { user_id }
+
+  try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+
+    const result = await userService.duplicateId(validationData)
+
+    if (result) {
+      // false : 중복 -> 이용 불가능, true : 이용가능
+      console.log('test1', result)
+      response.respondJsonWithoutData(message.VALID_ID, res, statusCode.CREATED)
+    }
+    response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

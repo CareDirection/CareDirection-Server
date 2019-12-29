@@ -6,6 +6,7 @@ const usersCtrl = require('../controller/userController')
 const needAuth = require('../middlewares/userCheck')
 
 /* GET home page. */
-users.get('/singup', needAuth,  usersCtrl.singUp)
+users.post('/signup', usersCtrl.signUp)
+//users.get('/signin', needAuth, usersCtrl.singIn)
 
 module.exports = users

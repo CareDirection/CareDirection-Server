@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
+    "aws-sdk": "^2.596.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",

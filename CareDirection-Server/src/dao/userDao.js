@@ -1,23 +1,25 @@
 /* sql */
-// exports.singUp = (connection) => {
-//     return new Promise((resolve, reject) => {
-//         const Query = `
-//         SELECT * FROM users
-//         `
-//         connection.query(Query, (err, result) => {
-//             err && reject(err)
-//             resolve(result)
-//         })
-//     })
-// }
+exports.signUp = (connection, data) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+        INSERT INTO user(user_email, user_salt, user_pw) 
+        VALUES("${data.user_email}", "${data.user_salt}", "${data.user_pw}")
+        `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
 
 
-/* sql Transcation */
+/*
+/!* sql Transcation *!/
 exports.signUp = (Transaction, req, next) => {
   return Transaction(async (connection) => {
-    const Query1 = `INSERT INTO USER(user_id, user_pw, user_nickname) VALUES("${req.body.id}", "${req.body.pw}", "${req.body.nickname}")`
+    const Query1 = `INSERT INTO USER(user_email, user_pw) VALUES("${req.body.user_email}", "${req.body.user_pw}")`
     await connection.query(Query1)
-    const Query2 = `SELECT user_idx FROM USER WHERE user_id = "${req.body.id}"`
+    const Query2 = `SELECT user_idx FROM USER WHERE user_email = "${req.body.user_email}"`
     const user_idx = await connection.query(Query2)
     console.log('success')
     return user_idx[0]
@@ -25,6 +27,7 @@ exports.signUp = (Transaction, req, next) => {
     return next(error)
   })
 }
+*/
 
 /* nosql */
 // exports.signIn = async (req) => {

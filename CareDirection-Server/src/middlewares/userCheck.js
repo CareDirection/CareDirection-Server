@@ -3,6 +3,7 @@ const token = require('../lib/token')
 // const { secretKey } = require('../configAll')
 const secretKey = require('../../config/jwt.secretKey')
 
+// eslint-disable-next-line no-unused-vars
 const { respondJson, respondOnError } = require('../lib/response')
 
 module.exports = async (req, res, next) => {

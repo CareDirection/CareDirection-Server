@@ -8,5 +8,8 @@ module.exports = {
   REFRESH_TOKEN: '토큰 재발급 완료.',
   NO_SELECT_AUTHORITY: '조회 권한 없음.',
   USER_SELECTED: '회원 조회 성공.',
-  PRODUCT_INSERT_SUCCESS: '제품 등록 성공'
+  PRODUCT_INSERT_SUCCESS: '제품 등록 성공',
+  EFFICACY_INSERT_SUCCESS: '효능 등록 성공',
+  NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
+  INSERT_FAILED: '등록 실패',
 }

@@ -1,14 +1,12 @@
+const message = require('../lib/responseMessage')
 
 // 복용제품 등록위한 정보 얻어오는 dao
 // eslint-disable-next-line no-unused-vars
 exports.importDose = (connection, req) => {
   return new Promise((resolve, reject) => {
-    // join 해서 가져오기~!!
-    const Query = `SELECT product_name, product_daily_dose FROM product WHERE product_idx = "${req.params.product_idx}"`
-    console.log(Query)
-    // const result = await connection.query(Query1)
-    // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
-    // const imageUrl = signedurl.getSignedResizedUrl(image_key)
+    const Query = `SELECT product_name, product_daily_dose, image_key FROM product as p1 INNER JOIN image as p2 WHERE p1.product_idx = "${req.params.product_idx}"`
+    //     console.log(Query)
+    //     // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
     connection.query(Query, (err, result) => {
       err && reject(err)
       resolve(result)
@@ -83,6 +81,23 @@ exports.insertProduct = (Transaction, data, next) => {
     await connection.query(Query7)
     const Query8 = `INSERT INTO image(product_idx, image_key, image_original_name, image_size) VALUES(${product_idx[0].product_idx}, "${data.file.transforms[0].key}", "${data.file.originalname}", "${data.file.transforms[0].size}" )`
     await connection.query(Query8)
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.checkProductDose = (Transaction, req, currentTime, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.user_idx =${req.user.user_idx} and dh.dose_history_time = "${currentTime}"`
+    const isEmpty = await connection.query(Query1)
+    if (!isEmpty[0]) {
+      const Query2 = `SELECT dose_idx FROM dose WHERE product_idx= ${req.params.product_idx} and user_idx = ${req.user.user_idx}`
+      const dose_idx = await connection.query(Query2)
+      const Query3 = `INSERT INTO dose_history(dose_idx, dose_history_time) VALUES(${dose_idx[0].dose_idx}, "${currentTime}");`
+      await connection.query(Query3)
+      return message.SUCCESS
+    }
+    return message.DUPLICATED
   }).catch(error => {
     return next(error)
   })

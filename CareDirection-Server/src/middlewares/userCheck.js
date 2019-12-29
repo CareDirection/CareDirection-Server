@@ -5,7 +5,7 @@ const secretKey = require('../../config/jwt.secretKey')
 
 const { respondJson, respondOnError } = require('../lib/response')
 
-module.exports = async (req, res, next) => {
+module.exports = async (sreq, req, next) => {
   const { usertoken } = req.headers
   console.log(usertoken)
   try {

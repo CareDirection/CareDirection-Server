@@ -1,21 +1,25 @@
 /* sql */
 exports.lifecycle = (connection, req, data) => {
   return new Promise((resolve, reject) => {
-    let Query
-
-    console.log('test', req.user)
-
-    if (req.user.type === 'parent') {
-      Query = `
+    const Query = `
         INSERT INTO user_survey(user_survey_item_value1, user_survey_item_value2, user_survey_item_value3, user_survey_item_value4, user_survey_item_value5, user_survey_item_value6, user_survey_item_value7, user_idx)
         VALUE("${data.user_survey_item_value1}", "${data.user_survey_item_value2}", "${data.user_survey_item_value3}", "${data.user_survey_item_value4}", 
         "${data.user_survey_item_value5}", "${data.user_survey_item_value6}","${data.user_survey_item_value7}", "${req.user.user_idx}")`
-    } else {
-      Query = `
+
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
+exports.lifecycleChild = (connection, req, data) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
         INSERT INTO user_survey(user_survey_item_value1, user_survey_item_value2, user_survey_item_value3, user_survey_item_value4, user_survey_item_value5, user_survey_item_value6, user_survey_item_value7, childuser_idx)
         VALUE("${data.user_survey_item_value1}", "${data.user_survey_item_value2}", "${data.user_survey_item_value3}", "${data.user_survey_item_value4}", 
         "${data.user_survey_item_value5}", "${data.user_survey_item_value6}","${data.user_survey_item_value7}", "${req.user.childuser_idx}")`
-    }
+
     connection.query(Query, (err, result) => {
       err && reject(err)
       resolve(result)

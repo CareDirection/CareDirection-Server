@@ -17,6 +17,26 @@ const insertNutrient = async (req) => {
   }
 }
 
+const getParentMyFunctioinalNutrients = async (req, next) => {
+  try {
+    const result = await nutrientDao.getParentMyFunctioinalNutrients(Transaction, req, next)
+    return result
+  } catch (e) {
+    console.log(e.message)
+  }
+}
+
+const getChildMyFunctioinalNutrients = async (req, next) => {
+  try {
+    const result = await nutrientDao.getChildMyFunctioinalNutrients(Transaction, req, next)
+    return result
+  } catch (e) {
+    console.log(e.message)
+  }
+}
+
 module.exports = {
   insertNutrient,
+  getParentMyFunctioinalNutrients,
+  getChildMyFunctioinalNutrients,
 }

@@ -210,3 +210,23 @@ exports.getProductStandard = async (req, res) => {
     response.respondOnError(e.message, res, statusCode.DB_ERROR)
   }
 }
+
+
+exports.deleteDoseProduct = async (req, res) => {
+  const { product_idx } = req.params
+  const validationData = { product_idx }
+  const schema = Joi.object({
+    product_idx: Joi.number().required(),
+  })
+  try {
+    const { error } = await schema.validateAsync(validationData)
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    await productService.deleteDoseProduct(req)
+    response.respondJsonWithoutData(message.DOSE_PRODUCT_DELETE_SUCCESS, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(e.message, res, statusCode.DB_ERROR)
+  }
+}

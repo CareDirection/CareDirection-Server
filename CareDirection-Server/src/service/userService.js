@@ -64,11 +64,9 @@ exports.userList = async (req, next) => {
         child: [],
       }
     }
-    // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const i in userList.child) {
       result.child[i] = {
         chiduser_name: userList.child[i].childuser_name,
-        // eslint-disable-next-line no-await-in-loop
         token: await jwt.encode({ childuser_idx: userList.child[i].childuser_idx }),
       }
     }
@@ -78,7 +76,7 @@ exports.userList = async (req, next) => {
     return e.message
   }
 }
-// eslint-disable-next-line consistent-return
+
 exports.duplicateId = async (data) => {
   const connection = await getConnection()
 
@@ -119,5 +117,15 @@ exports.modifyName = async (data) => {
     return e.message
   } finally {
     connection.release()
+  }
+}
+exports.removeMyChild = async (req) => {
+  const connection = await getConnection()
+  try {
+    const result = await userDao.removeMyChild(connection, req)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
   }
 }

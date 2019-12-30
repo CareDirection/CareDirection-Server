@@ -16,6 +16,8 @@ product.get('/:product_idx/dose', needAuth, productCtrl.importDose)
 product.post('/:product_idx/dose', needAuth, productCtrl.enrollDose)
 // 현재 복용 제품 정보수정
 // products.put('/:product_idx/dose', needAuth, productsCtrl.dose)
+// 현재 복용 제품 삭제하기
+product.delete('/:product_idx/dose', needAuth, productCtrl.deleteDoseProduct)
 // ADMIN 제품 등록하기
 product.post('/', upload.single('file'), productCtrl.insertProduct)
 // 복용 제품 (오늘 복용 등록), post

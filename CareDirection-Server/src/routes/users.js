@@ -11,5 +11,7 @@ users.post('/signup', usersCtrl.signUp)
 users.post('/signin', usersCtrl.signIn)
 users.post('/id', usersCtrl.duplicateId)
 users.put('/nickname', usersCtrl.modifyName)
+users.delete('/child', needAuth, usersCtrl.removeMyChild)
+
 
 module.exports = users

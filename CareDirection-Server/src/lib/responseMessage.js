@@ -34,4 +34,8 @@ module.exports = {
   USER_LIST_GET_SUCCESS: '유저 관리 리스트 가져오기 성공',
   USER_LIST_GET_FAIL: '유저 관리 리스트 가져오기 실패',
   SELECT_SUCCESS: '조회 성공',
+  REMOVE_CHILD_USER_SUCCESS: 'child 사용자 삭제 성공',
+  REMOVE_CHILD_USER_FAIL: 'child 사용자 삭제 실패',
+  DOSE_PRODUCT_DELETE_SUCCESS: '복용 제품 삭제 성공',
+  DOSE_PRODUCT_DELETE_FAIL: '복용 제품 삭제 실패',
 }

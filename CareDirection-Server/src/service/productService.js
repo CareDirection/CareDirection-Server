@@ -118,3 +118,19 @@ exports.getProductStandard = async (req) => {
     connection.release()
   }
 }
+
+exports.deleteDoseProduct = async (req) => {
+  const connection = await getConnection()
+  try {
+    if (req.user.type = 'parent') {
+      await productDao.deleteParentUserDoseProduct(connection, req)
+    } else {
+      await productDao.deleteChildUserDoseProduct(connection, req)
+    }
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

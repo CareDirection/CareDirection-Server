@@ -4,7 +4,6 @@ exports.signIn = (connection, data) => {
     const Query = `
         SELECT * FROM user WHERE user_id = '${data.user_id}'
         `
-    console.log('Service00', data.user_id)
     connection.query(Query, (err, result) => {
       err && reject(err)
       resolve(result[0])
@@ -52,7 +51,7 @@ exports.modifyName = (connection, data) => {
   })
 }
 
-exports.serveyInfo = (connection, req, data) => {
+exports.surveyInfo = (connection, req, data) => {
   return new Promise((resolve, reject) => {
     let Query
 

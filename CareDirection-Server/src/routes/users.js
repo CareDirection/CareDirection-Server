@@ -13,6 +13,6 @@ users.post('/id', usersCtrl.duplicateId)
 users.put('/nickname', usersCtrl.modifyName)
 users.delete('/child', needAuth, usersCtrl.removeMyChild)
 
-users.post('/info', needAuth, usersCtrl.serveyInfo)
+users.post('/info', needAuth, usersCtrl.surveyInfo)
 
 module.exports = users

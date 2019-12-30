@@ -151,10 +151,11 @@ exports.getLowprice = async (req, next) => {
   const connection = await getConnection()
   try {
     const result = await productDao.getLowprice(connection, req, next)
-    lowestProductInfo(result[0].product_name)
-
-
-    return result;
+    /*const arr = lowestProductInfo(result[0].product_name).items
+    arr.forEach((element) => {
+      console.log(`${element}`.link)
+    }, this)*/
+    return lowestProductInfo(result[0].product_name)
   } catch (e) {
     console.log(e.message)
     return e.message

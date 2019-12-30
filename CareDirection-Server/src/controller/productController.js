@@ -14,7 +14,6 @@ exports.importDose = async (req, res, next) => {
   }
 }
 
-
 exports.enrollDose = async (req, res, next) => {
   const { dose_daily_quantity, dose_start_date, dose_alarm } = req.body
   const { product_idx } = req.params
@@ -38,6 +37,28 @@ exports.enrollDose = async (req, res, next) => {
       response.respondJsonWithoutData(message.DUPLICATED, res, statusCode.FORBIDDEN)
     }
     else response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+exports.modifyDose = async (req, res, next) => {
+  const { dose_daily_quantity, dose_start_date, dose_alarm } = req.body
+  const { product_idx } = req.params
+  const validationData = { dose_daily_quantity, dose_start_date, dose_alarm }
+  const scheme = Joi.object({
+    dose_daily_quantity: Joi.number().required(),
+    dose_start_date: Joi.string().required(),
+    dose_alarm: Joi.string().required(),
+  })
+
+  try {
+    const { error } = await scheme.validateAsync(validationData)
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    await productService.modifyDose(req, next)
+    response.respondJsonWithoutData(message.PRODUCT_DOSE_MODIFY_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }

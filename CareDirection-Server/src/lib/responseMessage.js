@@ -23,6 +23,7 @@ module.exports = {
   NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
   INSERT_FAILED: '등록 실패',
   PRODUCT_DOSE_INSERT_SUCCESS: '복용 등록 성공',
+  PRODUCT_DOSE_MODIFY_SUCCESS: '복용 수정 성공',
   PRODUCT_DOSE_DELETE_SUCCESS: '복용 취소 성공',
   PRODUCT_DOSE_DELETE_FAIL: '복용 취소 실패',
   PRODUCT_DOSE_INSERT_DUPLICATED: '이미 복용 등록되었습니다.',

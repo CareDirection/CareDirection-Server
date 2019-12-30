@@ -26,17 +26,16 @@ exports.enrollDose = async (req, next) => {
   }
 }
 
-// 제품 등록 service
-exports.insertProduct = async (next, data) => {
+exports.modifyDose = async (req, next) => {
+  const connection = await getConnection()
   try {
-    const price = data.product_quantity_price.split(',')
-    const count = data.product_quantity_count.split(',')
-    data.price = price
-    data.count = count
-    await productDao.insertProduct(Transaction, data, next)
+    const result = await productDao.modifyDose(connection, req, next)
+    return result
   } catch (e) {
     console.log(e.message)
     return e.message
+  } finally {
+    connection.release()
   }
 }
 

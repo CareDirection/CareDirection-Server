@@ -44,4 +44,5 @@ module.exports = {
   DOSE_PRODUCT_DELETE_FAIL: '복용 제품 삭제 실패',
   MY_CARE_FUNCTIONAL_NUTRIENTS_SUCCESS: '기능 성분 가져오기 성공',
   MY_CARE_FUNCTIONAL_NUTRIENTS_FAIL: '기능 성분 가져오기 실패',
+  GET_NUTRIENT_INFO_SUCCESS: '특정 성분 정보 가져오기 성공',
 }

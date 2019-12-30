@@ -42,7 +42,19 @@ const getMyFunctioinalNutrients = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+const specificInfo = async (req, res, next) => {
+  const { nutrient_idx } = req.params
+  try {
+    const result = await nutrientService.specificInfo(req, next)
+    response.respondJson(message.GET_NUTRIENT_INFO_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
 module.exports = {
   insertNutrient,
   getMyFunctioinalNutrients,
+  specificInfo,
 }

@@ -91,8 +91,24 @@ SELECT DISTINCT n.nutrient_idx, n.nutrient_name FROM (((((childuser u JOIN dose 
     return next(error)
   })
 }
+
+// 특정 성분 정보 가져오기
+const specificInfo = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+      SELECT nutrient_common_description, image_key 
+      FROM nutrient as p1 INNER JOIN image as p2 USING(nutrient_idx) 
+      WHERE p1.nutrient_idx = "${req.params.nutrient_idx}"`
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
 module.exports = {
   insertNutrient,
   getParentMyFunctioinalNutrients,
   getChildMyFunctioinalNutrients,
+  specificInfo,
 }

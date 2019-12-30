@@ -29,6 +29,20 @@ const insertNutrient = async (req, res) => {
   }
 }
 
+const getMyFunctioinalNutrients = async (req, res, next) => {
+  try {
+    let result
+    if (req.user.type === 'parent') {
+      result = await nutrientService.getParentMyFunctioinalNutrients(req, next)
+    } else {
+      result = await nutrientService.getChildMyFunctioinalNutrients(req, next)
+    }
+    response.respondJson(message.MY_CARE_FUNCTIONAL_NUTRIENTS_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
 module.exports = {
   insertNutrient,
+  getMyFunctioinalNutrients,
 }

@@ -22,6 +22,9 @@ module.exports = {
   SURVEY_INFO_SUCCESS: '개인정보 설문조사 성공',
   SURVEY_INFO_FAILED: '개인정보 설문조사 실패',
 
+  SURVEY_LIFECYCLE_SUCCESS: '라이프사이클 설문조사 성공',
+  SURVEY_LIFECYCLE_FAILED: '라이프사이클 설문조사 실패',
+
   EFFICACY_INSERT_SUCCESS: '효능 등록 성공',
   NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
   INSERT_FAILED: '등록 실패',

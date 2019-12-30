@@ -97,18 +97,18 @@ exports.duplicateId = async (req, res) => {
 
 exports.modifyName = async (req, res) => {
   // eslint-disable-next-line no-unused-vars
-  const {user_name} = req.body
-  const {token} = req.headers
+  const { user_name } = req.body
+  const { token } = req.headers
 
   const schema = Joi.object({
     user_name: Joi.string().required(),
     token: Joi.string().required(),
   })
 
-  const validationData = {user_name, token}
+  const validationData = { user_name, token }
 
   try {
-    const {error} = await schema.validateAsync(validationData)
+    const { error } = await schema.validateAsync(validationData)
 
     if (error) {
       response.respondOnError(message.MODIFY_FAILED, res, statusCode.FORBIDDEN)
@@ -130,7 +130,7 @@ exports.removeMyChild = async (req, res) => {
   }
 }
 
-exports.serveyInfo = async (req, res) => {
+exports.surveyInfo = async (req, res) => {
   const { user_name, user_gender, user_birth } = req.body
 
   const schema = Joi.object({
@@ -147,7 +147,7 @@ exports.serveyInfo = async (req, res) => {
     if (error) {
       response.respondOnError(message.SURVEY_INFO_FAILED, res, statusCode.FORBIDDEN)
     }
-    await userService.serveyInfo(validationData, req)
+    await userService.surveyInfo(validationData, req)
     response.respondJsonWithoutData(message.SURVEY_INFO_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)

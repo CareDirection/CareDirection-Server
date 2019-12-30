@@ -12,19 +12,14 @@ module.exports = {
   SIGN_UP_INSERT_SUCCESS: '회원가입 성공',
   SIGN_IN_SUCCESS: '로그인 성공',
   SIGN_IN_PASSWORD_ERROR: '비밀번호 오류',
-
   VALID_ID: '이용가능한 아이디',
   INVALID_ID: '중복되는 아이디',
-
   MODIFY_SUCCESS: '닉네임 수정 완료',
   MODIFY_FAILED: '닉네임 수정 실패',
-
   SURVEY_INFO_SUCCESS: '개인정보 설문조사 성공',
   SURVEY_INFO_FAILED: '개인정보 설문조사 실패',
-
   SURVEY_LIFECYCLE_SUCCESS: '라이프사이클 설문조사 성공',
   SURVEY_LIFECYCLE_FAILED: '라이프사이클 설문조사 실패',
-
   EFFICACY_INSERT_SUCCESS: '효능 등록 성공',
   NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
   INSERT_FAILED: '등록 실패',
@@ -49,4 +44,6 @@ module.exports = {
   MY_CARE_FUNCTIONAL_NUTRIENTS_FAIL: '기능 성분 가져오기 실패',
   GET_NUTRIENT_INFO_SUCCESS: '특정 성분 정보 가져오기 성공',
   GET_PRODUCT_DETAIL_INFO_SUCCESS: '제품 상세 정보 가져오기 성공',
+  SEARCH_SUCCESS: '검색 성공',
+  SEARCH_DATA_EMPTY: '검색 결과가 없습니다.',
 }

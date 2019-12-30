@@ -14,9 +14,9 @@ exports.encode = (payload) => {
   })
 }
 
-exports.decode = (token, secret) => {
+exports.decode = (token) => {
   return new Promise((resolve) => {
-    jwt.verify(token, secret, (err, decoded) => {
+    jwt.verify(token, secretKey.development, (err, decoded) => {
       if (err) {
         console.log(err)
         resolve({})

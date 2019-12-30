@@ -95,3 +95,28 @@ exports.duplicateId = async (req, res) => {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.modifyName = async (req, res) => {
+  // eslint-disable-next-line no-unused-vars
+  const { user_name } = req.body
+  const { token } = req.headers
+
+  const schema = Joi.object({
+    user_name: Joi.string().required(),
+    token: Joi.string().required(),
+  })
+
+  const validationData = { user_name, token }
+
+  try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    }
+    await userService.modifyName(validationData)
+    response.respondJsonWithoutData(message.SIGN_UP_INSERT_SUCCESS, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

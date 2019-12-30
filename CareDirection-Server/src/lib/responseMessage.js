@@ -16,6 +16,9 @@ module.exports = {
   VALID_ID: '이용가능한 아이디',
   INVALID_ID: '중복되는 아이디',
 
+  MODIFY_SUCCESS: '닉네임 수정 완료',
+  MODIFY_FAILED: '닉네임 수정 실패',
+
   EFFICACY_INSERT_SUCCESS: '효능 등록 성공',
   NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
   INSERT_FAILED: '등록 실패',

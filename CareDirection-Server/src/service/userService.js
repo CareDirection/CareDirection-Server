@@ -53,7 +53,7 @@ exports.userList = async (req, next) => {
       result = {
         parent: {
           user_name: userList.parent[0].user_name,
-        }
+        },
       }
     } else {
       result = {
@@ -88,6 +88,30 @@ exports.duplicateId = async (data) => {
     if (result[0] != null) {
       return false
     }
+    return true
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}
+
+exports.modifyName = async (data) => {
+  const connection = await getConnection()
+
+  try {
+    const decode = await jwt.decode(data.token)
+    console.log('decode', decode)
+
+    data = {
+      user_name: data.user_name,
+      user_id: decode.user_id,
+      type: decode.type,
+    }
+
+    await userDao.modifyName(connection, data)
+
     return true
   } catch (e) {
     console.log(e.message)

@@ -37,6 +37,21 @@ exports.duplicateId = (connection, data) => {
   })
 }
 
+exports.modifyName = (connection, data) => {
+  return new Promise((resolve, reject) => {
+
+    console.log('데이터확인', data)
+
+    const Query = `
+        UPDATE user SET user_name = '${data.user_name}' WHERE user_id = '${data.user_id}'
+        `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
 
 /*
 /!* sql Transcation *!/

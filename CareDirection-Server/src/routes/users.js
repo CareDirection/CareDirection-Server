@@ -10,6 +10,6 @@ users.get('/list', needAuth, usersCtrl.userList)
 users.post('/signup', usersCtrl.signUp)
 users.post('/signin', usersCtrl.signIn)
 users.post('/id', usersCtrl.duplicateId)
-
+users.put('/nickname', usersCtrl.modifyName)
 
 module.exports = users

@@ -131,12 +131,16 @@ exports.removeMyChild = async (req) => {
 }
 
 // eslint-disable-next-line consistent-return
-exports.serveyInfo = async (data, req) => {
+exports.surveyInfo = async (data, req) => {
   const connection = await getConnection()
 
   try {
     // eslint-disable-next-line no-undef
-    await userDao.serveyInfo(connection, req, data)
+    if (req.user.type === 'parent') {
+      await userDao.surveyInfo(connection, req, data)
+    } else {
+      await userDao.surveyInfoChild(connection, req, data)
+    }
 
   } catch (e) {
     console.log(e.message)

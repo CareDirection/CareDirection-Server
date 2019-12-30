@@ -34,7 +34,8 @@ exports.signIn = async (data) => {
 
     if (result.user_pw === password) {
       console.log('일치:', password)
-      return jwt.encode({ user_id: data.user_id })
+      console.log('일치:', result.user_idx)
+      return jwt.encode({ user_idx: result.user_idx })
     }
     return null
   } catch (e) {
@@ -106,7 +107,7 @@ exports.modifyName = async (data) => {
 
     data = {
       user_name: data.user_name,
-      user_id: decode.user_id,
+      user_idx: decode.user_idx,
       type: decode.type,
     }
 

@@ -19,6 +19,9 @@ module.exports = {
   MODIFY_SUCCESS: '닉네임 수정 완료',
   MODIFY_FAILED: '닉네임 수정 실패',
 
+  SURVEY_INFO_SUCCESS: '개인정보 설문조사 성공',
+  SURVEY_INFO_FAILED: '개인정보 설문조사 실패',
+
   EFFICACY_INSERT_SUCCESS: '효능 등록 성공',
   NUTRIENT_INSERT_SUCCESS: '성분 등록 성공',
   INSERT_FAILED: '등록 실패',

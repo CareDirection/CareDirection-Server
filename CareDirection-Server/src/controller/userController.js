@@ -111,10 +111,10 @@ exports.modifyName = async (req, res) => {
     const {error} = await schema.validateAsync(validationData)
 
     if (error) {
-      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+      response.respondOnError(message.MODIFY_FAILED, res, statusCode.FORBIDDEN)
     }
     await userService.modifyName(validationData)
-    response.respondJsonWithoutData(message.SIGN_UP_INSERT_SUCCESS, res, statusCode.CREATED)
+    response.respondJsonWithoutData(message.MODIFY_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
 
@@ -127,5 +127,29 @@ exports.removeMyChild = async (req, res) => {
     response.respondJsonWithoutData(message.REMOVE_CHILD_USER_SUCCESS, res, statusCode.OK)
   } catch (e) {
     response.respondOnError(e.message, res, 500)
+  }
+}
+
+exports.serveyInfo = async (req, res) => {
+  const { user_name, user_gender, user_birth } = req.body
+
+  const schema = Joi.object({
+    user_name: Joi.string().required(),
+    user_gender: Joi.number().required(),
+    user_birth: Joi.string().required(),
+  })
+
+  const validationData = { user_name, user_gender, user_birth }
+
+  try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      response.respondOnError(message.SURVEY_INFO_FAILED, res, statusCode.FORBIDDEN)
+    }
+    await userService.serveyInfo(validationData, req)
+    response.respondJsonWithoutData(message.SURVEY_INFO_SUCCESS, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }

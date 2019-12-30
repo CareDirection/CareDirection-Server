@@ -129,3 +129,19 @@ exports.removeMyChild = async (req) => {
     return e.message
   }
 }
+
+// eslint-disable-next-line consistent-return
+exports.serveyInfo = async (data, req) => {
+  const connection = await getConnection()
+
+  try {
+    // eslint-disable-next-line no-undef
+    await userDao.serveyInfo(connection, req, data)
+
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

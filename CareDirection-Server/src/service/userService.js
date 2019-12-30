@@ -63,11 +63,9 @@ exports.userList = async (req, next) => {
         child: [],
       }
     }
-    // eslint-disable-next-line guard-for-in,no-restricted-syntax
     for (const i in userList.child) {
       result.child[i] = {
         chiduser_name: userList.child[i].childuser_name,
-        // eslint-disable-next-line no-await-in-loop
         token: await jwt.encode({ childuser_idx: userList.child[i].childuser_idx }),
       }
     }

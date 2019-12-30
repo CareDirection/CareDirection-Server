@@ -161,3 +161,27 @@ exports.getProductStandard = (connection, productIdx) => {
     })
   })
 }
+
+exports.deleteParentUserDoseProduct = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    const query = `
+    DELETE FROM dose WHERE user_idx = ${req.user.user_idx} and product_idx= ${req.params.product_idx}
+    `
+    connection.query(query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
+exports.deleteChildUserDoseProduct = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    const query = `
+    DELETE FROM dose WHERE childuser_idx = ${req.user.childuser_idx} and product_idx= ${req.params.product_idx}
+    `
+    connection.query(query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

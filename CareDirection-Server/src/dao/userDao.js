@@ -52,6 +52,30 @@ exports.modifyName = (connection, data) => {
   })
 }
 
+exports.serveyInfo = (connection, req, data) => {
+  return new Promise((resolve, reject) => {
+    let Query
+
+    if (req.user.type === 'parent') {
+      Query = `
+        UPDATE user
+        SET user_name = "${data.user_name}", user_gender = "${data.user_gender}",user_birth = "${data.user_birth}"
+        WHERE user_idx = "${req.user.user_idx}"
+        `
+    } else {
+      Query = `
+        UPDATE childuser
+        SET childuser_name = "${data.user_name}", childuser_gender = "${data.user_gender}",childuser_birth = "${data.user_birth}"
+        WHERE user_idx = "${req.user.user_idx}"
+        `
+    }
+
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
 
 /*
 /!* sql Transcation *!/
@@ -82,7 +106,8 @@ exports.signUp = (Transaction, req, next) => {
 //     })
 //     return result[0]
 // }
-4
+
+
 exports.userList = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     const Query1 = `SELECT user_name FROM user WHERE user_idx = ${req.user.user_idx};`

@@ -256,3 +256,13 @@ exports.deleteDoseProduct = async (req, res) => {
     response.respondOnError(e.message, res, statusCode.DB_ERROR)
   }
 }
+
+exports.getProductDetailInfo = async (req, res, next) => {
+  const { product_idx } = req.params
+  try {
+    const result = await productService.getProductDetailInfo(req, next)
+    response.respondJson(message.GET_PRODUCT_DETAIL_INFO_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

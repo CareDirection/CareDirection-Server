@@ -131,3 +131,17 @@ exports.deleteDoseProduct = async (req) => {
     connection.release()
   }
 }
+
+exports.getProductDetailInfo = async (req, next) => {
+  const connection = await getConnection()
+  try {
+    const result = await productDao.getProductDetailInfo(connection, req, next)
+    result[0].image_key = await getSignedUrl.getSignedUrl(result[0].image_key)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

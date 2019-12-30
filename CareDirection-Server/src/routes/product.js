@@ -24,6 +24,7 @@ product.post('/', upload.single('file'), productCtrl.insertProduct)
 product.post('/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
 // 복용 제품 (오늘 복용 취소), delete
 product.delete('/:product_idx/dose/check', needAuth, productCtrl.unCheckProductDose)
-
+// 제품 디테일 정보 가져오기
+product.get('/:product_idx/info', needAuth, productCtrl.getProductDetailInfo)
 
 module.exports = product

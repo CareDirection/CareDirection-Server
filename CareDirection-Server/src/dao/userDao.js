@@ -53,22 +53,25 @@ exports.modifyName = (connection, data) => {
 
 exports.surveyInfo = (connection, req, data) => {
   return new Promise((resolve, reject) => {
-    let Query
-
-    if (req.user.type === 'parent') {
-      Query = `
+    const Query = `
         UPDATE user
         SET user_name = "${data.user_name}", user_gender = "${data.user_gender}",user_birth = "${data.user_birth}"
         WHERE user_idx = "${req.user.user_idx}"
         `
-    } else {
-      Query = `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
+exports.surveyInfoChild = (connection, req, data) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
         UPDATE childuser
         SET childuser_name = "${data.user_name}", childuser_gender = "${data.user_gender}",childuser_birth = "${data.user_birth}"
-        WHERE user_idx = "${req.user.user_idx}"
+        WHERE childuser_idx = "${req.user.childuser_idx}"
         `
-    }
-
     connection.query(Query, (err, result) => {
       err && reject(err)
       resolve(result)

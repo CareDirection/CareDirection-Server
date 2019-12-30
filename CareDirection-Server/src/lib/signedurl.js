@@ -53,7 +53,7 @@ const getSignedResizedUrl = async (key) => {
       console.log(e.message)
     }
   })
-  return await result2
+  return result2
 }
 
 module.exports = {

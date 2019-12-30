@@ -40,4 +40,6 @@ module.exports = {
   DOSE_PRODUCT_DELETE_FAIL: '복용 제품 삭제 실패',
   MY_CARE_FUNCTIONAL_NUTRIENTS_SUCCESS: '기능 성분 가져오기 성공',
   MY_CARE_FUNCTIONAL_NUTRIENTS_FAIL: '기능 성분 가져오기 실패',
+  SEARCH_SUCCESS: '검색 성공',
+  SEARCH_DATA_EMPTY: '검색 결과가 없습니다.',
 }

@@ -31,6 +31,17 @@ exports.enrollDose = (Transaction, req, next) => {
   })
 }
 
+// 복용 제품 수정 dao
+exports.modifyDose = (connection, req, next) => {
+  return new Promise((resolve, reject) => {
+    const Query = `UPDATE dose SET dose_daily_quantity="${req.body.dose_daily_quantity}", dose_alarm="${req.body.dose_alarm}",  dose_start_date= "${req.body.dose_start_date}" WHERE product_idx= "${req.params.product_idx}" AND user_idx="${req.user.user_idx}"`
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result[0])
+    })
+  })
+}
+
 // 제품 등록 dao
 exports.insertProduct = (Transaction, data, next) => {
   return Transaction(async (connection) => {

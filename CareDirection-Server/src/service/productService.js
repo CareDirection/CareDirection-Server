@@ -2,6 +2,7 @@ const moment = require('moment')
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
 const getSignedUrl = require('../lib/signedurl')
+const lowestProductInfo = require('../lib/lowestProductInfo')
 
 exports.importDose = async (req, next) => {
   const connection = await getConnection()
@@ -138,6 +139,22 @@ exports.getProductDetailInfo = async (req, next) => {
     const result = await productDao.getProductDetailInfo(connection, req, next)
     result[0].image_key = await getSignedUrl.getSignedUrl(result[0].image_key)
     return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}
+
+exports.getLowprice = async (req, next) => {
+  const connection = await getConnection()
+  try {
+    const result = await productDao.getLowprice(connection, req, next)
+    lowestProductInfo(result[0].product_name)
+
+
+    return result;
   } catch (e) {
     console.log(e.message)
     return e.message

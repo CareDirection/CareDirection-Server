@@ -9,7 +9,7 @@ const lowestProductInfo = async (str) => {
   let data
   const encodedStr = qs.escape(str)
   const url = naverConfig.NaverURI1
-  const queryParams = ${encodedStr}+naverConfig.NaverURI2
+  const queryParams = encodedStr + naverConfig.NaverURI2
   const option = {
     uri: url + queryParams,
     method: 'GET',
@@ -31,4 +31,4 @@ const lowestProductInfo = async (str) => {
   return data
 }
 
-// lowestProductInfo('뉴트리디데이 프리미엄 오메가 3 골드 1100')
+//lowestProductInfo('뉴트리디데이 프리미엄 오메가 3 골드 1100')

@@ -26,5 +26,7 @@ product.post('/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
 product.delete('/:product_idx/dose/check', needAuth, productCtrl.unCheckProductDose)
 // 제품 디테일 정보 가져오기
 product.get('/:product_idx/info', needAuth, productCtrl.getProductDetailInfo)
+// 최저가 정보 가져오기
+product.get('/:product_idx/lowprice', productCtrl.getLowprice)
 
 module.exports = product

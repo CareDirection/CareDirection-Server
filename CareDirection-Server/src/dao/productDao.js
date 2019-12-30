@@ -209,3 +209,15 @@ exports.getProductDetailInfo = (connection, req) => {
     })
   })
 }
+
+
+// 최저가 정보 가져오기
+exports.getLowprice = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    const Query = `SELECT product_name FROM product WHERE product_idx ="${req.params.product_idx}"`
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

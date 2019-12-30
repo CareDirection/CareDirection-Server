@@ -266,3 +266,13 @@ exports.getProductDetailInfo = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.getLowprice = async (req, res, next) => {
+  const { product_idx } = req.params
+  try {
+    const result = await productService.getLowprice(req, next)
+    response.respondJson(message.LOWEST_PRICE_SUCCESS, result, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

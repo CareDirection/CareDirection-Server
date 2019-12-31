@@ -2,6 +2,7 @@ const moment = require('moment')
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
 const getSignedUrl = require('../lib/signedurl')
+const lowestProductInfo = require('../lib/lowestProductInfo')
 
 exports.importDose = async (req, next) => {
   const connection = await getConnection()
@@ -137,6 +138,82 @@ exports.getProductDetailInfo = async (req, next) => {
   try {
     const result = await productDao.getProductDetailInfo(connection, req, next)
     result[0].image_key = await getSignedUrl.getSignedUrl(result[0].image_key)
+    const resultData = []
+    result.forEach((element) => {
+      resultData.push({
+        count_price: {
+          product_quantity_count: element.product_quantity_count,
+          product_quantity_price: element.product_quantity_price,
+        },
+      })
+    })
+    resultData.push({
+      common_data: {
+        main_nutrient_name: result[0].main_nutrient_name,
+        image_key: result[0].image_key,
+        product_company_name: result[0].product_company_name,
+        product_name: result[0].product_name,
+        product_standard1: result[0].product_standard1,
+        product_standard2: result[0].product_standard2,
+        product_standard3: result[0].product_standard3,
+        product_standard1_value: result[0].product_standard1_value,
+        product_standard2_value: result[0].product_standard2_value,
+        product_standard3_value: result[0].product_standard3_value,
+        product_features_name: result[0].product_features_name,
+        product_daily_dose: result[0].product_daily_dose,
+        product_detail_name: result[0].product_detail_name,
+        product_detail_value: result[0].product_detail_value,
+        product_additives: result[0].product_additives,
+        product_cautions: result[0].product_cautions, 
+      },
+    })
+    return resultData
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}
+
+
+exports.getLowprice = async (req, next) => {
+  const connection = await getConnection()
+  try {
+    const result = await productDao.getLowprice(connection, req, next)
+    const lowpriceArr = await lowestProductInfo.lowestProductInfo(result[0].product_name)
+    return [
+      {
+        mallName: lowpriceArr[0].mallName,
+        image: lowpriceArr[0].image,
+        lprice: lowpriceArr[0].lprice,
+        link: lowpriceArr[0].link,
+      },
+      {
+        mallName: lowpriceArr[1].mallName,
+        image: lowpriceArr[1].image,
+        lprice: lowpriceArr[1].lprice,
+        link: lowpriceArr[1].link,
+      },
+      {
+        mallName: lowpriceArr[2].mallName,
+        image: lowpriceArr[2].image,
+        lprice: lowpriceArr[2].lprice,
+        link: lowpriceArr[2].link,
+      },
+    ]
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}
+
+exports.getProductDetailEfficacy = async (req, next) => {
+  const connection = await getConnection()
+  try {
+    const result = await productDao.getProductDetailEfficacy(connection, req, next)
     return result
   } catch (e) {
     console.log(e.message)

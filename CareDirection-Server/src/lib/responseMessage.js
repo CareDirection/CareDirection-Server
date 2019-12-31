@@ -48,4 +48,5 @@ module.exports = {
   SEARCH_SUCCESS: '검색 성공',
   SEARCH_DATA_EMPTY: '검색 결과가 없습니다.',
   GET_PRODUCT_DETAIL_EFFICACY_SUCCESS: '제품 디테일 효능 성공',
+  GET_PRODUCT_GRAPH_SUCCESS: '제품 그래프 가져오기 성공',
 }

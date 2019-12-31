@@ -30,4 +30,6 @@ product.get('/:product_idx/info', needAuth, productCtrl.getProductDetailInfo)
 product.get('/:product_idx/lowprice', productCtrl.getLowprice)
 // 제품 디테일 효능
 product.get('/:product_idx/efficacy', needAuth, productCtrl.getProductDetailEfficacy)
+// 제품 디테일 그래프
+product.get('/:product_idx/graph', needAuth, productCtrl.getProductGraph)
 module.exports = product

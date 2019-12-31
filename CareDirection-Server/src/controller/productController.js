@@ -285,3 +285,13 @@ exports.getProductDetailEfficacy = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.getProductGraph = async (req, res, next) => {
+  const { product_idx } = req.params
+  try {
+    const result = await productService.getProductGraph(req, next)
+    response.respondJson(message.GET_PRODUCT_GRAPH_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

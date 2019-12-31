@@ -245,3 +245,15 @@ exports.getProductDetailEfficacy = (connection, req) => {
     })
   })
 }
+
+exports.getProductGraph = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+    
+    `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

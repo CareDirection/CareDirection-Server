@@ -222,3 +222,16 @@ exports.getProductDetailEfficacy = async (req, next) => {
     connection.release()
   }
 }
+
+exports.getProductGraph = async (req, next) => {
+  const connection = await getConnection()
+  try {
+    const result = await productDao.getProductGraph(connection, req, next)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

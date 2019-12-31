@@ -152,11 +152,30 @@ exports.getLowprice = async (req, next) => {
   const connection = await getConnection()
   try {
     const result = await productDao.getLowprice(connection, req, next)
-    /*const arr = lowestProductInfo(result[0].product_name).items
-    arr.forEach((element) => {
-      console.log(`${element}`.link)
-    }, this)*/
-    return lowestProductInfo(result[0].product_name)
+    // console.log(lowestProductInfo.lowestProductInfo(result[0].product_name))
+    const lowpriceArr = lowestProductInfo.lowestProductInfo(result[0].product_name)
+    console.log(lowpriceArr)
+
+    return result
+    // // return [
+    //   {
+    //     mallName: lowpriceArr.mallName,
+    //     image: lowpriceArr.image,
+    //     lprice: lowpriceArr.lprice,
+    //     link: lowpriceArr.link,
+    //     daily_price:
+    //   },
+    //   {
+    //     standard: data.product_standard2,
+    //     standard_value: data.product_standard2_value,
+    //     standard_description: data.product_standard2_description,
+    //   },
+    //   {
+    //     standard: data.product_standard3,
+    //     standard_value: data.product_standard3_value,
+    //     standard_description: data.product_standard3_description,
+    //   },
+    // ]
   } catch (e) {
     console.log(e.message)
     return e.message

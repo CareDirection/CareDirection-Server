@@ -35,8 +35,7 @@ exports.enrollDose = async (req, res, next) => {
     // eslint-disable-next-line eqeqeq
     if (result == message.DUPLICATED) {
       response.respondJsonWithoutData(message.DUPLICATED, res, statusCode.FORBIDDEN)
-    }
-    else response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
+    } else response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
@@ -272,6 +271,10 @@ exports.getLowprice = async (req, res, next) => {
   try {
     const result = await productService.getLowprice(req, next)
     response.respondJson(message.LOWEST_PRICE_SUCCESS, result, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
 
 exports.getProductDetailEfficacy = async (req, res, next) => {
   const { product_idx } = req.params

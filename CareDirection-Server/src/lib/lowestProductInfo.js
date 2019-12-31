@@ -3,9 +3,9 @@ const qs = require('querystring')
 
 const naverConfig = require('../../config/configAll')
 
-/* 네이버 최저가 api*/
+/* 네이버 최저가 api */
 
-const lowestProductInfo = async (str) => {
+exports.lowestProductInfo = async (str) => {
   let data
   const encodedStr = qs.escape(str)
   const url = naverConfig.NaverURI1
@@ -22,7 +22,8 @@ const lowestProductInfo = async (str) => {
     request(option, (e, response, body) => {
       data = body
       data = JSON.parse(body)
-      console.log(data)
+      data = data.items
+     // console.log(data)
 
       if (e) reject(e)
       else resolve(data)

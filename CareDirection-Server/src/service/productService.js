@@ -138,7 +138,32 @@ exports.getProductDetailInfo = async (req, next) => {
   try {
     const result = await productDao.getProductDetailInfo(connection, req, next)
     result[0].image_key = await getSignedUrl.getSignedUrl(result[0].image_key)
-    return result
+    const resultData = []
+    result.forEach((element) => {
+      resultData.push({
+        product_quantity_count: element.product_quantity_count,
+        product_quantity_price: element.product_quantity_price,
+      })
+    })
+    resultData.push({
+      main_nutrient_name: result[0].main_nutrient_name,
+      image_key: result[0].image_key,
+      product_company_name: result[0].product_company_name,
+      product_name: result[0].product_name,
+      product_standard1: result[0].product_standard1,
+      product_standard2: result[0].product_standard2,
+      product_standard3: result[0].product_standard3,
+      product_standard1_value: result[0].product_standard1_value,
+      product_standard2_value: result[0].product_standard2_value,
+      product_standard3_value: result[0].product_standard3_value,
+      product_features_name: result[0].product_features_name,
+      product_daily_dose: result[0].product_daily_dose,
+      product_detail_name: result[0].product_detail_name,
+      product_detail_value: result[0].product_detail_value,
+      product_additives: result[0].product_additives,
+      product_cautions: result[0].product_cautions,
+    })
+    return resultData
   } catch (e) {
     console.log(e.message)
     return e.message

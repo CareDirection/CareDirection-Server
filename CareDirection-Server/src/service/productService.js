@@ -152,30 +152,27 @@ exports.getLowprice = async (req, next) => {
   const connection = await getConnection()
   try {
     const result = await productDao.getLowprice(connection, req, next)
-    // console.log(lowestProductInfo.lowestProductInfo(result[0].product_name))
-    const lowpriceArr = lowestProductInfo.lowestProductInfo(result[0].product_name)
-    console.log(lowpriceArr)
-
-    return result
-    // // return [
-    //   {
-    //     mallName: lowpriceArr.mallName,
-    //     image: lowpriceArr.image,
-    //     lprice: lowpriceArr.lprice,
-    //     link: lowpriceArr.link,
-    //     daily_price:
-    //   },
-    //   {
-    //     standard: data.product_standard2,
-    //     standard_value: data.product_standard2_value,
-    //     standard_description: data.product_standard2_description,
-    //   },
-    //   {
-    //     standard: data.product_standard3,
-    //     standard_value: data.product_standard3_value,
-    //     standard_description: data.product_standard3_description,
-    //   },
-    // ]
+    const lowpriceArr = await lowestProductInfo.lowestProductInfo(result[0].product_name)
+    return [
+      {
+        mallName: lowpriceArr[0].mallName,
+        image: lowpriceArr[0].image,
+        lprice: lowpriceArr[0].lprice,
+        link: lowpriceArr[0].link,
+      },
+      {
+        mallName: lowpriceArr[1].mallName,
+        image: lowpriceArr[1].image,
+        lprice: lowpriceArr[1].lprice,
+        link: lowpriceArr[1].link,
+      },
+      {
+        mallName: lowpriceArr[2].mallName,
+        image: lowpriceArr[2].image,
+        lprice: lowpriceArr[2].lprice,
+        link: lowpriceArr[2].link,
+      },
+    ]
   } catch (e) {
     console.log(e.message)
     return e.message

@@ -43,3 +43,21 @@ SELECT DISTINCT p.product_idx, i.image_key, p.product_name, p.product_company_na
     return next(error)
   })
 }
+
+exports.searchDoseProduct = (connection, query, userIdx) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+    SELECT * i.image_key, p.product_idx, p.product_name, p.product_company_name, p.product_is_import, d.dose_idx
+    FROM product p
+    JOIN image i
+    ON p.product_idx = i.product_idx
+    ON d.product_idx = p.product_idx AND d.user_idx = ${userIdx}
+    LEFT OUTER JOIN dose d
+    WHERE p.product_name LIKE '%${query}%'
+    `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

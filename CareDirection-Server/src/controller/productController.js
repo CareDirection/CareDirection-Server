@@ -272,6 +272,12 @@ exports.getLowprice = async (req, res, next) => {
   try {
     const result = await productService.getLowprice(req, next)
     response.respondJson(message.LOWEST_PRICE_SUCCESS, result, res, statusCode.CREATED)
+
+exports.getProductDetailEfficacy = async (req, res, next) => {
+  const { product_idx } = req.params
+  try {
+    const result = await productService.getProductDetailEfficacy(req, next)
+    response.respondJson(message.GET_PRODUCT_DETAIL_EFFICACY_SUCCESS, result, res, statusCode.OK)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }

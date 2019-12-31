@@ -147,6 +147,7 @@ exports.getProductDetailInfo = async (req, next) => {
   }
 }
 
+
 exports.getLowprice = async (req, next) => {
   const connection = await getConnection()
   try {
@@ -156,6 +157,19 @@ exports.getLowprice = async (req, next) => {
       console.log(`${element}`.link)
     }, this)*/
     return lowestProductInfo(result[0].product_name)
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}
+
+exports.getProductDetailEfficacy = async (req, next) => {
+  const connection = await getConnection()
+  try {
+    const result = await productDao.getProductDetailEfficacy(connection, req, next)
+    return result
   } catch (e) {
     console.log(e.message)
     return e.message

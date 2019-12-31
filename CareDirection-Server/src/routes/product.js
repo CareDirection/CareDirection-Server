@@ -28,5 +28,6 @@ product.delete('/:product_idx/dose/check', needAuth, productCtrl.unCheckProductD
 product.get('/:product_idx/info', needAuth, productCtrl.getProductDetailInfo)
 // 최저가 정보 가져오기
 product.get('/:product_idx/lowprice', productCtrl.getLowprice)
-
+// 제품 디테일 효능
+product.get('/:product_idx/efficacy', needAuth, productCtrl.getProductDetailEfficacy)
 module.exports = product

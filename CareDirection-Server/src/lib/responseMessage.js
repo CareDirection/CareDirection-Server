@@ -49,4 +49,5 @@ module.exports = {
   MY_CARE_FUNCTIONAL_NUTRIENTS_FAIL: '기능 성분 가져오기 실패',
   GET_NUTRIENT_INFO_SUCCESS: '특정 성분 정보 가져오기 성공',
   GET_PRODUCT_DETAIL_INFO_SUCCESS: '제품 상세 정보 가져오기 성공',
+  GET_PRODUCT_DETAIL_EFFICACY_SUCCESS: '제품 디테일 효능 성공',
 }

@@ -1,8 +1,8 @@
 const aws = require('aws-sdk')
-const awsConfig = require('../../config/aws_config')
 
-const awsConfig2 = './config/aws_config.json'
-aws.config.loadFromPath(awsConfig2)
+const awsConfig = '../config/aws_config.json'
+
+aws.config.loadFromPath(awsConfig)
 const s3 = new aws.S3({
   region: 'ap-northeast-2',
   signatureVersion: 'v4',
@@ -10,14 +10,14 @@ const s3 = new aws.S3({
 
 const getSignedUrl = async (key) => {
   const options = {
-    Bucket: awsConfig.bucket,
-    Expires: parseInt(awsConfig.Expires),
+    Bucket: 'care-direction',
+    Expires: 3000,
     Key: key,
     ResponseContentDisposition: null,
   }
   const result2 = await new Promise(async (resolve, reject) => {
     try {
-      s3.getSignedUrl(awsConfig.operation, options, (err, result) => {
+      s3.getSignedUrl('getObject', options, (err, result) => {
         if (err) reject(err)
         resolve(result)
       })
@@ -38,14 +38,14 @@ const getSignedResizedUrl = async (key) => {
   console.log(key)
   // awsConfig.Expires
   const options = {
-    Bucket: awsConfig.bucket,
-    Expires: parseInt(awsConfig.Expires),
+    Bucket: 'care-direction',
+    Expires: 3000,
     Key: key,
     ResponseContentDisposition: null,
   }
   const result2 = await new Promise(async (resolve, reject) => {
     try {
-      s3.getSignedUrl(awsConfig.operation, options, (err, result) => {
+      s3.getSignedUrl('getObject', options, (err, result) => {
         if (err) reject(err)
         resolve(result)
       })

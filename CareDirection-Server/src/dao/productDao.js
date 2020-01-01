@@ -328,9 +328,9 @@ exports.getDoseinfoPopup = (connection, req) => {
 }
 
 
-exports.getCurrentDoseProducts = (connection, userIdx, childIdx) => {
+exports.getCurrentDoseProducts = (connection, date, userIdx, childIdx) => {
   const Query = `
-  SELECT image_key, product_idx, product_name, product_company_name, product_is_import, product_package_type, product_quantity_count, product_quantity_price, COUNT(CASE WHEN dose_history_time='2020-01-02' THEN 1 END) AS product_is_dosed, COUNT(dose_history_time) AS dose_count
+  SELECT image_key, product_idx, product_name, product_company_name, product_is_import, product_package_type, product_quantity_count, product_quantity_price, COUNT(CASE WHEN dose_history_time='${date}' THEN 1 END) AS product_is_dosed, COUNT(dose_history_time) AS dose_count
   FROM (
     SELECT i.image_key, p.product_idx, p.product_name, p.product_company_name, p.product_is_import, d.dose_idx, p.product_package_type , MIN(pq.product_quantity_count) AS product_quantity_count, MIN(pq.product_quantity_price) AS product_quantity_price
     FROM product p

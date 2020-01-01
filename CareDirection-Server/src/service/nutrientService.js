@@ -1,13 +1,8 @@
-// const db = require('../lib/dbConnection')
-
 const { Transaction, getConnection } = require('../lib/dbConnection')
 const nutrientDao = require('../dao/nutrientDao')
 const getSignedUrl = require('../lib/signedurl')
 
-// const connection = db.getConnection()
-// const transaction = db.Transaction
-
-const insertNutrient = async (req) => {
+exports.insertNutrient = async (req) => {
   const connection = await getConnection()
   try {
     nutrientDao.insertNutrient(connection, req)
@@ -18,7 +13,7 @@ const insertNutrient = async (req) => {
   }
 }
 
-const getParentMyFunctioinalNutrients = async (req, next) => {
+exports.getParentMyFunctioinalNutrients = async (req, next) => {
   try {
     const result = await nutrientDao.getParentMyFunctioinalNutrients(Transaction, req, next)
     return result
@@ -27,7 +22,7 @@ const getParentMyFunctioinalNutrients = async (req, next) => {
   }
 }
 
-const getChildMyFunctioinalNutrients = async (req, next) => {
+exports.getChildMyFunctioinalNutrients = async (req, next) => {
   try {
     const result = await nutrientDao.getChildMyFunctioinalNutrients(Transaction, req, next)
     return result
@@ -36,7 +31,7 @@ const getChildMyFunctioinalNutrients = async (req, next) => {
   }
 }
 
-const specificInfo = async (req, next) => {
+exports.specificInfo = async (req, next) => {
   const connection = await getConnection()
   try {
     const result = await nutrientDao.specificInfo(connection, req, next)
@@ -48,11 +43,4 @@ const specificInfo = async (req, next) => {
   } finally {
     connection.release()
   }
-}
-
-module.exports = {
-  insertNutrient,
-  getParentMyFunctioinalNutrients,
-  getChildMyFunctioinalNutrients,
-  specificInfo,
 }

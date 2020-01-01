@@ -2,7 +2,7 @@ const { getConnection } = require('../lib/dbConnection')
 const efficacyDao = require('../dao/efficacyDao')
 const { getSignedUrl } = require('../lib/signedurl')
 
-const insertEfficacy = async (req) => {
+exports.insertEfficacy = async (req) => {
   const connection = await getConnection()
   try {
     efficacyDao.insertEfficacy(connection, req)
@@ -13,7 +13,7 @@ const insertEfficacy = async (req) => {
   }
 }
 
-const getEfficacyList = async () => {
+exports.getEfficacyList = async () => {
   const connection = await getConnection()
   try {
     return await efficacyDao.getEfficacyList(connection)
@@ -24,7 +24,7 @@ const getEfficacyList = async () => {
   }
 }
 
-const getNutrientsListPerEfficacy = async (req) => {
+exports.getNutrientsListPerEfficacy = async (req) => {
   const efficacyIdx = req.params.efficacy_idx
   const connection = await getConnection()
   try {
@@ -45,10 +45,4 @@ const getNutrientsListPerEfficacy = async (req) => {
   } finally {
     connection.release()
   }
-}
-
-module.exports = {
-  insertEfficacy,
-  getEfficacyList,
-  getNutrientsListPerEfficacy,
 }

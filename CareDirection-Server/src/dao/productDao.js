@@ -326,3 +326,31 @@ exports.getDoseinfoPopup = (connection, req) => {
     })
   })
 }
+
+
+exports.getCurrentDoseProducts = (connection, userIdx, childIdx) => {
+  const Query = `
+  SELECT image_key, product_idx, product_name, product_company_name, product_is_import, product_package_type, product_quantity_count, product_quantity_price, COUNT(CASE WHEN dose_history_time='2020-01-02' THEN 1 END) AS product_is_dosed, COUNT(dose_history_time) AS dose_count
+  FROM (
+    SELECT i.image_key, p.product_idx, p.product_name, p.product_company_name, p.product_is_import, d.dose_idx, p.product_package_type , MIN(pq.product_quantity_count) AS product_quantity_count, MIN(pq.product_quantity_price) AS product_quantity_price
+    FROM product p
+      JOIN image i
+      ON p.product_idx = i.product_idx
+      LEFT OUTER JOIN dose d
+      ON d.product_idx = p.product_idx
+      JOIN product_quantity pq
+      ON p.product_idx = pq.product_idx
+    WHERE d.${childIdx === undefined ? 'user_idx' : 'child_user_idx'} = ${childIdx === undefined ? userIdx : childIdx}
+    GROUP BY p.product_idx
+  ) s
+  LEFT OUTER JOIN dose_history dh ON dh.dose_idx = s.dose_idx
+  GROUP BY product_idx
+  `
+  return new Promise((resolve, reject) => {
+
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

@@ -49,7 +49,7 @@ exports.searchDoseProducts = (connection, query, userIdx, childIdx) => {
     SELECT i.image_key, p.product_idx, p.product_name, p.product_company_name, p.product_is_import, p.product_package_type, d.dose_idx, MIN(pq.product_quantity_count) AS product_quantity_count, MIN(pq.product_quantity_price) AS product_quantity_price
     FROM product p
       JOIN image i ON p.product_idx = i.product_idx
-      LEFT OUTER JOIN dose d ON d.product_idx = p.product_idx AND d.${childIdx === undefined ? 'user_idx' : 'child_user_idx'} = ${userIdx}
+      LEFT OUTER JOIN dose d ON d.product_idx = p.product_idx AND d.${childIdx === undefined ? 'user_idx' : 'child_user_idx'} = ${childIdx === undefined ? userIdx : childIdx}
       JOIN product_quantity pq ON p.product_idx = pq.product_idx
     WHERE p.product_name LIKE '%${query}%'
     GROUP BY p.product_idx

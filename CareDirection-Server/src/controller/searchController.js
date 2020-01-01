@@ -29,3 +29,12 @@ exports.searchTotalList = async (req, res) => {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.searchDoseProduct = async (req, res) => {
+  try {
+    const searchResult = await searchService.searchDoseProduct(req)
+    response.respondJson(message.SEARCH_SUCCESS, searchResult, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

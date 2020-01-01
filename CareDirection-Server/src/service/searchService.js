@@ -34,15 +34,32 @@ exports.searchDoseProduct = async (req) => {
 
   try {
     const decode = await jwt.decode(token)
-
-    console.log(decode)
     const userIdx = decode.user_idx ? decode.user_idx : decode.child_user_idx
 
-    const searchResult = await searchDao.searchDoseProducts(connection, query, userIdx)
-    console.log(searchResult)
+    const searchResults = await searchDao.searchDoseProducts(connection, query, userIdx)
 
-    return searchResult
+    return await Promise.all(
+      searchResults.map(async (result) => {
+        if (result.image_location) {
+          result.image_location = await signedUrl.getSignedUrl(result.image_key)
+        }// 몬가 이미지 안됨
 
+        result.product_price_per_unit = `(1개 ${(result.product_quantity_price / result.product_quantity_count).toLocaleString('en').split('.')[0]}원)`
+        result.product_price = `${Number(result.product_quantity_price).toLocaleString('en')}원`
+        result.product_is_import = (result.product_is_import === 1)
+        result.product_is_already_managed = result.dose_idx != null
+
+        const pakageType = result.product_package_type === 0 ? '정' : '포'
+        result.product_quantity = `${result.product_quantity_count}${pakageType} 기준`
+        delete result.product_package_type
+        delete result.product_quantity_count
+        delete result.product_quantity_price
+        delete result.image_key
+        delete result.dose_idx
+
+        return result
+      }),
+    )
   } catch (e) {
     console.log(e.message)
     return e.message

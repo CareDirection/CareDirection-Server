@@ -33,8 +33,8 @@ exports.searchTotalList = async (req, res) => {
 exports.searchDoseProduct = async (req, res) => {
   try {
     const searchResult = await searchService.searchDoseProduct(req)
-    response.respondJson('호롤', searchResult, res, 222)
+    response.respondJson(message.SEARCH_SUCCESS, searchResult, res, statusCode.OK)
   } catch (e) {
-    response.respondOnError(e.message, res, 500)
+    response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }

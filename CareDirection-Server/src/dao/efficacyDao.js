@@ -66,12 +66,13 @@ const getChildEfficacyList = (connection, req) => {
   return new Promise((resolve, reject) => {
 
     const query = `
-        SELECT DISTINCT e.*
-    FROM (((( user u JOIN dose d USING (user_idx))
+    SELECT DISTINCT e.*
+    FROM (((((( childuser cu JOIN user u ON (cu.childuser_idx = u.user_idx))
+    jOIN dose d USING (user_idx))
     JOIN product p USING (product_idx))
     JOIN has_nutrient hn USING (product_idx))
     JOIN nutrient n USING (nutrient_idx))
-    JOIN nutrient_efficacy ne USING (nutrient_idx)
+    JOIN nutrient_efficacy ne USING (nutrient_idx))
     JOIN efficacy e USING (efficacy_idx)
     WHERE childuser_idx = "${req.user.childuser_idx}"     
     `
@@ -87,13 +88,9 @@ const getChildEfficacyList = (connection, req) => {
 exports.signUp = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     const Query1 = `
-        SELECT DISTINCT e.*
-    FROM (((( user u JOIN dose d USING (user_idx))
+    SELECT DISTINCT p.main_nutrient_name
+    FROM (( user u JOIN dose d USING (user_idx))
     JOIN product p USING (product_idx))
-    JOIN has_nutrient hn USING (product_idx))
-    JOIN nutrient n USING (nutrient_idx))
-    JOIN nutrient_efficacy ne USING (nutrient_idx)
-    JOIN efficacy e USING (efficacy_idx)
     WHERE user_idx = "${req.user.childuser_idx}"
     `
     await connection.query(Query1)

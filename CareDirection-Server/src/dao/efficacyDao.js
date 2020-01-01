@@ -41,27 +41,6 @@ const getNutrientsListPerEfficacy = (connection, efficacyIdx) => {
   })
 }
 
-const getChildEfficacyList = (connection, req) => {
-  return new Promise((resolve, reject) => {
-
-    const query = `
-        SELECT DISTINCT e.*
-    FROM (((( user u JOIN dose d USING (user_idx))
-    JOIN product p USING (product_idx))
-    JOIN has_nutrient hn USING (product_idx))
-    JOIN nutrient n USING (nutrient_idx))
-    JOIN nutrient_efficacy ne USING (nutrient_idx)
-    JOIN efficacy e USING (efficacy_idx)
-    WHERE user_idx = "${req.user.userId}"     
-    `
-
-    connection.query(query, (err, result) => {
-      err && reject(err)
-      resolve(result)
-    })
-  })
-}
-
 const getMyEfficacyList = (connection, req) => {
   return new Promise((resolve, reject) => {
 
@@ -73,7 +52,7 @@ const getMyEfficacyList = (connection, req) => {
     JOIN nutrient n USING (nutrient_idx))
     JOIN nutrient_efficacy ne USING (nutrient_idx)
     JOIN efficacy e USING (efficacy_idx)
-    WHERE user_idx = "${req.user.childuser_Idx}"     
+    WHERE user_idx = "${req.user.user_idx}"     
     `
 
     connection.query(query, (err, result) => {
@@ -82,6 +61,50 @@ const getMyEfficacyList = (connection, req) => {
     })
   })
 }
+
+const getChildEfficacyList = (connection, req) => {
+  return new Promise((resolve, reject) => {
+
+    const query = `
+        SELECT DISTINCT e.*
+    FROM (((( user u JOIN dose d USING (user_idx))
+    JOIN product p USING (product_idx))
+    JOIN has_nutrient hn USING (product_idx))
+    JOIN nutrient n USING (nutrient_idx))
+    JOIN nutrient_efficacy ne USING (nutrient_idx)
+    JOIN efficacy e USING (efficacy_idx)
+    WHERE childuser_idx = "${req.user.childuser_idx}"     
+    `
+
+    connection.query(query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
+/*/!* sql Transcation *!/
+exports.signUp = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `
+        SELECT DISTINCT e.*
+    FROM (((( user u JOIN dose d USING (user_idx))
+    JOIN product p USING (product_idx))
+    JOIN has_nutrient hn USING (product_idx))
+    JOIN nutrient n USING (nutrient_idx))
+    JOIN nutrient_efficacy ne USING (nutrient_idx)
+    JOIN efficacy e USING (efficacy_idx)
+    WHERE user_idx = "${req.user.childuser_idx}"
+    `
+    await connection.query(Query1)
+    const Query2 = `SELECT user_idx FROM USER WHERE user_email = "${req.body.user_email}"`
+    const user_idx = await connection.query(Query2)
+    console.log('success')
+    return user_idx[0]
+  }).catch(error => {
+    return next(error)
+  })
+}*/
 
 module.exports = {
   insertEfficacy,

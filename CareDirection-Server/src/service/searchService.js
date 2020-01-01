@@ -45,9 +45,9 @@ exports.searchDoseProduct = async (req) => {
 
     return await Promise.all(
       searchResults.map(async (result) => {
-        if (result.image_location) {
+        if (result.image_key) {
           result.image_location = await signedUrl.getSignedUrl(result.image_key)
-        }// 몬가 이미지 안됨
+        }
 
         result.product_price_per_unit = `(1개 ${(result.product_quantity_price / result.product_quantity_count).toLocaleString('en').split('.')[0]}원)`
         result.product_price = `${Number(result.product_quantity_price).toLocaleString('en')}원`

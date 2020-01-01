@@ -32,7 +32,7 @@ exports.getNutrientsListPerEfficacy = async (req) => {
 
     return await Promise.all(
       nutrientList.map(async (nutrient) => {
-        if (nutrient.image_location) {
+        if (nutrient.image_key) {
           nutrient.image_location = await getSignedUrl(nutrient.image_key)
         }
         delete nutrient.image_key

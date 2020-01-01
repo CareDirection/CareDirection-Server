@@ -17,6 +17,7 @@ exports.importDose = async (req, next) => {
     connection.release()
   }
 }
+
 exports.enrollDose = async (req, next) => {
   try {
     let result
@@ -177,7 +178,7 @@ exports.getProductDetailInfo = async (req, next) => {
         product_detail_name: result[0].product_detail_name,
         product_detail_value: result[0].product_detail_value,
         product_additives: result[0].product_additives,
-        product_cautions: result[0].product_cautions, 
+        product_cautions: result[0].product_cautions,
       },
     })
     return resultData
@@ -268,5 +269,14 @@ exports.getDoseinfoPopup = async (req, next) => {
     return e.message
   } finally {
     connection.release()
+  }
+}
+// 제품 등록 service
+exports.insertProduct = async (next, data) => {
+  try {
+    await productDao.insertProduct(Transaction, data, next)
+  } catch (e) {
+    console.log(e.message)
+    return e.message
   }
 }

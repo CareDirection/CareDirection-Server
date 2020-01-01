@@ -1,4 +1,5 @@
 exports.formulaForMyData = (x, recommendValue, highValue) => {
+  // console.log(recommendValue, highValue)
   if (highValue === -1) {
     if (recommendValue <= x) {
       return 100
@@ -11,5 +12,5 @@ exports.formulaForMyData = (x, recommendValue, highValue) => {
   } if (recommendValue <= x && highValue >= x) {
     return Math.floor(((7 * (x - recommendValue)) / (highValue - recommendValue)) * 10 + 30)
   }
-  return Math.floor(((3 * x) * recommendValue) * 10)
+  return Math.floor(((3 * x) / recommendValue) * 10)
 }

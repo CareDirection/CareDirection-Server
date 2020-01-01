@@ -47,8 +47,20 @@ const getNutrientsListPerEfficacy = async (req) => {
   }
 }
 
+const getMyEfficacyList = async (req) => {
+  const connection = await getConnection(req)
+  try {
+    return await efficacyDao.getMyEfficacyList(connection)
+  } catch (e) {
+    console.log(e.message)
+  } finally {
+    connection.release()
+  }
+}
+
 module.exports = {
   insertEfficacy,
   getEfficacyList,
   getNutrientsListPerEfficacy,
+  getMyEfficacyList,
 }

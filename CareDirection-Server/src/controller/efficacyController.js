@@ -52,8 +52,19 @@ const getNutrientsListPerEfficacy = async (req, res) => {
   }
 }
 
+const getMyEfficacyList = async (req, res) => {
+  try {
+    const efficacyList = await efficacyService.getMyEfficacyList(req)
+    response.respondJson(message.EFFICACY_SELECTED, efficacyList, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(message.DB_ERROR, res, statusCode.DB_ERROR)
+  }
+}
+
 module.exports = {
   insertEfficacy,
   getEfficacyList,
   getNutrientsListPerEfficacy,
+  getMyEfficacyList,
 }

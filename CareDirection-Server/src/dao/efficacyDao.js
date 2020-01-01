@@ -41,8 +41,31 @@ const getNutrientsListPerEfficacy = (connection, efficacyIdx) => {
   })
 }
 
+const getMyEfficacyList = (connection, req) => {
+  return new Promise((resolve, reject) => {
+
+    const query = `
+    
+    `
+
+/*    const query = `
+    SELECT n.nutrient_idx, n.nutrient_name, ne.nutrient_efficacy_comment, i.image_key
+    FROM nutrient n
+    JOIN nutrient_efficacy ne
+    ON n.nutrient_idx = ne.nutrient_idx AND ne.efficacy_idx = ${efficacyIdx}
+    LEFT OUTER JOIN image i
+    ON ne.nutrient_efficacy_idx = i.nutrient_efficacy_idx;
+    `*/
+    connection.query(query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
 module.exports = {
   insertEfficacy,
   getEfficacyList,
   getNutrientsListPerEfficacy,
+  getMyEfficacyList,
 }

@@ -89,7 +89,7 @@ exports.duplicateId = async (req, res) => {
       console.log('test1', result)
       response.respondJsonWithoutData(message.VALID_ID, res, statusCode.CREATED)
     }
-    response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.CREATED)
+    response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.DUPLICATED)
   } catch (e) {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }

@@ -6,7 +6,7 @@ const statusCode = require('../lib/statusCode')
 exports.getMyGraphInfo = async (req, res, next) => {
   try {
     const result = await graphService.getMyGraphInfo(req, next)
-    response.respondJsonWithoutData(message.SELECT_SUCCESS, res, statusCode.CREATED)
+    response.respondJson(message.SELECT_SUCCESS, result, res, statusCode.OK)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }

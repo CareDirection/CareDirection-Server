@@ -2,6 +2,7 @@ const { Transaction, getConnection } = require('../lib/dbConnection')
 const searchDao = require('../dao/searchDao')
 const signedUrl = require('../lib/signedurl')
 const message = require('../lib/responseMessage')
+const jwt = require('../lib/token')
 
 
 exports.searchTotalList = async (req, next) => {
@@ -23,5 +24,29 @@ exports.searchTotalList = async (req, next) => {
   } catch (e) {
     console.log(e.message)
     return e.message
+  }
+}
+
+exports.searchDoseProduct = async (req) => {
+  const { query } = req.query
+  const { token } = req.headers
+  const connection = await getConnection()
+
+  try {
+    const decode = await jwt.decode(token)
+
+    console.log(decode)
+    const userIdx = decode.user_idx ? decode.user_idx : decode.child_user_idx
+
+    const searchResult = await searchDao.searchDoseProducts(connection, query, userIdx)
+    console.log(searchResult)
+
+    return searchResult
+
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
   }
 }

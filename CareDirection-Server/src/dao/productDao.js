@@ -209,19 +209,3 @@ exports.getProductDetailInfo = (connection, req) => {
     })
   })
 }
-
-exports.getProductQuantity = (connection, productIdx) => {
-  return new Promise((resolve, reject) => {
-    const Query = `
-    select pq.product_quantity_count, pq.product_quantity_price
-    from product p
-    JOIN product_quantity pq
-    ON p.product_idx = pq.product_idx
-    WHERE p.product_idx = ${productIdx}
-    `
-    connection.query(Query, (err, result) => {
-      err && reject(err)
-      resolve(result)
-    })
-  })
-}

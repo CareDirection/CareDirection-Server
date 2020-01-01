@@ -149,14 +149,13 @@ exports.getProductDetailInfo = async (req, next) => {
     const result = await productDao.getProductDetailInfo(connection, req, next)
     result[0].image_key = await getSignedUrl.getSignedUrl(result[0].image_key)
     const lowpriceArr = await lowestProductInfo.lowestProductInfo(result[0].product_name)
-    const minprice = Math.min(lowpriceArr[0].lprice, lowpriceArr[1].lprice, lowpriceArr[2].lprice)
     let i = 0
     const resultData = []
     result.forEach((element) => {
       resultData.push({
         count_price: {
           product_quantity_count: element.product_quantity_count,
-          product_quantity_price: lowpriceArr[i].lprice,
+          product_quantity_price: element.product_quantity_price,
         },
       })
       i += 1

@@ -285,3 +285,12 @@ exports.getProductDetailEfficacy = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.getTabList = async (req, res, next) => {
+  try {
+    const result = await productService.getTabList(req, next)
+    response.respondJson(message.USER_CUSTOM_PRODUCT_TABLIST, result, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

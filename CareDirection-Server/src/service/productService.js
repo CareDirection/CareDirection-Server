@@ -222,3 +222,24 @@ exports.getProductDetailEfficacy = async (req, next) => {
     connection.release()
   }
 }
+
+exports.getTabList = async (req, next) => {
+  try {
+    let result
+    if (req.user.type === 'parent') {
+      result = await productDao.getPranetUserTabList(Transaction, req, next)
+    } else {
+      result = await productDao.getChildUserTabList(Transaction, req, next)
+    }
+    result.unshift({
+      tab_name: '홍삼',
+    })
+    result.unshift({
+      tab_name: '오메가3',
+    })
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}

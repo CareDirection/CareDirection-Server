@@ -1,8 +1,9 @@
 const aws = require('aws-sdk')
 
-const awsConfig = '../config/aws_config.json'
+const pm2AwsConfig = '../config/aws_config.json'
+const npmAwsConfig = './config/aws_config.json'
 
-aws.config.loadFromPath(awsConfig)
+aws.config.loadFromPath(npmAwsConfig)
 const s3 = new aws.S3({
   region: 'ap-northeast-2',
   signatureVersion: 'v4',

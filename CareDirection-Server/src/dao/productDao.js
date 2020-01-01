@@ -210,8 +210,6 @@ exports.getProductDetailInfo = (connection, req) => {
   })
 }
 
-
-
 // 최저가 정보 가져오기
 exports.getLowprice = (connection, req) => {
   return new Promise((resolve, reject) => {
@@ -243,5 +241,45 @@ exports.getProductDetailEfficacy = (connection, req) => {
       err && reject(err)
       resolve(result)
     })
+  })
+}
+
+exports.getPranetUserTabList = (Transaction, req, currentTime, next) => {
+  return Transaction(async (connection) => {
+    const result = []
+    const Query1 = `SELECT * FROM user_survey WHERE user_idx= ${req.user.user_idx}`
+    const user_survey = await connection.query(Query1)
+    const Query2 = `SELECT user_idx FROM user_survey where user_survey_item_value1 = "${user_survey[0].user_survey_item_value1}" and user_survey_item_value2 = "${user_survey[0].user_survey_item_value2}" and user_survey_item_value3 = "${user_survey[0].user_survey_item_value3}" and user_survey_item_value4 = "${user_survey[0].user_survey_item_value4}" and user_survey_item_value5 = "${user_survey[0].user_survey_item_value5}" and user_survey_item_value6 = "${user_survey[0].user_survey_item_value6}" and user_survey_item_value7= "${user_survey[0].user_survey_item_value7}";`
+    const user_idx_list = await connection.query(Query2)
+    user_idx_list.forEach(async (item) => {
+      if (item.user_idx !== req.user.user_idx) {
+        const Query3 = `select p.main_nutrient_name as tab_name from product p JOIN dose d ON ( d.product_idx = p.product_idx) WHERE d.user_idx = ${item.user_idx};`
+        const temp = await connection.query(Query3)
+        result.push(temp[0])
+      }
+    })
+    return result
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.getChildUserTabList = (Transaction, req, currentTime, next) => {
+  return Transaction(async (connection) => {
+    const result = []
+    const Query1 = `SELECT * FROM user_survey WHERE childuser_idx= ${req.user.childuser_idx}`
+    const user_survey = await connection.query(Query1)
+    const Query2 = `SELECT childuser_idx FROM user_survey where user_survey_item_value1 = "${user_survey[0].user_survey_item_value1}" and user_survey_item_value2 = "${user_survey[0].user_survey_item_value2}" and user_survey_item_value3 = "${user_survey[0].user_survey_item_value3}" and user_survey_item_value4 = "${user_survey[0].user_survey_item_value4}" and user_survey_item_value5 = "${user_survey[0].user_survey_item_value5}" and user_survey_item_value6 = "${user_survey[0].user_survey_item_value6}" and user_survey_item_value7= "${user_survey[0].user_survey_item_value7}";`
+    const childuser_idx_list = await connection.query(Query2)
+    childuser_idx_list.forEach(async (item) => {
+      if (item.childuser_idx !== req.user.childuser_idx) {
+        const Query3 = `select p.main_nutrient_name as tab_name from product p JOIN dose d ON ( d.product_idx = p.product_idx) WHERE d.childuser_idx = ${item.childuser_idx};`
+        const temp = await connection.query(Query3)
+        result.push(temp[0])
+      }
+    })
+    return result
+  }).catch(error => {
+    return next(error)
   })
 }

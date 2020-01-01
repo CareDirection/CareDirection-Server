@@ -46,4 +46,5 @@ module.exports = {
   GET_PRODUCT_DETAIL_INFO_SUCCESS: '제품 상세 정보 가져오기 성공',
   SEARCH_SUCCESS: '검색 성공',
   SEARCH_DATA_EMPTY: '검색 결과가 없습니다.',
+  USER_CUSTOM_PRODUCT_TABLIST: '상품 탭 리스트 성공',
 }

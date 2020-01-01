@@ -26,5 +26,7 @@ product.post('/:product_idx/dose/check', needAuth, productCtrl.checkProductDose)
 product.delete('/:product_idx/dose/check', needAuth, productCtrl.unCheckProductDose)
 // 제품 디테일 정보 가져오기
 product.get('/:product_idx/info', needAuth, productCtrl.getProductDetailInfo)
+// 사용자 맞춤 탭 리스트 가져오기
+product.get('/tablist', needAuth, productCtrl.getTabList)
 
 module.exports = product

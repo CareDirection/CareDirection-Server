@@ -35,8 +35,7 @@ exports.enrollDose = async (req, res, next) => {
     // eslint-disable-next-line eqeqeq
     if (result == message.DUPLICATED) {
       response.respondJsonWithoutData(message.DUPLICATED, res, statusCode.FORBIDDEN)
-    }
-    else response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
+    } else response.respondJsonWithoutData(message.PRODUCT_DOSE_INSERT_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
@@ -262,6 +261,15 @@ exports.getProductDetailInfo = async (req, res, next) => {
   try {
     const result = await productService.getProductDetailInfo(req, next)
     response.respondJson(message.GET_PRODUCT_DETAIL_INFO_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+exports.getTabList = async (req, res, next) => {
+  try {
+    const result = await productService.getTabList(req, next)
+    response.respondJson(message.USER_CUSTOM_PRODUCT_TABLIST, result, res, statusCode.OK)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }

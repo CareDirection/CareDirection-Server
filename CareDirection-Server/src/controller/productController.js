@@ -8,7 +8,7 @@ exports.importDose = async (req, res, next) => {
   const { product_idx } = req.params
   try {
     const result = await productService.importDose(req, next)
-    response.respondJsonWithoutData(message.SELECT_SUCCESS, res, statusCode.CREATED)
+    response.respondJson(message.SELECT_SUCCESS, result, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }

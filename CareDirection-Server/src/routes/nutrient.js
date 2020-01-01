@@ -2,12 +2,15 @@ const { Router } = require('express')
 
 const nutrient = Router()
 
-const nutrientContoller = require('../controller/nutrientController')
+const nutrientController = require('../controller/nutrientController')
+const { multer } = require('../../config/multer')
 const needAuth = require('../middlewares/userCheck')
 
+const upload = multer('ect')
 
-nutrient.post('/', nutrientContoller.insertNutrient)
-nutrient.get('/function', needAuth, nutrientContoller.getMyFunctioinalNutrients)
-nutrient.get('/:nutrient_idx', needAuth, nutrientContoller.specificInfo)
+
+nutrient.post('/', upload.single('image'), nutrientController.insertNutrient)
+nutrient.get('/function', needAuth, nutrientController.getMyFunctioinalNutrients)
+nutrient.get('/:nutrient_idx', needAuth, nutrientController.specificInfo)
 
 module.exports = nutrient

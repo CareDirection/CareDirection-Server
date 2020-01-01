@@ -1,31 +1,5 @@
-// const insertNutrient = (connection, req) => {
-//   return new Promise((resolve, reject) => {
-//     const params = serializeInsertNutrientParams(req)
-//     const query = `
-//         INSERT INTO nutrients
-//         VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)
-//         `
-//     connection.query(query, params)
-//   })
-// }
-//
-// const serializeInsertNutrientParams = (req) => {
-//   const {
-//     nutrient_type,
-//     nutrient_name,
-//     nutrient_recommend_dose,
-//     nutrient_max_dose,
-//     nutrient_dose_unit,
-//     nutrient_common_description,
-//     nutrient_default_description,
-//   } = req.body
-//   return [nutrient_type, nutrient_name, nutrient_recommend_dose, nutrient_max_dose, nutrient_dose_unit, nutrient_common_description, nutrient_default_description]
-// }
-//
-
-
-const insertNutrient = (connection, req) => {
-  return new Promise((resolve, reject) => {
+exports.insertNutrient = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
     const {
       nutrient_type,
       nutrient_name,
@@ -35,26 +9,42 @@ const insertNutrient = (connection, req) => {
       nutrient_common_description,
       nutrient_default_description,
     } = req.body
-    const query = `
-        INSERT INTO nutrient
-        VALUES (
-            NULL,
-            ${nutrient_type},
-           "${nutrient_name}",
-            ${nutrient_recommend_dose},
-            ${nutrient_max_dose},
-           "${nutrient_dose_unit}",
-           "${nutrient_common_description}",
-           "${nutrient_default_description}")
-        `
-    connection.query(query, (err, result) => {
-      err && reject(err)
-      resolve(result)
-    })
+    const insertNutrientQuery = `
+          INSERT INTO nutrient
+          VALUES (
+              NULL,
+              ${nutrient_type},
+             "${nutrient_name}",
+              ${nutrient_recommend_dose},
+              ${nutrient_max_dose},
+             "${nutrient_dose_unit}",
+             "${nutrient_common_description}",
+             "${nutrient_default_description}")
+          `
+    await connection.query(insertNutrientQuery)
+
+    const findInsertedNutrientIdxQuery = `
+          SELECT nutrient_idx
+          FROM nutrient
+          WHERE nutrient_name = '${nutrient_name}'
+    `
+    const nutrientIdxes = await connection.query(findInsertedNutrientIdxQuery)
+
+    const insertNutrientImageQuery = `
+          INSERT INTO image(nutrient_idx, image_key, image_original_name, image_size)
+          VALUES(
+              ${nutrientIdxes[0].nutrient_idx}, 
+             "${req.file.transforms[0].key}", 
+             "${req.file.originalname}", 
+             "${req.file.transforms[0].size}" )
+     `
+    await connection.query(insertNutrientImageQuery)
+  }).catch(error => {
+    return next(error)
   })
 }
 
-const getParentMyFunctioinalNutrients = (Transaction, req, next) => {
+exports.getParentMyFunctioinalNutrients = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     const result = []
     const Query1 = `SELECT DISTINCT n.nutrient_idx, n.nutrient_name FROM (((((user u JOIN dose d ON (u.user_idx = d.user_idx)) JOIN product USING(product_idx)) JOIN has_nutrient USING(product_idx)) JOIN nutrient n USING(nutrient_idx)) JOIN nutrient_efficacy USING (nutrient_idx)) JOIN efficacy USING(efficacy_idx) WHERE u.user_idx =  ${req.user.user_idx};`
@@ -72,7 +62,7 @@ const getParentMyFunctioinalNutrients = (Transaction, req, next) => {
   })
 }
 
-const getChildMyFunctioinalNutrients = (Transaction, req, next) => {
+exports.getChildMyFunctioinalNutrients = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     const result = []
     const Query1 = `
@@ -93,7 +83,7 @@ SELECT DISTINCT n.nutrient_idx, n.nutrient_name FROM (((((childuser u JOIN dose 
 }
 
 // 특정 성분 정보 가져오기
-const specificInfo = (connection, req) => {
+exports.specificInfo = (connection, req) => {
   return new Promise((resolve, reject) => {
     const Query = `
       SELECT nutrient_common_description, image_key 
@@ -104,11 +94,4 @@ const specificInfo = (connection, req) => {
       resolve(result)
     })
   })
-}
-
-module.exports = {
-  insertNutrient,
-  getParentMyFunctioinalNutrients,
-  getChildMyFunctioinalNutrients,
-  specificInfo,
 }

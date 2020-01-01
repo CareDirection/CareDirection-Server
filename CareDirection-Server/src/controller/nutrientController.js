@@ -4,7 +4,7 @@ const response = require('../lib/response')
 const message = require('../lib/responseMessage')
 const statusCode = require('../lib/statusCode')
 
-const insertNutrient = async (req, res) => {
+const insertNutrient = async (req, res, next) => {
   const validationChecker = Joi.object({
     nutrient_type: Joi.number().integer().required(),
     nutrient_name: Joi.string().required(),
@@ -20,8 +20,7 @@ const insertNutrient = async (req, res) => {
     if (validationResult.error) {
       throw new Error(403)
     }
-
-    await nutrientService.insertNutrient(req)
+    await nutrientService.insertNutrient(next, req)
     response.respondJsonWithoutData(message.NUTRIENT_INSERT_SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     console.log(e.message)

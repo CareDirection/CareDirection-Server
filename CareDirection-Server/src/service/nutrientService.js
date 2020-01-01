@@ -2,14 +2,11 @@ const { Transaction, getConnection } = require('../lib/dbConnection')
 const nutrientDao = require('../dao/nutrientDao')
 const getSignedUrl = require('../lib/signedurl')
 
-exports.insertNutrient = async (req) => {
-  const connection = await getConnection()
+exports.insertNutrient = async (next, req) => {
   try {
-    nutrientDao.insertNutrient(connection, req)
+    await nutrientDao.insertNutrient(Transaction, req, next)
   } catch (e) {
     console.log(e.message)
-  } finally {
-    connection.release()
   }
 }
 

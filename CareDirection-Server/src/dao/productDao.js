@@ -23,7 +23,7 @@ exports.enrollParentDose = (Transaction, req, next) => {
     const dose_initial_count = await connection.query(Query2)
     const Query3 = `INSERT INTO dose(product_idx, user_idx, dose_daily_quantity, dose_alarm, dose_initial_count, dose_start_date) 
                     VALUES("${req.params.product_idx}", "${req.user.user_idx}", "${req.body.dose_daily_quantity}", 
-                    "${req.body.dose_alarm}", "${dose_initial_count[0].dose_initial_count}", "${req.body.dose_start_date}")`
+                    "${req.body.dose_alarm}", "${dose_initial_count[0].product_quantity_count}", "${req.body.dose_start_date}")`
     await connection.query(Query3)
     console.log('success')
   }).catch(error => {
@@ -41,7 +41,7 @@ exports.enrollChildDose = (Transaction, req, next) => {
       INSERT INTO dose(product_idx, childuser_idx, dose_daily_quantity, dose_alarm, dose_initial_count, dose_start_date)
       VALUES("${req.params.product_idx}", "${req.user.childuser_idx}",
           "${req.body.dose_daily_quantity}", "${req.body.dose_alarm}",
-          "${dose_initial_count[0].dose_initial_count}",
+          "${dose_initial_count[0].product_quantity_count}",
           "${req.body.dose_start_date}")
     `
     await connection.query(Query3)

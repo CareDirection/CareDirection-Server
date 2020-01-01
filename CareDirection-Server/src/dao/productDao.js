@@ -313,3 +313,16 @@ exports.getChildUserTabList = (Transaction, req, currentTime, next) => {
     return next(error)
   })
 }
+
+// 특정 복용 제품 팝업 메시지
+exports.getDoseinfoPopup = (connection, req) => {
+  return new Promise((resolve, reject) => {
+    const Query = `
+    
+    `
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

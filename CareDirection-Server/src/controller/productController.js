@@ -292,3 +292,13 @@ exports.getTabList = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.getDoseinfoPopup = async (req, res, next) => {
+  const { product_idx } = req.params
+  try {
+    const result = await productService.getDoseinfoPopup(req, next)
+    response.respondJson(message.DOSE_PRODUCT_POPUP_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

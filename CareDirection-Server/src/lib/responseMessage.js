@@ -40,6 +40,7 @@ module.exports = {
   REMOVE_CHILD_USER_FAIL: 'child 사용자 삭제 실패',
   DOSE_PRODUCT_DELETE_SUCCESS: '복용 제품 삭제 성공',
   DOSE_PRODUCT_DELETE_FAIL: '복용 제품 삭제 실패',
+  DOSE_PRODUCT_POPUP_SUCCESS: '복용 제품 팝업 메시지 성공',
   MY_CARE_FUNCTIONAL_NUTRIENTS_SUCCESS: '기능 성분 가져오기 성공',
   MY_CARE_FUNCTIONAL_NUTRIENTS_FAIL: '기능 성분 가져오기 실패',
   GET_NUTRIENT_INFO_SUCCESS: '특정 성분 정보 가져오기 성공',

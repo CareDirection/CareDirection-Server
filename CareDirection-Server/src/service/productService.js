@@ -257,3 +257,17 @@ exports.getTabList = async (req, next) => {
     return e.message
   }
 }
+
+exports.getDoseinfoPopup = async (req, next) => {
+  const connection = await getConnection()
+  try {
+    const result = await productDao.getDoseinfoPopup(connection, req, next)
+    result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

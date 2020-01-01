@@ -32,5 +32,7 @@ product.get('/:product_idx/lowprice', productCtrl.getLowprice)
 product.get('/:product_idx/efficacy', needAuth, productCtrl.getProductDetailEfficacy)
 // 사용자 맞춤 탭 리스트 가져오기
 product.get('/tablist', needAuth, productCtrl.getTabList)
+// 특정복용제품정보가져오기(팝업)
+product.get('/:product_idx/dose', needAuth, productCtrl.getDoseinfoPopup)
 
 module.exports = product

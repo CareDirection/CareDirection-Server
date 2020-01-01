@@ -32,9 +32,14 @@ exports.searchDoseProduct = async (req) => {
   const { token } = req.headers
   const connection = await getConnection()
 
+  let userIdx
   try {
-    const decode = await jwt.decode(token)
-    const userIdx = decode.user_idx ? decode.user_idx : decode.child_user_idx
+    if (token) {
+      const decode = await jwt.decode(token)
+      userIdx = decode.user_idx ? decode.user_idx : decode.child_user_idx
+    } else {
+      userIdx = null
+    }
 
     const searchResults = await searchDao.searchDoseProducts(connection, query, userIdx)
 

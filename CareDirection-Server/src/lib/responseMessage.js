@@ -32,6 +32,7 @@ module.exports = {
   SUCCESS: 'success',
   DUPLICATED: 'duplicated',
   EFFICACY_SELECTED: '효능 리스트 조회 성공',
+  MY_EFFICACY_SUCCESS: '내가 영향 받고있는 효능 리스트 조회 성공',
   DB_ERROR: '데이터베이스 에러',
   USER_LIST_GET_SUCCESS: '유저 관리 리스트 가져오기 성공',
   USER_LIST_GET_FAIL: '유저 관리 리스트 가져오기 실패',

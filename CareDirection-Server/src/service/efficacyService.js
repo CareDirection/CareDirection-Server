@@ -46,3 +46,17 @@ exports.getNutrientsListPerEfficacy = async (req) => {
     connection.release()
   }
 }
+
+exports.getMyEfficacyList = async (req) => {
+  const connection = await getConnection(req)
+  try {
+    if (req.user.type === 'parent') {
+      return await efficacyDao.getMyEfficacyList(connection, req)
+    }
+    return await efficacyDao.getChildEfficacyList(connection, req)
+  } catch (e) {
+    console.log(e.message)
+  } finally {
+    connection.release()
+  }
+}

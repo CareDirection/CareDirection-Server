@@ -40,3 +40,47 @@ exports.getNutrientsListPerEfficacy = (connection, efficacyIdx) => {
     })
   })
 }
+
+
+exports.getMyEfficacyList = (connection, req) => {
+  return new Promise((resolve, reject) => {
+
+    const query = `
+        SELECT DISTINCT e.*
+    FROM (((( user u JOIN dose d USING (user_idx))
+    JOIN product p USING (product_idx))
+    JOIN has_nutrient hn USING (product_idx))
+    JOIN nutrient n USING (nutrient_idx))
+    JOIN nutrient_efficacy ne USING (nutrient_idx)
+    JOIN efficacy e USING (efficacy_idx)
+    WHERE user_idx = "${req.user.user_idx}"     
+    `
+
+    connection.query(query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}
+
+exports.getChildEfficacyList = (connection, req) => {
+  return new Promise((resolve, reject) => {
+
+    const query = `
+    SELECT DISTINCT e.*
+    FROM (((((( childuser cu JOIN user u ON (cu.childuser_idx = u.user_idx))
+    jOIN dose d USING (user_idx))
+    JOIN product p USING (product_idx))
+    JOIN has_nutrient hn USING (product_idx))
+    JOIN nutrient n USING (nutrient_idx))
+    JOIN nutrient_efficacy ne USING (nutrient_idx))
+    JOIN efficacy e USING (efficacy_idx)
+    WHERE childuser_idx = "${req.user.childuser_idx}"     
+    `
+
+    connection.query(query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

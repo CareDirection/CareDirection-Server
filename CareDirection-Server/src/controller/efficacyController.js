@@ -55,6 +55,7 @@ const getNutrientsListPerEfficacy = async (req, res) => {
 const getMyEfficacyList = async (req, res) => {
   try {
     const efficacyList = await efficacyService.getMyEfficacyList(req)
+    console.log('efficacyList', efficacyList)
     response.respondJson(message.EFFICACY_SELECTED, efficacyList, res, statusCode.OK)
   } catch (e) {
     console.log(e.message)

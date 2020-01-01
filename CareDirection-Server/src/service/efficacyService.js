@@ -50,7 +50,16 @@ const getNutrientsListPerEfficacy = async (req) => {
 const getMyEfficacyList = async (req) => {
   const connection = await getConnection(req)
   try {
-    return await efficacyDao.getMyEfficacyList(connection)
+    let a
+    if (req.user.type === 'parent') {
+      a = await efficacyDao.getMyEfficacyList(connection)
+      console.log(a)
+
+      return a
+    }
+    a = await efficacyDao.getChildEfficacyList(connection)
+    console.log(a)
+    return a
   } catch (e) {
     console.log(e.message)
   } finally {

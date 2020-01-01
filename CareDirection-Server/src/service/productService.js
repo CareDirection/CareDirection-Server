@@ -270,3 +270,17 @@ exports.getDoseinfoPopup = async (req, next) => {
     connection.release()
   }
 }
+
+exports.getCurrentDoseProducts = async (req) => {
+  const connection = await getConnection()
+  console.log(req.user)
+  try {
+    const { user_idx, chile_user_idx } = req.user
+
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

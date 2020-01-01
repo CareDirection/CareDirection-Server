@@ -12,6 +12,8 @@ const upload = multer('product')
 product.get('/:product_idx/standard', productCtrl.getProductStandard)
 // 복용제품 등록 위한 정보 가져오기
 product.get('/:product_idx', needAuth, productCtrl.importDose)
+// 현재 복용 제품 조회
+product.get('/dose/list', needAuth, productCtrl.getCurrentDoseProducts)
 // 현재 복용제품 추가
 product.post('/:product_idx/dose', needAuth, productCtrl.enrollDose)
 // 현재 복용 제품 정보수정

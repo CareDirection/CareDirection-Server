@@ -302,3 +302,12 @@ exports.getDoseinfoPopup = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.getCurrentDoseProducts = async (req, res) => {
+  try {
+    const result = await productService.getCurrentDoseProducts(req)
+    response.respondJson('홓롤', result, res, 211)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

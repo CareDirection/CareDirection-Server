@@ -5,8 +5,6 @@ const message = require('../lib/responseMessage')
 exports.importDose = (connection, req) => {
   return new Promise((resolve, reject) => {
     const Query = `SELECT product_name, product_daily_dose, image_key FROM product as p1 INNER JOIN image as p2 USING(product_idx) WHERE p1.product_idx = "${req.params.product_idx}"`
-    //     console.log(Query)
-    //     // const image_key = `SELECT image_key FROM image WHERE product_idx="${req.body.product_idx}"`
     connection.query(Query, (err, result) => {
       err && reject(err)
       resolve(result)
@@ -14,16 +12,38 @@ exports.importDose = (connection, req) => {
   })
 }
 
+
 // 복용제품 등록 dao
-exports.enrollDose = (Transaction, req, next) => {
+exports.enrollParentDose = (Transaction, req, next) => {
   return Transaction(async (connection) => {
     const Query1 = `SELECT dose_idx FROM dose WHERE product_idx = "${req.params.product_idx}" AND user_idx = "${req.user.user_idx}"`
     const duplicationCheck = await connection.query(Query1)
-    if (duplicationCheck) return 'duplicated'
+    if (duplicationCheck[0]) return 'duplicated'
     const Query2 = `SELECT p2.product_quantity_count FROM product as p1 INNER JOIN product_quantity as p2 USING(product_idx) WHERE p1.product_idx = "${req.params.product_idx}"`
     const dose_initial_count = await connection.query(Query2)
     const Query3 = `INSERT INTO dose(product_idx, user_idx, dose_daily_quantity, dose_alarm, dose_initial_count, dose_start_date) 
-                    VALUES("${req.params.product_idx}", "${req.user.user_idx}", "${req.body.dose_daily_quantity}", "${req.body.dose_alarm}", "${dose_initial_count[0].dose_initial_count}", "${req.body.dose_start_date}")`
+                    VALUES("${req.params.product_idx}", "${req.user.user_idx}", "${req.body.dose_daily_quantity}", 
+                    "${req.body.dose_alarm}", "${dose_initial_count[0].dose_initial_count}", "${req.body.dose_start_date}")`
+    await connection.query(Query3)
+    console.log('success')
+  }).catch(error => {
+    return next(error)
+  })
+}
+exports.enrollChildDose = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT dose_idx FROM dose WHERE product_idx = "${req.params.product_idx}" AND childuser_idx = "${req.user.childuser_idx}"`
+    const duplicationCheck = await connection.query(Query1)
+    if (duplicationCheck[0]) return 'duplicated'
+    const Query2 = `SELECT p2.product_quantity_count FROM product as p1 INNER JOIN product_quantity as p2 USING(product_idx) WHERE p1.product_idx = "${req.params.product_idx}"`
+    const dose_initial_count = await connection.query(Query2)
+    const Query3 = ` 
+      INSERT INTO dose(product_idx, childuser_idx, dose_daily_quantity, dose_alarm, dose_initial_count, dose_start_date)
+      VALUES("${req.params.product_idx}", "${req.user.childuser_idx}",
+          "${req.body.dose_daily_quantity}", "${req.body.dose_alarm}",
+          "${dose_initial_count[0].dose_initial_count}",
+          "${req.body.dose_start_date}")
+    `
     await connection.query(Query3)
     console.log('success')
   }).catch(error => {
@@ -32,9 +52,19 @@ exports.enrollDose = (Transaction, req, next) => {
 }
 
 // 복용 제품 수정 dao
-exports.modifyDose = (connection, req, next) => {
+exports.modifyParentDose = (connection, req, next) => {
   return new Promise((resolve, reject) => {
     const Query = `UPDATE dose SET dose_daily_quantity="${req.body.dose_daily_quantity}", dose_alarm="${req.body.dose_alarm}",  dose_start_date= "${req.body.dose_start_date}" WHERE product_idx= "${req.params.product_idx}" AND user_idx="${req.user.user_idx}"`
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result[0])
+    })
+  })
+}
+
+exports.modifyChildDose = (connection, req, next) => {
+  return new Promise((resolve, reject) => {
+    const Query = `UPDATE dose SET dose_daily_quantity="${req.body.dose_daily_quantity}", dose_alarm="${req.body.dose_alarm}",  dose_start_date= "${req.body.dose_start_date}" WHERE product_idx= "${req.params.product_idx}" AND childuser_idx="${req.user.childuser_idx}"`
     connection.query(Query, (err, result) => {
       err && reject(err)
       resolve(result[0])

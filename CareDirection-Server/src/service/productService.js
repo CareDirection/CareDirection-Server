@@ -259,15 +259,18 @@ exports.getTabList = async (req, next) => {
 }
 
 exports.getDoseinfoPopup = async (req, next) => {
-  const connection = await getConnection()
   try {
-    const result = await productDao.getDoseinfoPopup(connection, req, next)
-    result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    let result
+    if (req.user.type === 'parent') {
+      result = await productDao.getDoseinfoParentPopup(Transaction, req, next)
+    } else {
+      result = await productDao.getDoseinfoChildPopup(Transaction, req, next)
+    }
+    // result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    console.log(result)
     return result
   } catch (e) {
     console.log(e.message)
     return e.message
-  } finally {
-    connection.release()
   }
 }

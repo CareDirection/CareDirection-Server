@@ -53,10 +53,28 @@ const getNutrientsListPerEfficacy = async (req, res) => {
 }
 
 const getMyEfficacyList = async (req, res) => {
+  const { token } = req.headers
+
+  const schema = Joi.object({
+    token: Joi.string().required(),
+  })
+
+  const validationData = { token }
+
   try {
+    const { error } = await schema.validateAsync(validationData)
+
+    if (error) {
+      throw new Error(403)
+    }
+
     const efficacyList = await efficacyService.getMyEfficacyList(req)
-    console.log('efficacyList', efficacyList)
-    response.respondJson(message.EFFICACY_SELECTED, efficacyList, res, statusCode.OK)
+
+    const efficacyResultList = efficacyList.map((idx) => {
+      return idx.efficacy_name
+    })
+
+    response.respondJson(message.MY_EFFICACY_SUCCESS, efficacyResultList, res, statusCode.OK)
   } catch (e) {
     console.log(e.message)
     response.respondOnError(message.DB_ERROR, res, statusCode.DB_ERROR)

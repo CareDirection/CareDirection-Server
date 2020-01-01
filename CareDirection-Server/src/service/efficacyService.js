@@ -51,7 +51,6 @@ const getMyEfficacyList = async (req) => {
   const connection = await getConnection(req)
   try {
     if (req.user.type === 'parent') {
-      console.log("타입:",req.user.type)
       return await efficacyDao.getMyEfficacyList(connection, req)
     }
     return await efficacyDao.getChildEfficacyList(connection, req)

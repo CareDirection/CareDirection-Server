@@ -19,7 +19,12 @@ exports.importDose = async (req, next) => {
 }
 exports.enrollDose = async (req, next) => {
   try {
-    const result = await productDao.enrollDose(Transaction, req, next)
+    let result
+    if (req.user.type === 'parent') {
+      result = await productDao.enrollParentDose(Transaction, req, next)
+    } else {
+      result = await productDao.enrollChildDose(Transaction, req, next)
+    }
     return result
   } catch (e) {
     console.log(e.message)
@@ -30,7 +35,12 @@ exports.enrollDose = async (req, next) => {
 exports.modifyDose = async (req, next) => {
   const connection = await getConnection()
   try {
-    const result = await productDao.modifyDose(connection, req, next)
+    let result
+    if (req.user.type === 'parent') {
+      result = await productDao.modifyParentDose(connection, req, next)
+    } else {
+      result = await productDao.modifyChildDose(connection, req, next)
+    }
     return result
   } catch (e) {
     console.log(e.message)

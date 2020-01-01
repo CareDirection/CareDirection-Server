@@ -30,8 +30,6 @@ exports.enrollDose = async (req, res, next) => {
       response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
     }
     const result = await productService.enrollDose(req, next)
-    console.log(message.DUPLICATED)
-    console.log(result)
     // eslint-disable-next-line eqeqeq
     if (result == message.DUPLICATED) {
       response.respondJsonWithoutData(message.DUPLICATED, res, statusCode.FORBIDDEN)

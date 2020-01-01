@@ -280,3 +280,43 @@ exports.insertProduct = async (next, data) => {
     return e.message
   }
 }
+
+exports.getCurrentDoseProducts = async (req) => {
+  const connection = await getConnection()
+  try {
+    const { user_idx, child_user_idx } = req.user
+    const { date } = req.query
+
+    const doseList = await productDao.getCurrentDoseProducts(connection, date, user_idx, child_user_idx)
+
+    return await Promise.all(
+      doseList.map(async (doseItem) => {
+        if (doseItem.image_key) {
+          doseItem.image_location = await getSignedUrl.getSignedUrl(doseItem.image_key)
+        }
+
+        doseItem.product_price_per_unit = `(1개 ${(doseItem.product_quantity_price / doseItem.product_quantity_count).toLocaleString('en').split('.')[0]}원)`
+        doseItem.product_price = `${Number(doseItem.product_quantity_price).toLocaleString('en')}원`
+        doseItem.product_is_import = (doseItem.product_is_import === 1)
+
+        const pakageType = doseItem.product_package_type === 0 ? '정' : '포'
+        doseItem.product_quantity = `${doseItem.product_quantity_count}${pakageType} 기준`
+        doseItem.product_is_dosed = (doseItem.product_is_dosed === 1)
+        doseItem.product_remain = (doseItem.product_quantity_count - doseItem.dose_count)
+        delete doseItem.product_package_type
+        delete doseItem.product_quantity_count
+        delete doseItem.product_quantity_price
+        delete doseItem.image_key
+        delete doseItem.dose_idx
+        delete doseItem.dose_count
+
+        return doseItem
+      }),
+    )
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
+  }
+}

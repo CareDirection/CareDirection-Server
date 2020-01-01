@@ -302,3 +302,21 @@ exports.getDoseinfoPopup = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.getCurrentDoseProducts = async (req, res) => {
+  const validationChecker = Joi.object({
+    // date: Joi.date().format('iso').options({ convert: false }).required(),
+    date: Joi.string().required(),
+  })
+  try {
+    const { error } = await validationChecker.validateAsync(req.query)
+    if (error) {
+      response.respondOnError(error.message, res, statusCode.BAD_REQUEST)
+    }
+    const result = await productService.getCurrentDoseProducts(req)
+    response.respondJson(message.SELECT_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    console.error(e.message)
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

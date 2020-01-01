@@ -1,4 +1,4 @@
-const insertEfficacy = (connection, req) => {
+exports.insertEfficacy = (connection, req) => {
   return new Promise((resolve, reject) => {
     const { efficacy_name } = req.body
     const query = `
@@ -12,7 +12,7 @@ const insertEfficacy = (connection, req) => {
   })
 }
 
-const getEfficacyList = (connection) => {
+exports.getEfficacyList = (connection) => {
   return new Promise((resolve, reject) => {
     const query = `
     SELECT * FROM efficacy
@@ -24,7 +24,7 @@ const getEfficacyList = (connection) => {
   })
 }
 
-const getNutrientsListPerEfficacy = (connection, efficacyIdx) => {
+exports.getNutrientsListPerEfficacy = (connection, efficacyIdx) => {
   return new Promise((resolve, reject) => {
     const query = `
     SELECT n.nutrient_idx, n.nutrient_name, ne.nutrient_efficacy_comment, i.image_key
@@ -39,10 +39,4 @@ const getNutrientsListPerEfficacy = (connection, efficacyIdx) => {
       resolve(result)
     })
   })
-}
-
-module.exports = {
-  insertEfficacy,
-  getEfficacyList,
-  getNutrientsListPerEfficacy,
 }

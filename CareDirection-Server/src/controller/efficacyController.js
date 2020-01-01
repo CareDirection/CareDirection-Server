@@ -4,7 +4,7 @@ const response = require('../lib/response')
 const message = require('../lib/responseMessage')
 const statusCode = require('../lib/statusCode')
 
-const insertEfficacy = async (req, res) => {
+exports.insertEfficacy = async (req, res) => {
   const validationChecker = Joi.object({
     efficacy_name: Joi.string().required(),
   })
@@ -23,7 +23,7 @@ const insertEfficacy = async (req, res) => {
   }
 }
 
-const getEfficacyList = async (req, res) => {
+exports.getEfficacyList = async (req, res) => {
   try {
     const efficacyList = await efficacyService.getEfficacyList()
     response.respondJson(message.EFFICACY_SELECTED, efficacyList, res, statusCode.OK)
@@ -33,7 +33,7 @@ const getEfficacyList = async (req, res) => {
   }
 }
 
-const getNutrientsListPerEfficacy = async (req, res) => {
+exports.getNutrientsListPerEfficacy = async (req, res) => {
   const validationChecker = Joi.object({
     efficacy_idx: Joi.number().integer().required(),
   })
@@ -50,10 +50,4 @@ const getNutrientsListPerEfficacy = async (req, res) => {
     console.log(e.message)
     response.respondOnError(e.message, res, statusCode.DB_ERROR)
   }
-}
-
-module.exports = {
-  insertEfficacy,
-  getEfficacyList,
-  getNutrientsListPerEfficacy,
 }

@@ -5,6 +5,13 @@ exports.getParentUserMyGraphInfo = (Transaction, req, next) => {
     const change = []
     const Query1 = `SELECT user_gender, user_birth  FROM user WHERE user_idx = ${req.user.user_idx};`
     const userData = await connection.query(Query1)
+    if (Number(userData[0].childuser_birth) <= 1981) {
+      userData[0].childuser_birth = 3
+    } else if (Number(userData[0].childuser_birth) > 1981 && Number(userData[0].childuser_birth) <= 2001) {
+      userData[0].childuser_birth = 2
+    } else {
+      userData[0].childuser_birth = 1
+    }
     const Query2 = `SELECT case_filter_idx FROM case_filter WHERE case_filter_gender = ${userData[0].user_gender} AND case_filter_birth = ${userData[0].user_birth};`
     const case_filter_idx = await connection.query(Query2)
     const Query3 = `SELECT * FROM standard_case WHERE case_filter_idx = ${case_filter_idx[0].case_filter_idx}`
@@ -143,7 +150,6 @@ exports.getChildUserMyGraphInfo = (Transaction, req, next) => {
     const standardArray = await connection.query(Query3)
     const Query4 = `SELECT * FROM user_survey WHERE childuser_idx = ${req.user.childuser_idx}`
     const userAnswer = await connection.query(Query4)
-    // user_survey_item_value1
     const Query5 = `select standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 1 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value3}";`
     const data1 = await connection.query(Query5)
     data1.forEach(item => {

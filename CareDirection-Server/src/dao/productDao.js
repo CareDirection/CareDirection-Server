@@ -326,12 +326,12 @@ exports.getDoseinfoParentPopup = (Transaction, req, next) => {
       WHERE p1.product_idx = "${req.params.product_idx}" AND p3.user_idx="${req.user.user_idx}"
     `
     const queryPush = await connection.query(Query1)
-    //result.push(queryPush[0])
-    const Query2 = 'SELECT count(*) FROM dose_history'
-    const  dose_history_count = await connection.query(Query2)
-    // result.push(queryPush[0].dose_initial_count - dose_history_count)
+    result.push(queryPush[0])
+    const Query2 = 'SELECT count(*) as count FROM dose_history'
+    const dose_history_count = await connection.query(Query2)
+    result.push({ remain: Number(queryPush[0].dose_initial_count) - Number(dose_history_count[0].count)})
     console.log('success')
-    // return result
+    return result
   }).catch(error => {
     return next(error)
   })
@@ -349,7 +349,6 @@ exports.getDoseinfoChildPopup = (Transaction, req, next) => {
     `
     const queryPush = await connection.query(Query1)
     result.push(queryPush[0])
-
     const Query2 = 'SELECT count(*) as count FROM dose_history'
     const dose_history_count = await connection.query(Query2)
     result.push({ remain: Number(queryPush[0].dose_initial_count) - Number(dose_history_count[0].count)})

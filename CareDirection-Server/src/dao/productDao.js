@@ -226,7 +226,7 @@ exports.deleteChildUserDoseProduct = (connection, req) => {
 exports.getProductDetailInfo = (connection, req) => {
   return new Promise((resolve, reject) => {
     const Query = `
-    SELECT DISTINCT main_nutrient_name, product_name, product_company_name, product_cautions, product_package_type, product_is_import, product_daily_dose, product_additives, product_standard1, product_standard2, product_standard3, product_standard1_value, product_standard2_value, product_standard3_value, image_key, product_quantity_count, product_quantity_price, product_features_name, product_detail_name, product_detail_value 
+    SELECT DISTINCT main_nutrient_name, product_name, product_company_name, product_package_type, product_cautions, product_package_type, product_is_import, product_daily_dose, product_additives, product_standard1, product_standard2, product_standard3, product_standard1_value, product_standard2_value, product_standard3_value, image_key, product_quantity_count, product_quantity_price, product_features_name, product_detail_name, product_detail_value 
     FROM ((( product p1 JOIN image p2 USING(product_idx)) 
     JOIN product_quantity p3 USING(product_idx)) 
     JOIN product_features p4 USING(product_idx)) 
@@ -315,22 +315,55 @@ exports.getChildUserTabList = (Transaction, req, currentTime, next) => {
 }
 
 // 특정 복용 제품 팝업 메시지
-exports.getDoseinfoPopup = (connection, req) => {
-  return new Promise((resolve, reject) => {
-    const Query = `
-    
+exports.getDoseinfoParentPopup = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const result = []
+    const Query1 = ` 
+      SELECT product_name, product_daily_dose, image_key, dose_alarm,  dose_initial_count
+      FROM (product as p1 
+      JOIN image as p2 USING(product_idx))
+      RIGHT JOIN dose p3 USING(product_idx)
+      WHERE p1.product_idx = "${req.params.product_idx}" AND p3.user_idx="${req.user.user_idx}"
     `
-    connection.query(Query, (err, result) => {
-      err && reject(err)
-      resolve(result)
-    })
+    const queryPush = await connection.query(Query1)
+    //result.push(queryPush[0])
+    const Query2 = 'SELECT count(*) FROM dose_history'
+    const  dose_history_count = await connection.query(Query2)
+    // result.push(queryPush[0].dose_initial_count - dose_history_count)
+    console.log('success')
+    // return result
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.getDoseinfoChildPopup = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const result = []
+    const Query1 = ` 
+      SELECT dose_initial_count, product_name, product_daily_dose, image_key, dose_alarm
+      FROM (product as p1 
+      JOIN image as p2 USING(product_idx))
+      RIGHT JOIN dose p3 USING(product_idx)
+      WHERE p1.product_idx = "${req.params.product_idx}" AND p3.childuser_idx="${req.user.childuser_idx}"
+    `
+    const queryPush = await connection.query(Query1)
+    result.push(queryPush[0])
+
+    const Query2 = 'SELECT count(*) as count FROM dose_history'
+    const dose_history_count = await connection.query(Query2)
+    result.push({ remain: Number(queryPush[0].dose_initial_count) - Number(dose_history_count[0].count)})
+    console.log('success')
+    return result
+  }).catch(error => {
+    return next(error)
   })
 }
 
 
-exports.getCurrentDoseProducts = (connection, userIdx, childIdx) => {
+exports.getCurrentDoseProducts = (connection, date, userIdx, childIdx) => {
   const Query = `
-  SELECT image_key, product_idx, product_name, product_company_name, product_is_import, product_package_type, product_quantity_count, product_quantity_price, COUNT(CASE WHEN dose_history_time='2020-01-02' THEN 1 END) AS product_is_dosed, COUNT(dose_history_time) AS dose_count
+  SELECT image_key, product_idx, product_name, product_company_name, product_is_import, product_package_type, product_quantity_count, product_quantity_price, COUNT(CASE WHEN dose_history_time='${date}' THEN 1 END) AS product_is_dosed, COUNT(dose_history_time) AS dose_count
   FROM (
     SELECT i.image_key, p.product_idx, p.product_name, p.product_company_name, p.product_is_import, d.dose_idx, p.product_package_type , MIN(pq.product_quantity_count) AS product_quantity_count, MIN(pq.product_quantity_price) AS product_quantity_price
     FROM product p

@@ -167,6 +167,7 @@ exports.getProductDetailInfo = async (req, next) => {
         image_key: result[0].image_key,
         product_company_name: result[0].product_company_name,
         product_name: result[0].product_name,
+        product_package_type: result[0].product_package_type,
         product_standard1: result[0].product_standard1,
         product_standard2: result[0].product_standard2,
         product_standard3: result[0].product_standard3,
@@ -259,16 +260,19 @@ exports.getTabList = async (req, next) => {
 }
 
 exports.getDoseinfoPopup = async (req, next) => {
-  const connection = await getConnection()
   try {
-    const result = await productDao.getDoseinfoPopup(connection, req, next)
-    result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    let result
+    if (req.user.type === 'parent') {
+      result = await productDao.getDoseinfoParentPopup(Transaction, req, next)
+    } else {
+      result = await productDao.getDoseinfoChildPopup(Transaction, req, next)
+    }
+    // result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
+    //console.log(result)
     return result
   } catch (e) {
     console.log(e.message)
     return e.message
-  } finally {
-    connection.release()
   }
 }
 // 제품 등록 service
@@ -278,5 +282,45 @@ exports.insertProduct = async (next, data) => {
   } catch (e) {
     console.log(e.message)
     return e.message
+  }
+}
+
+exports.getCurrentDoseProducts = async (req) => {
+  const connection = await getConnection()
+  try {
+    const { user_idx, child_user_idx } = req.user
+    const { date } = req.query
+
+    const doseList = await productDao.getCurrentDoseProducts(connection, date, user_idx, child_user_idx)
+
+    return await Promise.all(
+      doseList.map(async (doseItem) => {
+        if (doseItem.image_key) {
+          doseItem.image_location = await getSignedUrl.getSignedUrl(doseItem.image_key)
+        }
+
+        doseItem.product_price_per_unit = `(1개 ${(doseItem.product_quantity_price / doseItem.product_quantity_count).toLocaleString('en').split('.')[0]}원)`
+        doseItem.product_price = `${Number(doseItem.product_quantity_price).toLocaleString('en')}원`
+        doseItem.product_is_import = (doseItem.product_is_import === 1)
+
+        const pakageType = doseItem.product_package_type === 0 ? '정' : '포'
+        doseItem.product_quantity = `${doseItem.product_quantity_count}${pakageType} 기준`
+        doseItem.product_is_dosed = (doseItem.product_is_dosed === 1)
+        doseItem.product_remain = (doseItem.product_quantity_count - doseItem.dose_count)
+        delete doseItem.product_package_type
+        delete doseItem.product_quantity_count
+        delete doseItem.product_quantity_price
+        delete doseItem.image_key
+        delete doseItem.dose_idx
+        delete doseItem.dose_count
+
+        return doseItem
+      }),
+    )
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  } finally {
+    connection.release()
   }
 }

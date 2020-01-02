@@ -36,13 +36,11 @@ exports.getMyGraphInfo = async (req, next) => {
 }
 
 exports.getMyGraphDetailInfo = async (req, next) => {
+  const connection = await getConnection()
   try {
-    let my_change_description = null
-    let my_food = null
-
     let change_data_max = null
     let change_data_rec = null
-    const result = []
+
     const tempData = [800, 1.2, 110, 2, 150, 527, 10, 30, 10, 300, 100]
     const data = await graphDao.getParentUserMyGraphDetailInfo(Transaction, req, next)
     data.standardArray.forEach(async (item) => {
@@ -52,14 +50,12 @@ exports.getMyGraphDetailInfo = async (req, next) => {
       data.change.forEach(item2 => {
         if (item.standard_case_nutrient_name === item2.name) {
           if (item2.line === '상한선') {
-            my_food += item2.food
-            my_change_description += item2.description
+            item.my_change_description += item2.description
             maxSum = Number(item.standard_case_max_value) + Number(item2.value)
             item.standard_case_max_value_default = Number(item.standard_case_max_value)
             item.standard_case_max_value = Number(maxSum)
           } else {
-            my_food += item2.food
-            my_change_description += item2.description
+            item.my_change_description += item2.description
 
             minSum = Number(item.standard_case_recommend_value) + Number(item2.value)
             item.standard_case_recommend_value_default = Number(item.standard_case_recommend_value)
@@ -68,16 +64,20 @@ exports.getMyGraphDetailInfo = async (req, next) => {
         }
       })
     })
-    data.standardArray.forEach(async (info, index) => {
+    
+    const result = []
+    for(const i in data.standardArray) {
+      const info = data.standardArray[i]
+      const defaultData = await graphDao.getNutrientDefaultData(connection, info)
 
       if (info.standard_case_max_value_default !== undefined) {
-        change_data_max = `상한 섭취량 조정 ${info.standard_case_max_value_default} -> ${info.standard_case_max_value}\n`
+        change_data_max = `상한 섭취량 조정 ${info.standard_case_max_value_default}${defaultData[0].nutrient_unit} -> ${info.standard_case_max_value}${defaultData[0].nutrient_unit}\n`
       } else {
         change_data_max = null
       }
 
       if (info.standard_case_recommend_value_default !== undefined) {
-        change_data_rec = `권장 섭취량 조정 ${info.standard_case_recommend_value_default} -> ${info.standard_case_recommend_value}`
+        change_data_rec = `권장 섭취량 조정 ${info.standard_case_recommend_value_default}${defaultData[0].nutrient_unit} -> ${info.standard_case_recommend_value}${defaultData[0].nutrient_unit}`
       } else {
         change_data_rec = null
       }
@@ -85,13 +85,15 @@ exports.getMyGraphDetailInfo = async (req, next) => {
       const temp = {
         nutrient_name: info.standard_case_nutrient_name,
         my_change_value_description: `${change_data_max}${change_data_rec}`,
-        my_current_value_percent: percent.formulaForMyData(tempData[index], Number(info.standard_case_recommend_value), Number(info.standard_case_max_value)),
-        description: `${my_change_description}\n\n${my_food}`,
+        my_current_value_percent: percent.formulaForMyData(tempData[i], Number(info.standard_case_recommend_value), Number(info.standard_case_max_value)),
+        description: `${info.my_change_description} \n${defaultData[0].nutrient_default_description} \n\n${defaultData[0].nutrient_contain_food}`,
       }
       result.push(temp)
-    })
+    }
     return result
   } catch (e) {
     console.log(e.message)
+  } finally {
+    connection.release()
   }
 }

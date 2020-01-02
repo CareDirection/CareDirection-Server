@@ -28,16 +28,17 @@ exports.signIn = async (data) => {
   try {
     const result = await userDao.signIn(connection, data)
 
-    console.log('prev:', data)
-
     const password = crypto.createHash('sha512').update(data.user_pw + result.user_salt).digest('hex')
 
-    if (result.user_pw === password) {
-      console.log('일치:', password)
-      console.log('일치:', result.user_idx)
-      return jwt.encode({ user_idx: result.user_idx })
+    if (result.size() === 0){
+      return false
     }
-    return null
+
+    if (result.user_pw === password) {
+      return jwt.encode({ user_idx: result.user_idx })
+    }else{
+      return false
+    }
   } catch (e) {
     console.log(e.message)
     return e.message

@@ -53,14 +53,12 @@ exports.signIn = async (req, res) => {
     if (error) {
       response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
     }
-
     const result = await userService.signIn(validationData)
-    console.log('test0', result)
 
-    if (result != null) {
+    if (result) {
       return response.respondJson(message.SIGN_IN_SUCCESS, { token: result }, res, statusCode.OK)
     }
-    return response.respondJsonWithoutData(message.SIGN_IN_PASSWORD_ERROR, res, statusCode.FORBIDDEN)
+    return response.respondJsonWithoutData(message.SIGN_IN_ERROR, res, statusCode.FORBIDDEN)
 
   } catch (e) {
     return response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)

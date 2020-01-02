@@ -94,26 +94,26 @@ exports.getMyGraphDetailInfo = async (req, next) => {
     })
     
     const result = []
-    for(const i in data.standardArray) {
+    for (const i in data.standardArray) {
       const info = data.standardArray[i]
       const defaultData = await graphDao.getNutrientDefaultData(connection, info)
 
-      console.log("info:", info)
+      console.log('info:', info)
       if (info.standard_case_max_value_default !== undefined) {
         change_data_max = `상한 섭취량 조정 ${info.standard_case_max_value_default}${defaultData[0].nutrient_unit} -> ${info.standard_case_max_value}${defaultData[0].nutrient_unit}`
       } else {
-        change_data_max = null
+        change_data_max = ''
       }
 
       if (info.standard_case_recommend_value_default !== undefined) {
         change_data_rec = `권장 섭취량 조정 ${info.standard_case_recommend_value_default}${defaultData[0].nutrient_unit} -> ${info.standard_case_recommend_value}${defaultData[0].nutrient_unit}`
       } else {
-        change_data_rec = null
+        change_data_rec = ''
       }
 
-      let line = ""
-      if(info.standard_case_recommend_value_default !== undefined && info.standard_case_max_value_default !== undefined){
-        line = "\n"
+      let line = ''
+      if (info.standard_case_recommend_value_default !== undefined && info.standard_case_max_value_default !== undefined) {
+        line = '\n'
       }
 
       const temp = {
@@ -122,6 +122,7 @@ exports.getMyGraphDetailInfo = async (req, next) => {
         my_current_value_percent: percent.formulaForMyData(tempData[i], Number(info.standard_case_recommend_value), Number(info.standard_case_max_value)),
         description: `${defaultData[0].nutrient_default_description}\n${info.my_change_description}\n\n${defaultData[0].nutrient_contain_food}`,
       }
+
       result.push(temp)
     }
     return result

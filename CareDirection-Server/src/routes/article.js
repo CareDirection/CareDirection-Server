@@ -16,6 +16,6 @@ artcle.post('/:article_idx/sub', upload_sub.single('sub_file'), articleControlle
 // 아티클 리스트 가져오기
 artcle.get('/', articleController.getArticleList)
 // 아티클 상세보기
-
+artcle.get('/:article_idx', articleController.getArticle)
 
 module.exports = artcle

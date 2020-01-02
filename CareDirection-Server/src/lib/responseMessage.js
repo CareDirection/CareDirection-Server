@@ -52,4 +52,5 @@ module.exports = {
   GET_PRODUCT_DETAIL_EFFICACY_SUCCESS: '제품 디테일 효능 성공',
   USER_CUSTOM_PRODUCT_TABLIST: '상품 탭 리스트 성공',
   ARTICLE_DATA_LIST: '아티클 리스트 가져오기 성공',
+  ARTICLE_DATA_SUCCESS: '아티클 리스트 가져오기 성공',
 }

@@ -54,6 +54,6 @@ const specificInfo = async (req, res, next) => {
 
 module.exports = {
   insertNutrient,
-  getMyFunctioinalNutrients,
   specificInfo,
+  getMyFunctioinalNutrients,
 }

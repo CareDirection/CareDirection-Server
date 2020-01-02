@@ -46,7 +46,6 @@ exports.insertNutrient = (Transaction, req, next) => {
 
 exports.getParentMyFunctioinalNutrients = (Transaction, req, next) => {
   return Transaction(async (connection) => {
-    console.log("ggg")
     const result = []
     const Query1 = `SELECT DISTINCT n.nutrient_idx, n.nutrient_name FROM (((((user u JOIN dose d ON (u.user_idx = d.user_idx)) JOIN product USING(product_idx)) JOIN has_nutrient USING(product_idx)) JOIN nutrient n USING(nutrient_idx)) JOIN nutrient_efficacy USING (nutrient_idx)) JOIN efficacy USING(efficacy_idx) WHERE u.user_idx =  ${req.user.user_idx};`
     const myCareNutrientsList = await connection.query(Query1)

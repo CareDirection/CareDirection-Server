@@ -130,7 +130,7 @@
 
 ## :pushpin: Collaborator
 
-* **윤혁** - [Malibin](https://github.com/nightmare73)
+* :male-doctor: **윤혁** - [Malibin](https://github.com/nightmare73)
 * **이재현** - [2Re-play](https://github.com/2Re-play)
 * **심다은** - [Danidani](https://github.com/DaEunShim)
 * **양승희** - [seunghee63](https://github.com/seunghee63)

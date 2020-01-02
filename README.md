@@ -36,7 +36,6 @@
   + **AWS S3**
   
     
-:male-doctor:
 ## :pushpin: Server Architecture
 
 <img src="">

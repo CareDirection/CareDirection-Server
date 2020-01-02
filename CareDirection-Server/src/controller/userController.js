@@ -68,7 +68,7 @@ exports.userList = async (req, res, next) => {
 
 exports.duplicateId = async (req, res) => {
   const { user_id } = req.body
-
+ console.log("유저아이이이이이이디이이이이이", user_id)
   const schema = Joi.object({
     user_id: Joi.string().required(),
   })

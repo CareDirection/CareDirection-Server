@@ -20,9 +20,14 @@ Self Care의 방향성을 제시하다, Care Direction
    + Service
 - Cloud - **AWS**
   + **AWS EC2**
+  
   + **AWS RDS**
+  
   + **AWS Lambda**
+  
   + **AWS S3**
+  
+    
 
 ## Server Architecture
 
@@ -53,6 +58,7 @@ Self Care의 방향성을 제시하다, Care Direction
 | [Simplified Http Request](https://www.npmjs.com/package/request) | request / 2.88.0            |
 | [Image Resizer](https://sharp.pixelplumbing.com/en/stable/)  | sharp / 0.23.4              |
 | [URL compressor](https://www.npmjs.com/package/shortid)      | shortid / 2.2.15            |
+|[Password Encryptor / Decryptor](https://nodejs.org/api/crypto.html)|Node.js v13.5.0 built-in|
 
 * **Develop**
 

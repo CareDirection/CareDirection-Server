@@ -5,13 +5,14 @@ exports.getParentUserMyGraphInfo = (Transaction, req, next) => {
     const change = []
     const Query1 = `SELECT user_gender, user_birth  FROM user WHERE user_idx = ${req.user.user_idx};`
     const userData = await connection.query(Query1)
-    if (Number(userData[0].childuser_birth) <= 1981) {
-      userData[0].childuser_birth = 3
-    } else if (Number(userData[0].childuser_birth) > 1981 && Number(userData[0].childuser_birth) <= 2001) {
-      userData[0].childuser_birth = 2
+    if (Number(userData[0].user_birth) <= 1981) {
+      userData[0].user_birth = 3
+    } else if (Number(userData[0].user_birth) > 1981 && Number(userData[0].user_birth) <= 2001) {
+      userData[0].user_birth = 2
     } else {
-      userData[0].childuser_birth = 1
+      userData[0].user_birth = 1
     }
+    console.log(userData[0].user_gender+" "+ userData[0].user_birth)
     const Query2 = `SELECT case_filter_idx FROM case_filter WHERE case_filter_gender = ${userData[0].user_gender} AND case_filter_birth = ${userData[0].user_birth};`
     const case_filter_idx = await connection.query(Query2)
     const Query3 = `SELECT * FROM standard_case WHERE case_filter_idx = ${case_filter_idx[0].case_filter_idx}`

@@ -13,11 +13,16 @@ Self Care의 방향성을 제시하다, Care Direction
 ## Develop Environment
 
 - Complier - **WebStorm** / ver.2019.2.1
+
 - Language - **JavaScript**
+
  - Architecture - **MVC**
-   + Controller**
+   + Controller
+
    + DAO
+
    + Service
+
 - Cloud - **AWS**
   + **AWS EC2**
   
@@ -44,7 +49,6 @@ Self Care의 방향성을 제시하다, Care Direction
 ## Dependencies
 
 * **Release**
-
 | Description                                                  | Name / Version              |
 | ------------------------------------------------------------ | --------------------------- |
 | [Validation Checker](https://hapi.dev/family/joi/)           | @hapi/joi / 16.1.8          |
@@ -61,7 +65,6 @@ Self Care의 방향성을 제시하다, Care Direction
 |[Password Encryptor / Decryptor](https://nodejs.org/api/crypto.html)|Node.js v13.5.0 built-in|
 
 * **Develop**
-
 | Description                                       | Name / Version                     |
 | ------------------------------------------------- | ---------------------------------- |
 | [ESLint Code Convetion]()                         | eslint / 4.19.1                    |
@@ -82,8 +85,7 @@ Self Care의 방향성을 제시하다, Care Direction
 ## Team Role Sharing
 
 **GitHub Issue**를 활용하여 역할 분담을 나누었고, 각자 라벨을 붙여 티켓의 카테고리를 정확하게 분류하였습니다. 
-
-<br>또한,  **GitHub Project (Kanban Chart)** 를 활용하여 개발 진행 현황을 가시적으로 나타내었습니다.
+또한,  **GitHub Project (Kanban Chart)** 를 활용하여 개발 진행 현황을 가시적으로 나타내었습니다.
 
 * [혁](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%ED%98%81)
 * [재현](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%EC%9E%AC%ED%98%84)
@@ -95,7 +97,7 @@ Self Care의 방향성을 제시하다, Care Direction
 
 
 ## Work Flow
-
+<img src="resource/workflow.png">
 
 
 
@@ -114,10 +116,10 @@ Self Care의 방향성을 제시하다, Care Direction
 
 ## Collaborator
 
-- **윤혁** - [Malibin](https://github.com/nightmare73)
-- **이재현** - [2Re-play](https://github.com/2Re-play)
-- **심다은** - [Danidani](https://github.com/DaEunShim)
-- **양승희** - [seunghee63](https://github.com/seunghee63)
+* **윤혁** - [Malibin](https://github.com/nightmare73)
+* **이재현** - [2Re-play](https://github.com/2Re-play)
+* **심다은** - [Danidani](https://github.com/DaEunShim)
+* **양승희** - [seunghee63](https://github.com/seunghee63)
 
 [Contributor List](https://github.com/CareDirection/CareDirection-Server/graphs/contributors)
 

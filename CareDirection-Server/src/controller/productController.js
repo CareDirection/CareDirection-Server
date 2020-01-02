@@ -320,3 +320,13 @@ exports.getCurrentDoseProducts = async (req, res) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.getProductDetailGraph = async (req, res, next) => {
+  const { product_idx } = req.params
+  try {
+    const result = await productService.getProductDetailGraph(req, next)
+    response.respondJson(message.GET_PRODUCT_DETAIL_GRAPH_SUCCESS, result, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

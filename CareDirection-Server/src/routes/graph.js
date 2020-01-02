@@ -2,11 +2,10 @@ const { Router } = require('express')
 
 const graph = Router()
 
-const graphContoller = require('../controller/graphController')
+const graphController = require('../controller/graphController')
 const needAuth = require('../middlewares/userCheck')
 
-
-graph.get('/', needAuth, graphContoller.getMyGraphInfo)
-graph.get('/detailed', needAuth, graphContoller.getMyGraphDetailInfo)
+graph.get('/', needAuth, graphController.getMyGraphInfo)
+graph.get('/detailed', needAuth, graphController.getMyGraphDetailInfo)
 
 module.exports = graph

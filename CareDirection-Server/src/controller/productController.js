@@ -213,10 +213,13 @@ exports.getProductStandard = async (req, res) => {
   })
 
   try {
-    const { error } = await schema.validateAsync(validationData)
-    if (error) {
-      response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
-    }
+    await schema.validateAsync(validationData)
+  } catch (e) {
+    response.respondOnError(message.VALUE_MUST_INTEGER, res, statusCode.BAD_REQUEST)
+    return
+  }
+
+  try {
     const productStandard = await productService.getProductStandard(req)
     response.respondJson(message.SELECT_SUCCESS, productStandard, res, statusCode.OK)
   } catch (e) {

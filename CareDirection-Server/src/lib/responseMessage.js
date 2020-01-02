@@ -54,4 +54,5 @@ module.exports = {
   GET_PRODUCT_DETAIL_GRAPH_SUCCESS: '제품 상세 그래프 성공',
   ARTICLE_DATA_LIST: '아티클 리스트 가져오기 성공',
   ARTICLE_DATA_SUCCESS: '아티클 리스트 가져오기 성공',
+  VALUE_MUST_INTEGER: '정수 값을 보내야 합니다',
 }

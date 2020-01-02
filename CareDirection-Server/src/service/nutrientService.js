@@ -33,6 +33,7 @@ exports.specificInfo = async (req, next) => {
   try {
     const result = await nutrientDao.specificInfo(connection, req, next)
     result[0].image_key = await getSignedUrl.getSignedUrl(result[0].image_key)
+    console.log(result)
     return result
   } catch (e) {
     console.log(e.message)

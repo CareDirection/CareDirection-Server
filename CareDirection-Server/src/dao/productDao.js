@@ -315,15 +315,48 @@ exports.getChildUserTabList = (Transaction, req, currentTime, next) => {
 }
 
 // 특정 복용 제품 팝업 메시지
-exports.getDoseinfoPopup = (connection, req) => {
-  return new Promise((resolve, reject) => {
-    const Query = `
-    
+exports.getDoseinfoParentPopup = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const result = []
+    const Query1 = ` 
+      SELECT product_name, product_daily_dose, image_key, dose_alarm,  dose_initial_count
+      FROM (product as p1 
+      JOIN image as p2 USING(product_idx))
+      RIGHT JOIN dose p3 USING(product_idx)
+      WHERE p1.product_idx = "${req.params.product_idx}" AND p3.user_idx="${req.user.user_idx}"
     `
-    connection.query(Query, (err, result) => {
-      err && reject(err)
-      resolve(result)
-    })
+    const queryPush = await connection.query(Query1)
+    //result.push(queryPush[0])
+    const Query2 = 'SELECT count(*) FROM dose_history'
+    const  dose_history_count = await connection.query(Query2)
+    // result.push(queryPush[0].dose_initial_count - dose_history_count)
+    console.log('success')
+    // return result
+  }).catch(error => {
+    return next(error)
+  })
+}
+
+exports.getDoseinfoChildPopup = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const result = []
+    const Query1 = ` 
+      SELECT dose_initial_count, product_name, product_daily_dose, image_key, dose_alarm
+      FROM (product as p1 
+      JOIN image as p2 USING(product_idx))
+      RIGHT JOIN dose p3 USING(product_idx)
+      WHERE p1.product_idx = "${req.params.product_idx}" AND p3.childuser_idx="${req.user.childuser_idx}"
+    `
+    const queryPush = await connection.query(Query1)
+    result.push(queryPush[0])
+
+    const Query2 = 'SELECT count(*) as count FROM dose_history'
+    const dose_history_count = await connection.query(Query2)
+    result.push({ remain: Number(queryPush[0].dose_initial_count) - Number(dose_history_count[0].count)})
+    console.log('success')
+    return result
+  }).catch(error => {
+    return next(error)
   })
 }
 

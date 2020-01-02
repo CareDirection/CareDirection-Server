@@ -29,9 +29,9 @@ exports.getArticleList = async () => {
     return await Promise.all(
       results.map(async (result) => {
         if (result.image_key) {
-          result.image_location = await getSignedUrl.getSignedUrl(result.image_key)
+          result.image_key = await getSignedUrl.getSignedUrl(result.image_key)
         }
-        delete result.image_key
+        delete result.article_content
         return result
       }),
     )

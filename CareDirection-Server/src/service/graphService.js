@@ -37,6 +37,9 @@ exports.getMyGraphInfo = async (req, next) => {
 
 exports.getMyGraphDetailInfo = async (req, next) => {
   try {
+    let my_change_description = null
+    let my_food = null
+
     let change_data_max = null
     let change_data_rec = null
     const result = []
@@ -45,13 +48,19 @@ exports.getMyGraphDetailInfo = async (req, next) => {
     data.standardArray.forEach(async (item) => {
       let maxSum = 0
       let minSum = 0
+
       data.change.forEach(item2 => {
         if (item.standard_case_nutrient_name === item2.name) {
           if (item2.line === '상한선') {
+            my_food += item2.food
+            my_change_description += item2.description
             maxSum = Number(item.standard_case_max_value) + Number(item2.value)
             item.standard_case_max_value_default = Number(item.standard_case_max_value)
             item.standard_case_max_value = Number(maxSum)
           } else {
+            my_food += item2.food
+            my_change_description += item2.description
+
             minSum = Number(item.standard_case_recommend_value) + Number(item2.value)
             item.standard_case_recommend_value_default = Number(item.standard_case_recommend_value)
             item.standard_case_recommend_value = Number(minSum)
@@ -75,9 +84,9 @@ exports.getMyGraphDetailInfo = async (req, next) => {
 
       const temp = {
         nutrient_name: info.standard_case_nutrient_name,
-        my_change_value_desscription: `${change_data_max}${change_data_rec}`,
+        my_change_value_description: `${change_data_max}${change_data_rec}`,
         my_current_value_percent: percent.formulaForMyData(tempData[index], Number(info.standard_case_recommend_value), Number(info.standard_case_max_value)),
-        description: '과과과자',
+        description: `${my_change_description}\n\n${my_food}`,
       }
       result.push(temp)
     })

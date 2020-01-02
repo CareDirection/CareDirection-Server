@@ -67,31 +67,43 @@ exports.getParentUserMyGraphDetailInfo = (Transaction, req, next) => {
     const standardArray = await connection.query(Query3)
     const Query4 = `SELECT * FROM user_survey WHERE user_idx = ${req.user.user_idx}`
     const userAnswer = await connection.query(Query4)
-    // user_survey_item_value1
-    const Query5 = `select standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 1 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value3}";`
+
+    //const testQuery = `SELECT nutrient_default_description AS description, nutrient_contain_food AS food FROM nutrient WHERE nutrient_idx = ${req.user.user_idx}`
+
+
+    const Query5 = `select standard_lifecycle_description as description, standard_lifecycle_food as food, standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 1 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value3}";`
     const data1 = await connection.query(Query5)
     data1.forEach(item => {
       change.push(item)
+      console.log(change)
     })
-    const Query6 = `select standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 2 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value4}";`
+    const Query6 = `select standard_lifecycle_description as description, standard_lifecycle_food as food, standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 2 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value4}";`
     const data2 = await connection.query(Query6)
     data2.forEach(item => {
       change.push(item)
+      console.log(change)
+
     })
-    const Query7 = `select standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 3 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value5}";`
+    const Query7 = `select standard_lifecycle_description as description, standard_lifecycle_food as food, standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 3 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value5}";`
     const data3 = await connection.query(Query7)
     data3.forEach(item => {
       change.push(item)
+      console.log(change)
+
     })
-    const Query8 = `select standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 4 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value6}";`
+    const Query8 = `select standard_lifecycle_description as description, standard_lifecycle_food as food, standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 4 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value6}";`
     const data4 = await connection.query(Query8)
     data4.forEach(item => {
       change.push(item)
+      console.log(change)
+
     })
-    const Query9 = `select standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 5 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value7}";`
+    const Query9 = `select standard_lifecycle_description as description, standard_lifecycle_food as food, standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 5 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value7}";`
     const data5 = await connection.query(Query9)
     data5.forEach(item => {
       change.push(item)
+      console.log(change)
+
     })
     const diseaseArray = userAnswer[0].user_survey_item_value1.split(',')
     diseaseArray.forEach(async (item) => {

@@ -81,15 +81,12 @@ exports.insertProduct = async (req, res, next) => {
     product_standard3_value,
     product_standard1_description,
     product_standard2_description,
-    product_standard3_description,
+    product_standard3_description, 
     product_detail_name,
     product_detail_value,
-    product_detail_child_name,
-    product_detail_child_value,
+    product_features_name,
     product_quantity_count,
     product_quantity_price,
-    product_features_name,
-    product_has_nutrients,
   } = req.body
 
   const validationData = {
@@ -113,12 +110,9 @@ exports.insertProduct = async (req, res, next) => {
     product_standard3_description,
     product_detail_name,
     product_detail_value,
-    product_detail_child_name,
-    product_detail_child_value,
+    product_features_name,
     product_quantity_count,
     product_quantity_price,
-    product_features_name,
-    product_has_nutrients,
   }
 
   const schema = Joi.object({
@@ -142,12 +136,9 @@ exports.insertProduct = async (req, res, next) => {
     product_standard3_description: Joi.string().required(),
     product_detail_name: Joi.string().required(),
     product_detail_value: Joi.string().required(),
-    product_detail_child_name: Joi.string().required(),
-    product_detail_child_value: Joi.string().required(),
-    product_quantity_count: Joi.string().required(),
-    product_quantity_price: Joi.string().required(),
     product_features_name: Joi.string().required(),
-    product_has_nutrients: Joi.string().required(),
+    product_quantity_count: Joi.number().required(),
+    product_quantity_price: Joi.number().required(),
   })
 
   try {

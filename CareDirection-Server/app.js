@@ -26,6 +26,7 @@ app.use((req, res, next) => {
   err.status = 404
   next(err)
 })
+app.set('etag', false)
 
 // error handler
 app.use((err, req, res) => {

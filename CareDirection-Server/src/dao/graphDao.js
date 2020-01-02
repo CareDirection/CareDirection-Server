@@ -12,7 +12,7 @@ exports.getParentUserMyGraphInfo = (Transaction, req, next) => {
     } else {
       userData[0].user_birth = 1
     }
-    console.log(userData[0].user_gender+" "+ userData[0].user_birth)
+    console.log(`${userData[0].user_gender} ${userData[0].user_birth}`)
     const Query2 = `SELECT case_filter_idx FROM case_filter WHERE case_filter_gender = ${userData[0].user_gender} AND case_filter_birth = ${userData[0].user_birth};`
     const case_filter_idx = await connection.query(Query2)
     const Query3 = `SELECT * FROM standard_case WHERE case_filter_idx = ${case_filter_idx[0].case_filter_idx}`
@@ -63,7 +63,7 @@ exports.getParentUserMyGraphInfo = (Transaction, req, next) => {
   })
 }
 
-exports.getNutrientDefaultData = (connection, data) =>{
+exports.getNutrientDefaultData = (connection, data) => {
   return new Promise((resolve, reject) => {
     const Query = `
         SELECT DISTINCT nutrient_name, nutrient_contain_food, nutrient_default_description, nutrient_unit FROM nutrient 
@@ -89,7 +89,6 @@ exports.getParentUserMyGraphDetailInfo = (Transaction, req, next) => {
     } else {
       userData[0].user_birth = 1
     }
-    console.log(userData)
     const Query2 = `SELECT case_filter_idx FROM case_filter WHERE case_filter_gender = ${userData[0].user_gender} AND case_filter_birth = ${userData[0].user_birth};`
     const case_filter_idx = await connection.query(Query2)
     const Query3 = `SELECT * FROM standard_case WHERE case_filter_idx = ${case_filter_idx[0].case_filter_idx}`

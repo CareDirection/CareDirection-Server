@@ -167,6 +167,7 @@ exports.getProductDetailInfo = async (req, next) => {
         image_key: result[0].image_key,
         product_company_name: result[0].product_company_name,
         product_name: result[0].product_name,
+        product_package_type: result[0].product_package_type,
         product_standard1: result[0].product_standard1,
         product_standard2: result[0].product_standard2,
         product_standard3: result[0].product_standard3,

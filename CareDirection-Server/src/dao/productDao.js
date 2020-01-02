@@ -226,7 +226,7 @@ exports.deleteChildUserDoseProduct = (connection, req) => {
 exports.getProductDetailInfo = (connection, req) => {
   return new Promise((resolve, reject) => {
     const Query = `
-    SELECT DISTINCT main_nutrient_name, product_name, product_company_name, product_cautions, product_package_type, product_is_import, product_daily_dose, product_additives, product_standard1, product_standard2, product_standard3, product_standard1_value, product_standard2_value, product_standard3_value, image_key, product_quantity_count, product_quantity_price, product_features_name, product_detail_name, product_detail_value 
+    SELECT DISTINCT main_nutrient_name, product_name, product_company_name, product_package_type, product_cautions, product_package_type, product_is_import, product_daily_dose, product_additives, product_standard1, product_standard2, product_standard3, product_standard1_value, product_standard2_value, product_standard3_value, image_key, product_quantity_count, product_quantity_price, product_features_name, product_detail_name, product_detail_value 
     FROM ((( product p1 JOIN image p2 USING(product_idx)) 
     JOIN product_quantity p3 USING(product_idx)) 
     JOIN product_features p4 USING(product_idx)) 

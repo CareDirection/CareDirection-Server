@@ -267,7 +267,7 @@ exports.getDoseinfoPopup = async (req, next) => {
       result = await productDao.getDoseinfoChildPopup(Transaction, req, next)
     }
     // result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
-    console.log(result)
+    //console.log(result)
     return result
   } catch (e) {
     console.log(e.message)

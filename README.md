@@ -49,6 +49,7 @@ Self Care의 방향성을 제시하다, Care Direction
 ## Dependencies
 
 * **Release**
+
 | Description                                                  | Name / Version              |
 | ------------------------------------------------------------ | --------------------------- |
 | [Validation Checker](https://hapi.dev/family/joi/)           | @hapi/joi / 16.1.8          |
@@ -65,6 +66,7 @@ Self Care의 방향성을 제시하다, Care Direction
 |[Password Encryptor / Decryptor](https://nodejs.org/api/crypto.html)|Node.js v13.5.0 built-in|
 
 * **Develop**
+
 | Description                                       | Name / Version                     |
 | ------------------------------------------------- | ---------------------------------- |
 | [ESLint Code Convetion]()                         | eslint / 4.19.1                    |

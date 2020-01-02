@@ -25,8 +25,16 @@ exports.insertSubArticle = async (req, next) => {
 exports.getArticleList = async () => {
   const connection = await getConnection()
   try {
-    const result = await articleDao.getArticleList(connection)
-    return result
+    const results = await articleDao.getArticleList(connection)
+    return await Promise.all(
+      results.map(async (result) => {
+        if (result.image_key) {
+          result.image_location = await getSignedUrl.getSignedUrl(result.image_key)
+        }
+        delete result.image_key
+        return result
+      }),
+    )
   } catch (e) {
     console.log(e.message)
     return e.message

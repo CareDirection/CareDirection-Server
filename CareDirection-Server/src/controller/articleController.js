@@ -22,3 +22,13 @@ exports.insertSubArticle = async (req, res, next) => {
     response.respondOnError(message.INSERT_FAILED, res, statusCode.FORBIDDEN)
   }
 }
+
+exports.getArticleList = async (req, res) => {
+  try {
+    const result = await articleService.getArticleList()
+    response.respondJson(message.ARTICLE_DATA_LIST, result, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(message.INSERT_FAILED, res, statusCode.FORBIDDEN)
+  }
+}

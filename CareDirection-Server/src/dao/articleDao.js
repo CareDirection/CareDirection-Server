@@ -32,3 +32,13 @@ exports.insertSubArticle = (Transaction, req, next) => {
     return next(error)
   })
 }
+
+exports.getArticleList = (connection) => {
+  return new Promise((resolve, reject) => {
+    const Query = `select image_key, article_idx, article_title, article_content FROM article JOIN image USING (article_idx);`
+    connection.query(Query, (err, result) => {
+      err && reject(err)
+      resolve(result)
+    })
+  })
+}

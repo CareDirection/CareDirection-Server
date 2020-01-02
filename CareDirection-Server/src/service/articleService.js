@@ -18,3 +18,14 @@ exports.insertSubArticle = async (req, next) => {
     return e.message
   }
 }
+
+exports.getArticleList = async () => {
+  const connection = await getConnection()
+  try {
+    const result = await articleDao.getArticleList(connection)
+    return result
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}

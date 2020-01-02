@@ -304,15 +304,19 @@ exports.getDoseinfoPopup = async (req, res, next) => {
 }
 
 exports.getCurrentDoseProducts = async (req, res) => {
+  const { date } = req.query
+  const validationData = { date }
+
   const validationChecker = Joi.object({
-    // date: Joi.date().format('iso').options({ convert: false }).required(),
     date: Joi.string().required(),
   })
   try {
-    const { error } = await validationChecker.validateAsync(req.query)
-    if (error) {
-      response.respondOnError(error.message, res, statusCode.BAD_REQUEST)
-    }
+    const { error } = await validationChecker.validateAsync(validationData)
+  } catch (e) {
+    response.respondOnError(message.NULL_VALUE, res, statusCode.BAD_REQUEST)
+    return
+  }
+  try {
     const result = await productService.getCurrentDoseProducts(req)
     response.respondJson(message.SELECT_SUCCESS, result, res, statusCode.OK)
   } catch (e) {

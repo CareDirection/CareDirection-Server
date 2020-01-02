@@ -7,5 +7,6 @@ const needAuth = require('../middlewares/userCheck')
 
 
 graph.get('/', needAuth, graphContoller.getMyGraphInfo)
+graph.get('/detailed', needAuth, graphContoller.getMyGraphDetailInfo)
 
 module.exports = graph

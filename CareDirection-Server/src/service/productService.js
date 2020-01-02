@@ -269,7 +269,7 @@ exports.getDoseinfoPopup = async (req, next) => {
       result = await productDao.getDoseinfoChildPopup(Transaction, req, next)
     }
     // result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
-    //console.log(result)
+    // console.log(result)
     return result
   } catch (e) {
     console.log(e.message)
@@ -328,9 +328,23 @@ exports.getCurrentDoseProducts = async (req) => {
 
 exports.getProductDetailGraph = async (req, next) => {
   try {
+    let data
+    if (req.user.type === 'parent') {
+      data = await productDao.getProductDetailParentGraph(Transaction, req, next)
+    } else {
+      data = await productDao.getProductDetailChildGraph(Transaction, req, next)
+    }
     const result = []
     const tempData = [800, 1.2, 110, 2, 150, 527, 10, 30, 10, 300, 100]
-    const data = await productDao.getProductDetailGraph(Transaction, req, next)
+    const nutrientName = ['비타민A', '비타민B2', '비타민C', '비타민D', '비타민E', '칼슘', '칼륨', '셀레늄', '철분', '엽산', '마그네슘']
+    data.plusXValue.forEach(async (item) => {
+      let i = 0
+      nutrientName.forEach(item2 => {
+        if (item.nutrient_name === item2) tempData[i] += item.has_nutrient_amount
+        i += 1
+      })
+    })
+
     data.standardArray.forEach(async (item) => {
       let maxSum = 0
       let minSum = 0

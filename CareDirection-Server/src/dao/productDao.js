@@ -252,13 +252,13 @@ exports.getLowprice = (connection, req) => {
 exports.getProductDetailEfficacy = (connection, req) => {
   return new Promise((resolve, reject) => {
     const Query = `
-    // SELECT DISTINCT efficacy_name
-    // FROM (((efficacy e JOIN nutrient_efficacy ne USING(efficacy_idx))
-    // JOIN nutrient n USING(nutrient_idx))
-    // JOIN has_nutrient hn USING(nutrient_idx))
-    // JOIN product p USING(product_idx) 
-    // WHERE product_idx="${req.params.product_idx}"
-    // UNION
+    SELECT DISTINCT efficacy_name
+    FROM (((efficacy e JOIN nutrient_efficacy ne USING(efficacy_idx))
+    JOIN nutrient n USING(nutrient_idx))
+    JOIN has_nutrient hn USING(nutrient_idx))
+    JOIN product p USING(product_idx) 
+    WHERE product_idx="${req.params.product_idx}"
+    UNION
     SELECT DISTINCT efficacy_name
     FROM ((efficacy e JOIN nutrient_efficacy ne USING(efficacy_idx))
     JOIN nutrient n USING(nutrient_idx))

@@ -36,7 +36,7 @@
   + **AWS S3**
   
     
-
+:male-doctor:
 ## :pushpin: Server Architecture
 
 <img src="">
@@ -101,10 +101,10 @@
 **GitHub Issue**를 활용하여 역할 분담을 나누었고, 각자 라벨을 붙여 티켓의 카테고리를 정확하게 분류하였습니다. 
 또한,  **GitHub Project (Kanban Chart)** 를 활용하여 개발 진행 현황을 가시적으로 나타내었습니다.
 
-* :male-doctor: [혁](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%ED%98%81)
-* :male-doctor: [재현](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%EC%9E%AC%ED%98%84)
-* :female-doctor: [다은](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%EB%8B%A4%EC%9D%80)
-* :female-doctor: [승희](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%EC%8A%B9%ED%9D%AC)
+* [혁](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%ED%98%81)
+* [재현](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%EC%9E%AC%ED%98%84)
+* [다은](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%EB%8B%A4%EC%9D%80)
+* [승희](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed+label%3A%EC%8A%B9%ED%9D%AC)
 * [전체 역할분담](https://github.com/CareDirection/CareDirection-Server/issues?q=is%3Aissue+is%3Aclosed)
 * [Kanban Chart](https://github.com/orgs/CareDirection/projects/1?card_filter_query=label%3Aserver)
 
@@ -130,7 +130,7 @@
 
 ## :pushpin: Collaborator
 
-* :male-doctor: **윤혁** - [Malibin](https://github.com/nightmare73)
+* **윤혁** - [Malibin](https://github.com/nightmare73)
 * **이재현** - [2Re-play](https://github.com/2Re-play)
 * **심다은** - [Danidani](https://github.com/DaEunShim)
 * **양승희** - [seunghee63](https://github.com/seunghee63)

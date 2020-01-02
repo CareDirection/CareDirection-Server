@@ -70,8 +70,9 @@ exports.getMyGraphDetailInfo = async (req, next) => {
       const info = data.standardArray[i]
       const defaultData = await graphDao.getNutrientDefaultData(connection, info)
 
+      console.log("info:", info)
       if (info.standard_case_max_value_default !== undefined) {
-        change_data_max = `상한 섭취량 조정 ${info.standard_case_max_value_default}${defaultData[0].nutrient_unit} -> ${info.standard_case_max_value}${defaultData[0].nutrient_unit}\n`
+        change_data_max = `상한 섭취량 조정 ${info.standard_case_max_value_default}${defaultData[0].nutrient_unit} -> ${info.standard_case_max_value}${defaultData[0].nutrient_unit}`
       } else {
         change_data_max = null
       }
@@ -82,11 +83,16 @@ exports.getMyGraphDetailInfo = async (req, next) => {
         change_data_rec = null
       }
 
+      let line = ""
+      if(info.standard_case_recommend_value_default !== undefined && info.standard_case_max_value_default !== undefined){
+        line = "\n"
+      }
+
       const temp = {
         nutrient_name: info.standard_case_nutrient_name,
-        my_change_value_description: `${change_data_max}${change_data_rec}`,
+        my_change_value_description: `${change_data_max}${line}${change_data_rec}`,
         my_current_value_percent: percent.formulaForMyData(tempData[i], Number(info.standard_case_recommend_value), Number(info.standard_case_max_value)),
-        description: `${info.my_change_description} \n${defaultData[0].nutrient_default_description} \n\n${defaultData[0].nutrient_contain_food}`,
+        description: `${defaultData[0].nutrient_default_description}\n${info.my_change_description}\n\n${defaultData[0].nutrient_contain_food}`,
       }
       result.push(temp)
     }

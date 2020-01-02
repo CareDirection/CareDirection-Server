@@ -30,15 +30,11 @@ exports.signIn = async (data) => {
 
     const password = crypto.createHash('sha512').update(data.user_pw + result.user_salt).digest('hex')
 
-    if (result.size() === 0){
-      return false
-    }
-
     if (result.user_pw === password) {
       return jwt.encode({ user_idx: result.user_idx })
-    }else{
-      return false
     }
+    return false
+    
   } catch (e) {
     console.log(e.message)
     return e.message

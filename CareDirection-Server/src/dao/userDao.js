@@ -6,7 +6,7 @@ exports.signIn = (connection, data) => {
         `
     connection.query(Query, (err, result) => {
       err && reject(err)
-      resolve(result)
+      resolve(result[0])
     })
   })
 }

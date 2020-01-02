@@ -6,7 +6,7 @@ const statusCode = require('../lib/statusCode')
 
 exports.searchTotalList = async (req, res) => {
   const { query, filter } = req.query
-  const { limit } = req.query || 0
+  const { limit } = req.query
 
   const schema = Joi.object({
     query: Joi.string().required(),

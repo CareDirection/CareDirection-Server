@@ -24,9 +24,19 @@ SELECT DISTINCT p.product_idx, i.image_key, p.product_name, p.product_company_na
 
 exports.searchNutrientTitleTotalList = (Transaction, req, next) => {
   return Transaction(async (connection) => {
-    const Query1 = `
-SELECT DISTINCT p.product_idx, i.image_key, p.product_name, p.product_company_name, p.product_is_import, (SELECT MIN(product_quantity_price)  FROM product_quantity WHERE product_idx=p.product_idx) as product_quantity_price, (SELECT MIN(product_quantity_count) FROM product_quantity WHERE product_idx=p.product_idx) as product_quantity_count  FROM (product p JOIN product_quantity q USING(product_idx)) JOIN image i USING(product_idx) WHERE p.main_nutrient_name LIKE "%${req.query.query}%" ;
+    const limit = req.query.limit
+
+    let Query1
+    if (!limit) {
+      Query1 = `
+SELECT DISTINCT p.product_idx, i.image_key, p.product_name, p.product_company_name, p.product_is_import, (SELECT MIN(product_quantity_price)  FROM product_quantity WHERE product_idx=p.product_idx) as product_quantity_price, (SELECT MIN(product_quantity_count) FROM product_quantity WHERE product_idx=p.product_idx) as product_quantity_count  FROM (product p JOIN product_quantity q USING(product_idx)) JOIN image i USING(product_idx) WHERE p.main_nutrient_name LIKE "%${req.query.query}%";
     `
+    } else {
+      Query1 = `
+SELECT DISTINCT p.product_idx, i.image_key, p.product_name, p.product_company_name, p.product_is_import, (SELECT MIN(product_quantity_price)  FROM product_quantity WHERE product_idx=p.product_idx) as product_quantity_price, (SELECT MIN(product_quantity_count) FROM product_quantity WHERE product_idx=p.product_idx) as product_quantity_count  FROM (product p JOIN product_quantity q USING(product_idx)) JOIN image i USING(product_idx) WHERE p.main_nutrient_name LIKE "%${req.query.query}%" LIMIT 2  ;
+    `
+    }
+
     const searchList = await connection.query(Query1)
     if (searchList.length === 0) {
       return message.SEARCH_DATA_EMPTY

@@ -12,12 +12,12 @@ exports.searchTotalList = async (req, next) => {
     if (filter === 'product') {
       result = await searchDao.searchProductTitleTotalList(Transaction, req, next)
       for (const i in result.searchList) {
-        console.log(result.searchList[i].image_key = await signedUrl.getSignedUrl(result.searchList[i].image_key))
+        result.searchList[i].image_key = await signedUrl.getSignedUrl(result.searchList[i].image_key)
       }
     } else {
       result = await searchDao.searchNutrientTitleTotalList(Transaction, req, next)
       for (const i in result.searchList) {
-        console.log(result.searchList[i].image_key = await signedUrl.getSignedUrl(result.searchList[i].image_key))
+        result.searchList[i].image_key = await signedUrl.getSignedUrl(result.searchList[i].image_key)
       }
     }
     return result

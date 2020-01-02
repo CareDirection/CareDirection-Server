@@ -9,10 +9,12 @@ exports.getStandardFilterCategories = async (req, res) => {
     product_idx: Joi.number().integer().required(),
   })
   try {
-    const { error } = await validationChecker.validateAsync(req.query)
-    if (error) {
-      response.respondOnError(message.NULL_VALUE, res, statusCode.BAD_REQUEST)
-    }
+    await validationChecker.validateAsync(req.query)
+  } catch (e) {
+    response.respondOnError(message.NULL_VALUE, res, statusCode.BAD_REQUEST)
+    return
+  }
+  try {
     const filterCategories = await standardService.getStandardFilterCategories(req)
     response.respondJson(message.SELECT_SUCCESS, filterCategories, res, statusCode.OK)
   } catch (e) {

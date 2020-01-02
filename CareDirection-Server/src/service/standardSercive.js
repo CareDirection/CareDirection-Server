@@ -4,14 +4,14 @@ const standardDao = require('../dao/standardDao')
 exports.getStandardFilterCategories = async (req) => {
   const connection = await getConnection()
   try {
-    const data = await standardDao.getStandardFilterCategories(connection)
+    const data = await standardDao.getStandardFilterCategories(connection, req.query.product_idx)
     return [
       {
         filter_standard: data.product_standard1,
         filter_standard_items: [
-          `${data.filter_category_first_first}${data.filter_category_unit} ~ ${data.filter_category_first_second}${data.filter_category_unit}`,
-          `${data.filter_category_first_second}${data.filter_category_unit} ~ ${data.filter_category_first_third}${data.filter_category_unit}`,
-          `${data.filter_category_first_third}${data.filter_category_unit} ~ ${data.filter_category_first_fourth}${data.filter_category_unit}`,
+          `${data.filter_category_first_first}${data.filter_category_first_unit} ~ ${data.filter_category_first_second}${data.filter_category_first_unit}`,
+          `${data.filter_category_first_second}${data.filter_category_first_unit} ~ ${data.filter_category_first_third}${data.filter_category_first_unit}`,
+          `${data.filter_category_first_third}${data.filter_category_first_unit} ~ ${data.filter_category_first_fourth}${data.filter_category_first_unit}`,
         ],
       },
       {

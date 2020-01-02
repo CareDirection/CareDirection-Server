@@ -3,6 +3,7 @@ const { Transaction, getConnection } = require('../lib/dbConnection')
 const productDao = require('../dao/productDao')
 const getSignedUrl = require('../lib/signedurl')
 const lowestProductInfo = require('../lib/lowestProductInfo')
+const percent = require('../lib/graphFormula')
 
 exports.importDose = async (req, next) => {
   const connection = await getConnection()
@@ -268,7 +269,7 @@ exports.getDoseinfoPopup = async (req, next) => {
       result = await productDao.getDoseinfoChildPopup(Transaction, req, next)
     }
     // result[0].image_key = await getSignedUrl.getSignedResizedUrl(result[0].image_key)
-    //console.log(result)
+    // console.log(result)
     return result
   } catch (e) {
     console.log(e.message)
@@ -322,5 +323,82 @@ exports.getCurrentDoseProducts = async (req) => {
     return e.message
   } finally {
     connection.release()
+  }
+}
+
+exports.getProductDetailGraph = async (req, next) => {
+  try {
+    const result = []
+    let data
+    const tempData = [800, 1.2, 110, 2, 150, 527, 10, 30, 10, 300, 100]
+    const nutrientName = ['비타민A', '비타민B2', '비타민C', '비타민D', '비타민E', '칼슘', '칼륨', '셀레늄', '철분', '엽산', '마그네슘']
+    if (req.user.type === 'parent') {
+      data = await productDao.getProductDetailParentGraph(Transaction, req, next)
+      data.plusXValue.forEach(async (item) => {
+        let i = 0
+        nutrientName.forEach(item2 => {
+          if (item.nutrient_name === item2) tempData[i] += item.has_nutrient_amount
+          i += 1
+        })
+      })
+      data.standardArray.forEach(async (item) => {
+        let maxSum = 0
+        let minSum = 0
+        data.change.forEach(item2 => {
+          if (item.standard_case_nutrient_name === item2.name) {
+            if (item2.line === '상한선') {
+              maxSum = Number(item.standard_case_max_value) + Number(item2.value)
+              item.standard_case_max_value = Number(maxSum)
+            } else {
+              minSum = Number(item.standard_case_recommend_value) + Number(item2.value)
+              item.standard_case_recommend_value = Number(minSum)
+            }
+          }
+        })
+      })
+      data.standardArray.forEach(async (info, index) => {
+        const temp = {
+          nutrient_name: info.standard_case_nutrient_name,
+          nutrient_percent: percent.formulaForMyData(tempData[index], Number(info.standard_case_recommend_value), Number(info.standard_case_max_value)),
+        }
+        result.push(temp)
+      })
+    } else {
+      data = await productDao.getProductDetailChildGraph(Transaction, req, next)
+      data.plusXValue.forEach(async (item) => {
+        let i = 0
+        nutrientName.forEach(item2 => {
+          if (item.nutrient_name === item2) tempData[i] += item.has_nutrient_amount
+          i += 1
+        })
+      })
+      // console.log(tempData)
+      data.standardArray.forEach(async (item) => {
+        let maxSum = 0
+        let minSum = 0
+        data.change.forEach(item2 => {
+          if (item.standard_case_nutrient_name === item2.name) {
+            if (item2.line === '상한선') {
+              maxSum = Number(item.standard_case_max_value) + Number(item2.value)
+              item.standard_case_max_value = Number(maxSum)
+            } else {
+              minSum = Number(item.standard_case_recommend_value) + Number(item2.value)
+              item.standard_case_recommend_value = Number(minSum)
+            }
+          }
+        })
+      })
+      data.standardArray.forEach(async (info, index) => {
+        const temp = {
+          nutrient_name: info.standard_case_nutrient_name,
+          nutrient_percent: percent.formulaForMyData(tempData[index], Number(info.standard_case_recommend_value), Number(info.standard_case_max_value)),
+        }
+        result.push(temp)
+      })
+    }
+
+    return result
+  } catch (e) {
+    console.log(e.message)
   }
 }

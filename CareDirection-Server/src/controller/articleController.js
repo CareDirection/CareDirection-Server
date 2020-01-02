@@ -32,3 +32,13 @@ exports.getArticleList = async (req, res) => {
     response.respondOnError(message.INSERT_FAILED, res, statusCode.FORBIDDEN)
   }
 }
+
+exports.getArticle = async (req, res) => {
+  try {
+    const result = await articleService.getArticle(req)
+    response.respondJson(message.ARTICLE_DATA_SUCCESS, result, res, statusCode.OK)
+  } catch (e) {
+    console.log(e.message)
+    response.respondOnError(message.INSERT_FAILED, res, statusCode.FORBIDDEN)
+  }
+}

@@ -36,5 +36,7 @@ product.get('/:product_idx/lowprice', productCtrl.getLowprice)
 product.get('/:product_idx/efficacy', needAuth, productCtrl.getProductDetailEfficacy)
 // 특정복용제품정보가져오기(팝업)
 product.get('/:product_idx/dose', needAuth, productCtrl.getDoseinfoPopup)
+// 제품 상세 그래프
+product.get('/:product_idx/graph', needAuth, productCtrl.getProductDetailGraph)
 
 module.exports = product

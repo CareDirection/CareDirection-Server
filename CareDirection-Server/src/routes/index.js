@@ -10,6 +10,7 @@ const survey = require('./survey')
 const search = require('./search')
 const graph = require('./graph')
 const article = require('./article')
+const standard = require('./standard')
 
 /* GET home page. */
 router.use('/users', users)
@@ -20,5 +21,6 @@ router.use('/survey', survey)
 router.use('/search', search)
 router.use('/graph', graph)
 router.use('/article', article)
+router.use('/standard', standard)
 
 module.exports = router

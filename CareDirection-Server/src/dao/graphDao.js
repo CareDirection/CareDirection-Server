@@ -32,7 +32,7 @@ exports.getParentUserMyGraphInfo = (Transaction, req, next) => {
     data4.forEach(item => {
       change.push(item)
     })
-    const Query9 = `select standard_lifecycle_change_nutreint_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 5 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value7}";`
+    const Query9 = `select standard_lifecycle_change_nutrient_name as name, standard_lifecycle_change_line as line, standard_lifecycle_change_value as value from standard_lifecycle_case where standard_lifecycle_case_type = 5 and standard_lifecycle_answer = "${userAnswer[0].user_survey_item_value7}";`
     const data5 = await connection.query(Query9)
     data5.forEach(item => {
       change.push(item)

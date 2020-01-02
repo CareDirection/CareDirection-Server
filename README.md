@@ -38,8 +38,6 @@
     
 ## :pushpin: Server Architecture
 
-![image](https://user-images.githubusercontent.com/22942313/71699380-7ec6ee00-2e02-11ea-9620-e65876b4cc5a.png)
-
 
 
 ## :pushpin: ERD

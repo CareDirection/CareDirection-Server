@@ -20,8 +20,18 @@ exports.signUp = async (req, res) => {
     if (error) {
       response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
     }
-    await userService.signUp(validationData)
-    response.respondJsonWithoutData(message.SIGN_UP_INSERT_SUCCESS, res, statusCode.CREATED)
+
+    // 아이디 중복확인
+    const result = await userService.duplicateId(validationData)
+
+    if (result) {
+      // 아이디 중복확인 성공하면 회원가입 진행
+      await userService.signUp(validationData)
+      response.respondJsonWithoutData(message.SIGN_UP_INSERT_SUCCESS, res, statusCode.CREATED)
+    } else {
+      response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.DUPLICATED)
+    }
+
   } catch (e) {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }
@@ -68,7 +78,7 @@ exports.userList = async (req, res, next) => {
 
 exports.duplicateId = async (req, res) => {
   const { user_id } = req.body
- console.log("유저아이이이이이이디이이이이이", user_id)
+
   const schema = Joi.object({
     user_id: Joi.string().required(),
   })

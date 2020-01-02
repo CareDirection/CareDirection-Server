@@ -31,6 +31,15 @@ exports.searchTotalList = async (req, res) => {
 }
 
 exports.searchDoseProduct = async (req, res) => {
+  const validationChecker = Joi.object({
+    query: Joi.string().required(),
+  })
+  try {
+    await validationChecker.validateAsync(req.query)
+  } catch (e) {
+    response.respondOnError(message.NULL_VALUE, res, statusCode.FORBIDDEN)
+    return
+  }
   try {
     const searchResult = await searchService.searchDoseProduct(req)
     response.respondJson(message.SEARCH_SUCCESS, searchResult, res, statusCode.OK)

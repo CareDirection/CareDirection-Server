@@ -85,11 +85,10 @@ exports.duplicateId = async (req, res) => {
     const result = await userService.duplicateId(validationData)
 
     if (result) {
-      // false : 중복 -> 이용 불가능, true : 이용가능
-      console.log('test1', result)
       response.respondJsonWithoutData(message.VALID_ID, res, statusCode.CREATED)
+    } else {
+      response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.DUPLICATED)
     }
-    response.respondJsonWithoutData(message.INVALID_ID, res, statusCode.DUPLICATED)
   } catch (e) {
     response.respondOnError(e.message, res, statusCode.INTERNAL_SERVER_ERROR)
   }

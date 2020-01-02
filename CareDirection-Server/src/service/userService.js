@@ -82,12 +82,11 @@ exports.duplicateId = async (data) => {
 
   try {
     const result = await userDao.duplicateId(connection, data)
-    console.log('d', result[0])
 
-    if (result[0] != null) {
-      return false
+    if (!result) {
+      return true
     }
-    return true
+    return false
   } catch (e) {
     console.log(e.message)
     return e.message

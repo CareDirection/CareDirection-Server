@@ -103,7 +103,6 @@ exports.getProductStandard = async (req) => {
   const { product_idx } = req.params
   try {
     const data = await productDao.getProductStandard(connection, product_idx)
-    console.log(data)
     return [
       {
         standard: data.product_standard1,

@@ -19,7 +19,7 @@ exports.enrollParentDose = (Transaction, req, next) => {
     const Query1 = `SELECT dose_idx FROM dose WHERE product_idx = "${req.params.product_idx}" AND user_idx = "${req.user.user_idx}"`
     const duplicationCheck = await connection.query(Query1)
     if (duplicationCheck[0]) return 'duplicated'
-      console.log(req.params.product_idx)
+    console.log(req.params.product_idx)
     const Query2 = `SELECT p2.product_quantity_count FROM product as p1 INNER JOIN product_quantity as p2 USING(product_idx) WHERE p1.product_idx = ${req.params.product_idx}`
     const dose_initial_count = await connection.query(Query2)
 
@@ -399,6 +399,13 @@ exports.getProductDetailParentGraph = (Transaction, req, next) => {
     const change = []
     const Query1 = `SELECT user_gender, user_birth  FROM user WHERE user_idx = ${req.user.user_idx};`
     const userData = await connection.query(Query1)
+    if (Number(userData[0].user_birth) <= 1981) {
+      userData[0].user_birth = 3
+    } else if (Number(userData[0].user_birth) > 1981 && Number(userData[0].user_birth) <= 2001) {
+      userData[0].user_birth = 2
+    } else {
+      userData[0].user_birth = 1
+    }
     const Query2 = `SELECT case_filter_idx FROM case_filter WHERE case_filter_gender = ${userData[0].user_gender} AND case_filter_birth = ${userData[0].user_birth};`
     const case_filter_idx = await connection.query(Query2)
     const Query3 = `SELECT * FROM standard_case WHERE case_filter_idx = ${case_filter_idx[0].case_filter_idx}`

@@ -37,7 +37,7 @@
   
     
 ## :pushpin: Server Architecture
-<img src="resource/서버아키텍처.jpg">
+![Server Architecture](https://user-images.githubusercontent.com/22942313/71726064-46162b80-2e79-11ea-9922-cfd18bb5669f.png)
 
 
 ## :pushpin: ERD

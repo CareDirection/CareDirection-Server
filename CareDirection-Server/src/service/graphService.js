@@ -70,7 +70,15 @@ exports.getMyGraphDetailInfo = async (req, next) => {
     let change_data_rec = null
 
     const tempData = [800, 1.2, 110, 2, 150, 527, 10, 30, 10, 300, 100]
-    const data = await graphDao.getParentUserMyGraphDetailInfo(Transaction, req, next)
+
+    let data
+
+    if(req.user.type == 'parent'){
+      data = await graphDao.getParentUserMyGraphDetailInfo(Transaction, req, next)
+    }else{
+      data = await graphDao.getChildUserMyGraphDetailInfo(Transaction, req, next)
+    }
+
     data.standardArray.forEach(async (item) => {
       let maxSum = 0
       let minSum = 0
@@ -80,8 +88,6 @@ exports.getMyGraphDetailInfo = async (req, next) => {
         if (item.standard_case_nutrient_name === item2.name) {
 
           if(item2.description !== undefined){
-            console.log("디스크립션 로그~1",item.my_change_description)
-            console.log("디스크립션 로그~2",item2.description)
             item.my_change_description += item2.description
           }
 

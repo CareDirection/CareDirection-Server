@@ -39,11 +39,13 @@ exports.getNutrientsListPerEfficacy = async (req, res) => {
   })
 
   try {
-    const validationResult = await validationChecker.validateAsync(req.params)
-    if (validationResult.error) {
-      throw new Error(403)
-    }
+    await validationChecker.validateAsync(req.params)
+  } catch (e) {
+    response.respondOnError(message.VALUE_MUST_INTEGER, res, statusCode.BAD_REQUEST)
+    return
+  }
 
+  try {
     const nutrientList = await efficacyService.getNutrientsListPerEfficacy(req)
     response.respondJson(message.SELECT_SUCCESS, nutrientList, res, statusCode.OK)
   } catch (e) {

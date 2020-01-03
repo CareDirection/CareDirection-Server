@@ -38,8 +38,6 @@
     
 ## :pushpin: Server Architecture
 
-<img src="">
-
 
 
 ## :pushpin: ERD

@@ -11,7 +11,7 @@ module.exports = {
   PRODUCT_INSERT_SUCCESS: '제품 등록 성공',
   SIGN_UP_INSERT_SUCCESS: '회원가입 성공',
   SIGN_IN_SUCCESS: '로그인 성공',
-  SIGN_IN_PASSWORD_ERROR: '비밀번호 오류',
+  SIGN_IN_ERROR: '잘못된 아이디 또는 비밀번호 입니다.',
   VALID_ID: '이용가능한 아이디',
   INVALID_ID: '중복되는 아이디',
   MODIFY_SUCCESS: '닉네임 수정 완료',

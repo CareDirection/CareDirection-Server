@@ -134,7 +134,7 @@ exports.insertProduct = (Transaction, data, next) => {
 
 exports.checkParentUserProductDose = (Transaction, req, currentTime, next) => {
   return Transaction(async (connection) => {
-    const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.user_idx =${req.user.user_idx} and dh.dose_history_time = "${currentTime}" and d.dose_idx = ${req.params.product_idx}`
+    const Query1 = `SELECT dose_history_idx FROM dose d JOIN dose_history dh USING(dose_idx) WHERE d.user_idx =${req.user.user_idx} and dh.dose_history_time = "${currentTime}" and d.product_idx = ${req.params.product_idx}`
     const isEmpty = await connection.query(Query1)
     if (!isEmpty[0]) {
       const Query2 = `SELECT dose_idx FROM dose WHERE product_idx= ${req.params.product_idx} and user_idx = ${req.user.user_idx}`

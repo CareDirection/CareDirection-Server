@@ -55,7 +55,6 @@ exports.modifyDose = async (req, next) => {
 exports.checkParentUserProductDose = async (req, next) => {
   try {
     const currentTime = moment().format('YYYY[-]MM[-]DD')
-    console.log(currentTime)
     const result = await productDao.checkParentUserProductDose(Transaction, req, currentTime, next)
     return result
   } catch (e) {

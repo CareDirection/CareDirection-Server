@@ -19,8 +19,10 @@ exports.enrollParentDose = (Transaction, req, next) => {
     const Query1 = `SELECT dose_idx FROM dose WHERE product_idx = "${req.params.product_idx}" AND user_idx = "${req.user.user_idx}"`
     const duplicationCheck = await connection.query(Query1)
     if (duplicationCheck[0]) return 'duplicated'
-    const Query2 = `SELECT p2.product_quantity_count FROM product as p1 INNER JOIN product_quantity as p2 USING(product_idx) WHERE p1.product_idx = "${req.params.product_idx}"`
+      console.log(req.params.product_idx)
+    const Query2 = `SELECT p2.product_quantity_count FROM product as p1 INNER JOIN product_quantity as p2 USING(product_idx) WHERE p1.product_idx = ${req.params.product_idx}`
     const dose_initial_count = await connection.query(Query2)
+
     const Query3 = `INSERT INTO dose(product_idx, user_idx, dose_daily_quantity, dose_alarm, dose_initial_count, dose_start_date) 
                     VALUES("${req.params.product_idx}", "${req.user.user_idx}", "${req.body.dose_daily_quantity}", 
                     "${req.body.dose_alarm}", "${dose_initial_count[0].product_quantity_count}", "${req.body.dose_start_date}")`
@@ -541,9 +543,9 @@ exports.mappingProductToNutrient = (Transaction, req, next) => {
 
 exports.insertImage = (Transaction, req, next) => {
   return Transaction(async (connection) => {
-    const Query1 = `SELECT product_idx FROM product WHERE product_name = "${req.body.product_name}"`
+    const Query1 = `SELECT nutrient_idx FROM nutrient WHERE nutrient_name = "${req.body.nutrient_name}"`
     const product_idx = await connection.query(Query1)
-    const Query8 = `INSERT INTO image(product_idx, image_key, image_original_name, image_size) VALUES(${product_idx[0].product_idx}, "${req.file.transforms[0].key}", "${req.file.originalname}", "${req.file.transforms[0].size}" )`
+    const Query8 = `INSERT INTO image(nutrient_idx, image_key, image_original_name, image_size) VALUES(${product_idx[0].nutrient_idx}, "${req.file.transforms[0].key}", "${req.file.originalname}", "${req.file.transforms[0].size}" )`
     await connection.query(Query8)
     console.log('success')
   }).catch(error => {

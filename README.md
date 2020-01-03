@@ -7,7 +7,7 @@
 
 **Self Care의 방향성을 제시하다, Care Direction**
 
->개발 기간 : 19.12.21 ~ 20.12.04 
+>개발 기간 : 19.12.21 ~ 20.01.04 
 
 - :scroll: **[API Document](https://github.com/CareDirection/CareDirection-Server/wiki)**
 
@@ -37,8 +37,7 @@
   
     
 ## :pushpin: Server Architecture
-
-
+<img src="resource/server-architecture.png">
 
 ## :pushpin: ERD
 
@@ -115,12 +114,12 @@
 
 ## :pushpin: Library Study
 
-* [ESLint](./study/ESLint.md)
-* [joi](./study/joi.md)
-* [mocha](./study/mocha.md)
-* [should](./study/should.md)
-* [jwt](./study/jwt.md)
-* [supertest](./study/supertest.md)
+* [ESLint](https://github.com/CareDirection/CareDirection-Server/blob/develop/study/ESLint.md)
+* [joi](https://github.com/CareDirection/CareDirection-Server/blob/develop/study/joi.md)
+* [mocha](https://github.com/CareDirection/CareDirection-Server/blob/develop/study/mocha.md)
+* [should](https://github.com/CareDirection/CareDirection-Server/blob/develop/study/should.md)
+* [jwt](https://github.com/CareDirection/CareDirection-Server/blob/develop/study/jwt.md)
+* [supertest](https://github.com/CareDirection/CareDirection-Server/blob/develop/study/supertest.md)
 
 
 

@@ -6,7 +6,7 @@ const productCtrl = require('../controller/productController')
 const { multer } = require('../../config/multer')
 const needAuth = require('../middlewares/userCheck')
 
-const upload = multer('product')
+const upload = multer('ect')
 
 // 제품 이미지
 product.post('/', upload.single('file'), productCtrl.insertImage)

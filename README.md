@@ -37,7 +37,7 @@
   
     
 ## :pushpin: Server Architecture
-
+<img src="resource/서버아키텍처.jpg">
 
 
 ## :pushpin: ERD

@@ -37,12 +37,7 @@
   
     
 ## :pushpin: Server Architecture
-<<<<<<< HEAD
 <img src="resource/server-architecture.png">
-=======
-![Server Architecture](https://user-images.githubusercontent.com/22942313/71726064-46162b80-2e79-11ea-9922-cfd18bb5669f.png)
-
->>>>>>> 47d3b3a6aae41ebbfc8de982fd70e7b5e7ccc808
 
 ## :pushpin: ERD
 
@@ -70,14 +65,14 @@
 
 * **Develop**
 
-| Description                                       | Name / Version                     |
-| ------------------------------------------------- | ---------------------------------- |
-| [ESLint Code Convetion](https://eslint.org/)      | eslint / 4.19.1                    |
-|                                                   | eslint-config-airbnb-base / 13.0.0 |
-|                                                   | eslint-plugin-import / 2.13.0      |
-| [JavaScript Test FrameWork](https://mochajs.org/) | mocha / 6.2.2                      |
-| High-level abstraction for testing HTTP           | supertest / 4.0.2                  |
-|             Assertion module                    | should / 13.2.3                    |
+| Description                                                  | Name / Version                     |
+| ------------------------------------------------------------ | ---------------------------------- |
+| [ESLint Code Convetion](https://eslint.org/)                 | eslint / 4.19.1                    |
+|                                                              | eslint-config-airbnb-base / 13.0.0 |
+|                                                              | eslint-plugin-import / 2.13.0      |
+| [JavaScript Test FrameWork](https://mochajs.org/)            | mocha / 6.2.2                      |
+| [High-level abstraction for testing HTTP](https://www.npmjs.com/package/supertest) | supertest / 4.0.2                  |
+| [Assertion module](https://www.npmjs.com/package/should)     | should / 13.2.3                    |
 
 
 
@@ -137,6 +132,7 @@
 * **양승희** - [seunghee63](https://github.com/seunghee63)
 
 :chart_with_downwards_trend: [Contributor List](https://github.com/CareDirection/CareDirection-Server/graphs/contributors)
+
 
 
 

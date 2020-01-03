@@ -41,6 +41,30 @@ exports.getNutrientsListPerEfficacy = (connection, efficacyIdx) => {
   })
 }
 
+exports.getNutrientsListPerEfficacyUsingName = (Transaction, req, next) => {
+
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT efficacy_idx FROM efficacy WHERE efficacy_name = "${req.query.query}"`
+
+    const efficacyIdx = await connection.query(Query1)
+    console.log(efficacyIdx)
+    const Query2 = `
+        SELECT n.nutrient_idx, n.nutrient_name, ne.nutrient_efficacy_comment, i.image_key
+        FROM nutrient n
+        JOIN nutrient_efficacy ne
+        ON n.nutrient_idx = ne.nutrient_idx AND ne.efficacy_idx = "${efficacyIdx[0].efficacy_idx}"
+        LEFT OUTER JOIN image i
+        ON ne.nutrient_idx = i.nutrient_idx;
+    `
+    const result = await connection.query(Query2)
+    console.log(result)
+    console.log('success')
+    return result
+  }).catch(error => {
+    return next(error)
+  })
+}
+
 
 exports.getMyEfficacyList = (connection, req) => {
   return new Promise((resolve, reject) => {

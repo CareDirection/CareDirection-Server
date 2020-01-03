@@ -1,5 +1,5 @@
 # :pill: CareDirection-Server
-
+<img src="resource/Care-Direction_m.gif" width="800">
 <img src="resource/logo.png" width="100">
 
 ![node_badge](https://img.shields.io/badge/node-%3E%3D%208.0.0-green)

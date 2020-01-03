@@ -397,7 +397,6 @@ exports.getProductDetailGraph = async (req, next) => {
         result.push(temp)
       })
     }
-
     return result
   } catch (e) {
     console.log(e.message)

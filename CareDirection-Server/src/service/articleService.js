@@ -38,6 +38,8 @@ exports.getArticleList = async () => {
   } catch (e) {
     console.log(e.message)
     return e.message
+  } finally {
+    connection.release()
   }
 }
 

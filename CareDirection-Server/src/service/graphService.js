@@ -56,7 +56,6 @@ exports.getMyGraphInfo = async (req, next) => {
         result.push(temp)
       })
     }
-
     return result
   } catch (e) {
     console.log(e.message)
@@ -104,7 +103,7 @@ exports.getMyGraphDetailInfo = async (req, next) => {
         }
       })
     })
-    
+
     const result = []
     for (const i in data.standardArray) {
       const info = data.standardArray[i]

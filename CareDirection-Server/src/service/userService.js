@@ -34,7 +34,7 @@ exports.signIn = async (data) => {
       return jwt.encode({ user_idx: result.user_idx })
     }
     return false
-    
+
   } catch (e) {
     console.log(e.message)
     return e.message
@@ -115,6 +115,7 @@ exports.modifyName = async (data) => {
     connection.release()
   }
 }
+
 exports.removeMyChild = async (req) => {
   const connection = await getConnection()
   try {
@@ -123,6 +124,8 @@ exports.removeMyChild = async (req) => {
   } catch (e) {
     console.log(e.message)
     return e.message
+  } finally {
+    connection.release()
   }
 }
 
@@ -137,7 +140,6 @@ exports.surveyInfo = async (data, req) => {
     } else {
       await userDao.surveyInfoChild(connection, req, data)
     }
-
   } catch (e) {
     console.log(e.message)
     return e.message

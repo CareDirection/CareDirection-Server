@@ -81,7 +81,7 @@ exports.insertProduct = async (req, res, next) => {
     product_standard3_value,
     product_standard1_description,
     product_standard2_description,
-    product_standard3_description, 
+    product_standard3_description,
     product_detail_name,
     product_detail_value,
     product_features_name,
@@ -324,6 +324,15 @@ exports.getProductDetailGraph = async (req, res, next) => {
   try {
     const result = await productService.getProductDetailGraph(req, next)
     response.respondJson(message.GET_PRODUCT_DETAIL_GRAPH_SUCCESS, result, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}
+
+exports.mappingProductToNutrient = async (req, res, next) => {
+  try {
+    await productService.mappingProductToNutrient(req, next)
+    response.respondJsonWithoutData(message.SUCCESS, res, statusCode.CREATED)
   } catch (e) {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }

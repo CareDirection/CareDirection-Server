@@ -401,3 +401,12 @@ exports.getProductDetailGraph = async (req, next) => {
     console.log(e.message)
   }
 }
+
+exports.mappingProductToNutrient = async (req, next) => {
+  try {
+    await productDao.mappingProductToNutrient(Transaction, req, next)
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}

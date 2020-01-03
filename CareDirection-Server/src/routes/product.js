@@ -38,5 +38,7 @@ product.get('/:product_idx/efficacy', needAuth, productCtrl.getProductDetailEffi
 product.get('/:product_idx/dose', needAuth, productCtrl.getDoseinfoPopup)
 // 제품 상세 그래프
 product.get('/:product_idx/graph', needAuth, productCtrl.getProductDetailGraph)
+// 제품과 성분 연결 ADMIN
+product.post('/nutrient/mapping', productCtrl.mappingProductToNutrient)
 
 module.exports = product

@@ -524,3 +524,17 @@ exports.getProductDetailChildGraph = (Transaction, req, next) => {
     return next(error)
   })
 }
+
+exports.mappingProductToNutrient = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT product_idx FROM product WHERE product_name = "${req.body.product_name}"`
+    const product_idx = await connection.query(Query1)
+    const Query2 = `SELECT nutrient_idx FROM nutrient WHERE nutrient_name = "${req.body.nutrient_name}"`
+    const nutrient_idx = await connection.query(Query2)
+    const Query3 = `INSERT has_nutrient(product_idx, nutrient_idx, has_nutrient_amount) VALUES (${product_idx[0].product_idx}, ${nutrient_idx[0].nutrient_idx}, ${req.body.amount})`
+    await connection.query(Query3)
+    console.log('success')
+  }).catch(error => {
+    return next(error)
+  })
+}

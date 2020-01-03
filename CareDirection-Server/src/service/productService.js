@@ -252,6 +252,9 @@ exports.getTabList = async (req, next) => {
     result.unshift({
       tab_name: '오메가3',
     })
+    if(result[result.length -1] == null) {
+      result.pop()
+    }
     return result
   } catch (e) {
     console.log(e.message)
@@ -405,6 +408,15 @@ exports.getProductDetailGraph = async (req, next) => {
 exports.mappingProductToNutrient = async (req, next) => {
   try {
     await productDao.mappingProductToNutrient(Transaction, req, next)
+  } catch (e) {
+    console.log(e.message)
+    return e.message
+  }
+}
+
+exports.insertImage = async (req, next) => {
+  try {
+    await productDao.insertImage(Transaction, req, next)
   } catch (e) {
     console.log(e.message)
     return e.message

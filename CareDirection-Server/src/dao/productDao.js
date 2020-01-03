@@ -538,3 +538,15 @@ exports.mappingProductToNutrient = (Transaction, req, next) => {
     return next(error)
   })
 }
+
+exports.insertImage = (Transaction, req, next) => {
+  return Transaction(async (connection) => {
+    const Query1 = `SELECT product_idx FROM product WHERE product_name = "${req.body.product_name}"`
+    const product_idx = await connection.query(Query1)
+    const Query8 = `INSERT INTO image(product_idx, image_key, image_original_name, image_size) VALUES(${product_idx[0].product_idx}, "${req.file.transforms[0].key}", "${req.file.originalname}", "${req.file.transforms[0].size}" )`
+    await connection.query(Query8)
+    console.log('success')
+  }).catch(error => {
+    return next(error)
+  })
+}

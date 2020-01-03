@@ -8,6 +8,8 @@ const needAuth = require('../middlewares/userCheck')
 
 const upload = multer('product')
 
+// 제품 이미지
+product.post('/', upload.single('file'), productCtrl.insertImage)
 // 사용자 맞춤 탭 리스트 가져오기
 product.get('/tablist', needAuth, productCtrl.getTabList)
 // 제품 케디의 기준 목록
@@ -40,5 +42,6 @@ product.get('/:product_idx/dose', needAuth, productCtrl.getDoseinfoPopup)
 product.get('/:product_idx/graph', needAuth, productCtrl.getProductDetailGraph)
 // 제품과 성분 연결 ADMIN
 product.post('/nutrient/mapping', productCtrl.mappingProductToNutrient)
+
 
 module.exports = product

@@ -337,3 +337,12 @@ exports.mappingProductToNutrient = async (req, res, next) => {
     response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
   }
 }
+
+exports.insertImage = async (req, res, next) => {
+  try {
+    await productService.insertImage(req, next)
+    response.respondJsonWithoutData(message.SUCCESS, res, statusCode.CREATED)
+  } catch (e) {
+    response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
+  }
+}

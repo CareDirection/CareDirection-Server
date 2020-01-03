@@ -15,11 +15,11 @@
 
 ## :computer: Develop Environment
 
-- Complier - **WebStorm** / ver.2019.2.1
+- IDEL - **WebStorm** / ver.2019.2.1
 
 - Language - **JavaScript**
 
- - Architecture - **MVC**
+ - Disign pattern - **MVC**
    + Controller
 
    + DAO
@@ -75,7 +75,7 @@
 |                                                   | eslint-plugin-import / 2.13.0      |
 | [JavaScript Test FrameWork](https://mochajs.org/) | mocha / 6.2.2                      |
 | High-level abstraction for testing HTTP           | supertest / 4.0.2                  |
-|                                                   | should / 13.2.3                    |
+|             Assertion module                    | should / 13.2.3                    |
 
 
 

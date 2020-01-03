@@ -305,7 +305,7 @@ exports.getCurrentDoseProducts = async (req, res) => {
     date: Joi.string().required(),
   })
   try {
-    const { error } = await validationChecker.validateAsync(validationData)
+    await validationChecker.validateAsync(validationData)
   } catch (e) {
     response.respondOnError(message.NULL_VALUE, res, statusCode.BAD_REQUEST)
     return

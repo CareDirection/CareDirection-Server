@@ -1,5 +1,11 @@
 # :pill: CareDirection-Server
+<<<<<<< HEAD
 <img src="resource/Care-Direction_m.gif" width="800">
+=======
+
+<img width=300 src="https://care-direction.s3.ap-northeast-2.amazonaws.com/ect/Care-Direction_%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC%E1%84%8E%E1%85%AC%E1%84%8C%E1%85%A9%E1%86%BC1.gif">
+
+>>>>>>> b34c1458f58384a1718597c5cccba818263737b9
 <img src="resource/logo.png" width="100">
 
 ![node_badge](https://img.shields.io/badge/node-%3E%3D%208.0.0-green)

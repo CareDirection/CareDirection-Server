@@ -54,6 +54,32 @@ exports.getNutrientsListPerEfficacy = async (req, res) => {
   }
 }
 
+
+exports.getNutrientsListPerEfficacyUsingName = async (req, res, next) => {
+  const { name } = req.params
+
+  const schema = Joi.object({
+    efficacy_name: Joi.string().required(),
+  })
+
+  try {
+    await schema.validateAsync(name)
+  } catch (e) {
+    response.respondOnError(message.VALUE_MUST_INTEGER, name, statusCode.BAD_REQUEST)
+    return
+  }
+
+  try {
+    const nutrientList = await efficacyService.getNutrientsListPerEfficacyUsingName(req, next)
+    console.log("nutrientList:",nutrientList)
+    response.respondJson(message.SELECT_SUCCESS, nutrientList, res, statusCode.OK)
+  } catch (e) {
+    console.log("error:",e.message)
+    response.respondOnError(e.message, res, statusCode.DB_ERROR)
+  }
+}
+
+
 exports.getMyEfficacyList = async (req, res) => {
   const { token } = req.headers
 

@@ -298,6 +298,7 @@ exports.getCurrentDoseProducts = async (req) => {
 
     return await Promise.all(
       doseList.map(async (doseItem) => {
+
         if (doseItem.image_key) {
           doseItem.image_location = await getSignedUrl.getSignedUrl(doseItem.image_key)
         }
@@ -308,7 +309,7 @@ exports.getCurrentDoseProducts = async (req) => {
 
         const pakageType = doseItem.product_package_type === 0 ? '정' : '포'
         doseItem.product_quantity = `${doseItem.product_quantity_count}${pakageType} 기준`
-        doseItem.product_is_dosed = (doseItem.product_is_dosed === 1)
+        doseItem.product_is_dosed = (doseItem.product_is_dosed >= 1)
         doseItem.product_remain = (doseItem.product_quantity_count - doseItem.dose_count)
         delete doseItem.product_package_type
         delete doseItem.product_quantity_count

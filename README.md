@@ -7,7 +7,7 @@
 
 **Self Care의 방향성을 제시하다, Care Direction**
 
->개발 기간 : 19.12.21 ~ 20.12.04 
+>개발 기간 : 19.12.21 ~ 20.01.04 
 
 - :scroll: **[API Document](https://github.com/CareDirection/CareDirection-Server/wiki)**
 

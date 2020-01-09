@@ -21,7 +21,7 @@
 
 - Language - **JavaScript**
 
- - Disign pattern - **MVC**
+ - Design pattern - **MVC**
    + Controller
 
    + DAO

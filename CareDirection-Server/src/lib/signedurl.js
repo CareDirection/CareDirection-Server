@@ -16,7 +16,7 @@ const getSignedUrl = async (key) => {
     Key: key,
     ResponseContentDisposition: null,
   }
-  const result2 = await new Promise(async (resolve, reject) => {
+  const url = await new Promise(async (resolve, reject) => {
     try {
       s3.getSignedUrl('getObject', options, (err, result) => {
         if (err) reject(err)
@@ -26,7 +26,7 @@ const getSignedUrl = async (key) => {
       console.log(e.message)
     }
   })
-  return result2
+  return url
 }
 
 

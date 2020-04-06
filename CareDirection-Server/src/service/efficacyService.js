@@ -1,4 +1,4 @@
-const { getConnection } = require('../lib/dbConnection')
+const { Transaction, getConnection } = require('../lib/dbConnection')
 const efficacyDao = require('../dao/efficacyDao')
 const { getSignedUrl } = require('../lib/signedurl')
 
@@ -44,6 +44,26 @@ exports.getNutrientsListPerEfficacy = async (req) => {
     console.log(e.message)
   } finally {
     connection.release()
+  }
+}
+
+exports.getNutrientsListPerEfficacyUsingName = async (req, next) => {
+  try {
+    console.log('여기다이겨이다')
+    const nutrientList = await efficacyDao.getNutrientsListPerEfficacyUsingName(Transaction, req, next)
+
+    return await Promise.all(
+      nutrientList.map(async (nutrient) => {
+        if (nutrient.image_key) {
+          nutrient.image_location = await getSignedUrl(nutrient.image_key)
+        }
+        delete nutrient.image_key
+        return nutrient
+      }),
+    )
+  } catch
+  (e) {
+    console.log(e.message)
   }
 }
 
